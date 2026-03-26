@@ -416,9 +416,9 @@ summary = (
     f"RISK: {composite:.0%} ({risk_label})  |  "
     f"S&P: {safe_last(sp500):.0f}  |  "
     f"VIX: {safe_last(vix):.1f}  |  "
-    f"OIL: ${safe_last(oil):.1f}  |  "
+    f"OIL: {safe_last(oil):.1f}  |  "
     f"30Y: {safe_last(tyx):.2f}%  |  "
-    f"GOLD: ${safe_last(gold):.0f}  |  "
+    f"GOLD: {safe_last(gold):.0f}  |  "
     f"ACTION: {action}"
 )
 ax10.text(0.5, 0.5, summary, ha='center', va='center', fontsize=10, color=TXT, family='monospace', transform=ax10.transAxes)
