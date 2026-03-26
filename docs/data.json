@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-03-26T22:00:00",
+  "composite_score": 0.55,
+  "risk_label": "ELEVATED",
+  "action": "SELECTIVE BUYING (Tramo 1-2)",
+  "buy_checklist": {
+    "McClellan > -1 from below": false,
+    "VIX > 35 (panic)": false,
+    "Breadth < 12% above 200W": false,
+    "30Y yield >= 5%": false,
+    "S&P below 6475": false,
+    "Oil > $120 (stress)": false
+  },
+  "active_buy_signals": 0,
+  "metrics": {
+    "sp500": 5712,
+    "sp500_drawdown": -7.2,
+    "vix": 27.6,
+    "oil": 108.4,
+    "gold": 5115,
+    "bond_30y": 4.92,
+    "yield_curve": 0.18,
+    "pct_above_200": 42.3,
+    "pct_above_50": 31.8,
+    "mcclellan": -1.5
+  },
+  "sector_performance": {
+    "Energy": {"1M": 12.4, "3M": 18.7, "YTD": 22.1},
+    "Utilities": {"1M": 4.2, "3M": 6.1, "YTD": 8.3},
+    "Staples": {"1M": 1.8, "3M": -1.2, "YTD": 2.4},
+    "Healthcare": {"1M": -0.5, "3M": -3.4, "YTD": -1.8},
+    "Materials": {"1M": -1.2, "3M": 2.8, "YTD": 5.6},
+    "Financials": {"1M": -3.8, "3M": -6.2, "YTD": -4.1},
+    "Industrials": {"1M": -4.5, "3M": -5.8, "YTD": -2.3},
+    "Real Estate": {"1M": -5.1, "3M": -8.4, "YTD": -9.2},
+    "Comms": {"1M": -6.3, "3M": -9.1, "YTD": -7.8},
+    "Discretionary": {"1M": -8.7, "3M": -14.2, "YTD": -12.5},
+    "Technology": {"1M": -9.4, "3M": -16.8, "YTD": -14.3}
+  }
+}
