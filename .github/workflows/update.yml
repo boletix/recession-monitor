@@ -26,6 +26,9 @@ jobs:
       - name: Run recession monitor
         run: python scripts/recession_monitor.py
 
+      - name: Run Harnett monitor
+        run: python scripts/harnett_monitor.py
+
       - name: Show generated files
         run: ls -la docs/
 
