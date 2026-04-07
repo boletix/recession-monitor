@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-04-06T22:35:47.047054",
-  "composite_score": 0.1683,
+  "timestamp": "2026-04-07T22:37:23.603631",
+  "composite_score": 0.1691,
   "risk_label": "LOW",
   "action": "WAIT / ACCUMULATE CASH",
   "buy_checklist": {
@@ -13,71 +13,71 @@
   },
   "active_buy_signals": 0,
   "metrics": {
-    "sp500": 6582.6899,
-    "sp500_drawdown": -5.6732,
-    "vix": 23.87,
-    "oil": 111.54,
-    "gold": 4651.5,
-    "bond_30y": 4.89,
-    "yield_curve": 0.706,
-    "pct_above_200": 62.3698,
-    "pct_above_50": 66.7901,
-    "mcclellan": 0.5459
+    "sp500": 6611.8301,
+    "sp500_drawdown": -5.2556,
+    "vix": 24.17,
+    "oil": 112.41,
+    "gold": 4656.7998,
+    "bond_30y": 4.891,
+    "yield_curve": 0.712,
+    "pct_above_200": 62.4312,
+    "pct_above_50": 65.8535,
+    "mcclellan": 0.714
   },
   "sector_performance": {
     "Energy": {
-      "1M": 5.6,
-      "3M": 30.6,
-      "YTD": 30.6
+      "1M": 6.2,
+      "3M": 28.1,
+      "YTD": 31.6
     },
     "Financials": {
-      "1M": -2.8,
-      "3M": -9.4,
-      "YTD": -9.4
+      "1M": -0.9,
+      "3M": -10.7,
+      "YTD": -8.7
     },
     "Technology": {
-      "1M": -2.9,
-      "3M": -5.6,
-      "YTD": -5.6
+      "1M": -0.2,
+      "3M": -5.3,
+      "YTD": -5.1
     },
     "Healthcare": {
-      "1M": -4.2,
-      "3M": -5.2,
-      "YTD": -5.2
+      "1M": -3.8,
+      "3M": -5.3,
+      "YTD": -5.5
     },
     "Industrials": {
-      "1M": -4.6,
-      "3M": 4.0,
-      "YTD": 4.0
+      "1M": -2.9,
+      "3M": 3.3,
+      "YTD": 4.5
     },
     "Staples": {
-      "1M": -3.6,
-      "3M": 6.0,
-      "YTD": 6.0
+      "1M": -3.1,
+      "3M": 7.5,
+      "YTD": 7.0
     },
     "Discretionary": {
-      "1M": -7.0,
-      "3M": -8.4,
-      "YTD": -8.4
+      "1M": -4.5,
+      "3M": -9.2,
+      "YTD": -7.7
     },
     "Utilities": {
       "1M": -0.5,
-      "3M": 8.1,
-      "YTD": 8.1
+      "3M": 8.9,
+      "YTD": 7.7
     },
     "Real Estate": {
-      "1M": -3.3,
-      "3M": 3.7,
-      "YTD": 3.7
+      "1M": -2.0,
+      "3M": 4.0,
+      "YTD": 4.1
     },
     "Materials": {
-      "1M": -0.4,
-      "3M": 9.8,
-      "YTD": 9.8
+      "1M": 1.2,
+      "3M": 8.3,
+      "YTD": 9.4
     },
     "Comms": {
-      "1M": -5.4,
-      "3M": -4.1,
+      "1M": -4.5,
+      "3M": -4.8,
       "YTD": -4.1
     }
   }
