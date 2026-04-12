@@ -29,6 +29,9 @@ jobs:
       - name: Run Harnett monitor
         run: python scripts/harnett_monitor.py
 
+      - name: Run credit monitor
+        run: python scripts/credit_monitor.py
+
       - name: Show generated files
         run: ls -la docs/
 
