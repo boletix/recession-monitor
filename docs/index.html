@@ -79,6 +79,7 @@
       <button class="tab active" onclick="showTab('dashboard',this)">Recession</button>
       <button class="tab harnett" onclick="showTab('harnett',this)">Harnett Pain</button>
       <button class="tab" onclick="showTab('charts',this)">Charts</button>
+      <button class="tab" onclick="showTab('credit',this)">Credit Stress</button>
       <button class="tab" onclick="showTab('scenarios',this)">Escenarios</button>
     </div>
   </div>
@@ -155,6 +156,65 @@
     <div class="card">
       <h3 style="font-size:14px;color:#8892a4;margin-bottom:16px;">Credit Market Health (key Harnett indicator)</h3>
       <div class="grid-4" id="h-credit-details"></div>
+    </div>
+  </div>
+
+  <!-- ═══ CREDIT STRESS TAB ═══ -->
+  <div id="tab-credit" style="display:none;">
+    <div class="grid-2-eq" style="margin-bottom:20px;">
+      <div class="card">
+        <div style="text-align:center;">
+          <div style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:1.2px;">Credit Stress Score</div>
+          <div id="c-score" style="font-size:48px;font-weight:800;font-family:'JetBrains Mono',monospace;">--</div>
+          <div id="c-label" style="font-size:16px;font-weight:700;">--</div>
+          <div style="margin-top:12px;font-size:12px;color:#6b7280;" id="c-counts">--</div>
+        </div>
+        <div style="margin-top:16px;padding:14px;border-radius:8px;background:#0a0a12;">
+          <div style="font-size:11px;color:#ff4d4d;font-weight:700;margin-bottom:6px;">2008 PARALLEL (Oil masking credit crisis)</div>
+          <div id="c-2008" style="font-size:13px;font-weight:700;">--</div>
+          <div style="font-size:11px;color:#6b7280;margin-top:8px;">Triggers: HY diverging from equities + Oil above 100 + Credit spreads widening</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:14px;color:#ff4d4d;margin-bottom:16px;">6 Credit Signals</h3>
+        <div id="c-signals"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:14px;color:#8892a4;margin-bottom:16px;">Signal Details</h3>
+      <div class="grid-2-eq" id="c-details"></div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3 style="font-size:14px;color:#8892a4;margin-bottom:16px;">Key Context (Harnett/Carpatos)</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:12px;color:#8892a4;line-height:1.8;">
+        <div>
+          <div style="color:#ff4d4d;font-weight:700;margin-bottom:8px;">What to watch</div>
+          <ul style="padding-left:16px;">
+            <li><strong style="color:#e0e0e0">HY bonds not rebounding</strong> with equities = credit deterioration under surface</li>
+            <li><strong style="color:#e0e0e0">Banks creating CDS indices</strong> for private credit = positioning short (2008 playbook)</li>
+            <li><strong style="color:#e0e0e0">Mass redemptions</strong> in private credit funds (Blue Owl: 41% requested out)</li>
+            <li><strong style="color:#e0e0e0">Fed investigating</strong> bank exposure to private credit = systemic concern</li>
+          </ul>
+        </div>
+        <div>
+          <div style="color:#ffd93d;font-weight:700;margin-bottom:8px;">Structural risks</div>
+          <ul style="padding-left:16px;">
+            <li><strong style="color:#e0e0e0">130B tech debt wall</strong> maturing by 2028 - AI-disrupted software companies may not refinance</li>
+            <li><strong style="color:#e0e0e0">Oil 90%+ rise</strong> from lows historically precedes recession</li>
+            <li><strong style="color:#e0e0e0">No safety net:</strong> flat fiscal spending, low private savings, weak employment</li>
+            <li><strong style="color:#e0e0e0">Insurance exposure:</strong> private credit = 35% of insurer portfolios</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3 style="font-size:14px;color:#ff4d4d;margin-bottom:16px;">Credit Monitor Chart</h3>
+      <div class="img-container">
+        <img src="credit_monitor.png" alt="Credit Monitor" onerror="this.parentElement.innerHTML='<p style=color:#6b7280>Chart not yet generated. Run workflow first.</p>'">
+      </div>
     </div>
   </div>
 
@@ -387,6 +447,59 @@ async function loadData() {
     document.getElementById('h-credit-details').innerHTML = creditMetrics.map(([l,v,s,st]) => renderMetric(l,v,s,st)).join('');
   }
 
+  // ── CREDIT TAB ──
+  try {
+    const cData = await (await fetch('credit_data.json?' + Date.now())).json();
+    if (cData) {
+      const cs = cData.credit_stress_score || 0;
+      const csColor = cs < 25 ? '#00d68f' : cs < 50 ? '#ffd93d' : cs < 75 ? '#ff8c42' : '#ff4d4d';
+      document.getElementById('c-score').textContent = cs.toFixed(0) + '/100';
+      document.getElementById('c-score').style.color = csColor;
+      document.getElementById('c-label').textContent = cData.credit_stress_label || '--';
+      document.getElementById('c-label').style.color = csColor;
+      document.getElementById('c-counts').innerHTML = '<span style="color:#ff4d4d">' + (cData.n_danger||0) + ' DANGER</span> / <span style="color:#ffd93d">' + (cData.n_warning||0) + ' WARNING</span> / <span style="color:#00d68f">' + (cData.n_ok||0) + ' OK</span>';
+      document.getElementById('c-2008').textContent = cData.parallel_2008 ? 'ACTIVE - Oil masking credit stress (2008 pattern)' : 'Not triggered';
+      document.getElementById('c-2008').style.color = cData.parallel_2008 ? '#ff4d4d' : '#00d68f';
+
+      var sigHtml = '';
+      var sigNames = {
+        'hy_divergence': 'HY Bond Divergence',
+        'cds_proxy': 'Credit Spreads (CDS proxy)',
+        'bank_loans': 'Bank Loans (BKLN)',
+        'oil_trigger': 'Oil Recession Trigger',
+        'financials': 'Financial Sector Health',
+        'tech_debt': 'Tech Debt / Refi Wall',
+      };
+      var sigs = cData.signals || {};
+      for (var sk in sigNames) {
+        var sig = sigs[sk] || {};
+        var st = sig.status || 'OK';
+        var stColor = st === 'DANGER' ? '#ff4d4d' : st === 'WARNING' ? '#ffd93d' : '#00d68f';
+        sigHtml += '<div class="checklist-item"><div class="checklist-dot" style="background:' + stColor + '22;border:2px solid ' + stColor + ';color:' + stColor + ';font-size:9px;">' + (st === 'DANGER' ? '!' : st === 'WARNING' ? '~' : 'OK') + '</div><span style="font-size:12px;color:' + stColor + ';">' + sigNames[sk] + ' — <strong>' + st + '</strong></span></div>';
+      }
+      document.getElementById('c-signals').innerHTML = sigHtml;
+
+      var detHtml = '';
+      if (sigs.hy_divergence) {
+        var hd = sigs.hy_divergence;
+        detHtml += '<div class="card" style="margin:0"><h4 style="font-size:12px;color:#ff8c42;margin-bottom:8px;">HY Bond Divergence</h4><div style="font-size:12px;color:#8892a4;line-height:1.8;">S&P 1M: <strong style="color:#e0e0e0">' + (hd.sp500_1m||0).toFixed(1) + '%</strong> vs HYG 1M: <strong style="color:#e0e0e0">' + (hd.hyg_1m||0).toFixed(1) + '%</strong><br>Divergence: <strong style="color:' + (hd.diverging ? '#ff4d4d' : '#00d68f') + '">' + (hd.diverging ? 'HY NOT following equities' : 'Normal') + '</strong></div></div>';
+      }
+      if (sigs.oil_trigger) {
+        var ot = sigs.oil_trigger;
+        detHtml += '<div class="card" style="margin:0"><h4 style="font-size:12px;color:#ff8c42;margin-bottom:8px;">Oil Recession Trigger</h4><div style="font-size:12px;color:#8892a4;line-height:1.8;">Price: <strong style="color:#e0e0e0">' + (ot.price||0).toFixed(1) + '</strong><br>Rise from 52W low: <strong style="color:' + (ot.rise_from_low > 90 ? '#ff4d4d' : ot.rise_from_low > 50 ? '#ffd93d' : '#00d68f') + '">' + (ot.rise_from_low||0).toFixed(0) + '%</strong> (90%+ = recession)<br>Above 100: <strong style="color:' + (ot.above_100 ? '#ff4d4d' : '#00d68f') + '">' + (ot.above_100 ? 'YES' : 'No') + '</strong></div></div>';
+      }
+      if (sigs.bank_loans) {
+        var bl = sigs.bank_loans;
+        detHtml += '<div class="card" style="margin:0"><h4 style="font-size:12px;color:#ff8c42;margin-bottom:8px;">Leveraged Loans (BKLN)</h4><div style="font-size:12px;color:#8892a4;line-height:1.8;">1M: <strong style="color:#e0e0e0">' + (bl.bkln_1m||0).toFixed(1) + '%</strong> | 3M: <strong style="color:#e0e0e0">' + (bl.bkln_3m||0).toFixed(1) + '%</strong><br>Drawdown: <strong style="color:#e0e0e0">' + (bl.bkln_drawdown||0).toFixed(1) + '%</strong></div></div>';
+      }
+      if (sigs.financials) {
+        var fn = sigs.financials;
+        detHtml += '<div class="card" style="margin:0"><h4 style="font-size:12px;color:#ff8c42;margin-bottom:8px;">Banks & Insurance</h4><div style="font-size:12px;color:#8892a4;line-height:1.8;">KRE Banks 3M: <strong style="color:' + (fn.kre_3m < -10 ? '#ff4d4d' : '#e0e0e0') + '">' + (fn.kre_3m||0).toFixed(1) + '%</strong><br>XLF Financials 3M: <strong style="color:#e0e0e0">' + (fn.xlf_3m||0).toFixed(1) + '%</strong><br>Insurance 1M: <strong style="color:#e0e0e0">' + (fn.insurance_1m||0).toFixed(1) + '%</strong></div></div>';
+      }
+      document.getElementById('c-details').innerHTML = detHtml;
+    }
+  } catch(e) { console.warn('credit_data.json failed', e); }
+  
   // ── SCENARIOS ──
   let scHtml = '';
   for (const s of SCENARIOS) {
