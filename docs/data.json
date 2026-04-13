@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-12T07:47:13.376241",
+  "timestamp": "2026-04-13T22:41:46.055908",
   "composite_score": 0.1118,
   "risk_label": "LOW",
   "action": "WAIT / ACCUMULATE CASH",
@@ -17,7 +17,7 @@
     "sp500_drawdown": -2.3172,
     "vix": 19.23,
     "oil": 96.57,
-    "gold": 4787.3999,
+    "gold": 4761.8999,
     "bond_30y": 4.914,
     "yield_curve": 0.724,
     "pct_above_200": 62.8611,

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-12T07:47:18.796326",
+  "timestamp": "2026-04-13T22:41:49.727714",
   "pain_levels": {
     "oil": {
       "value": 96.57,
@@ -45,8 +45,8 @@
   "contrarian_buy": false,
   "safety_net": {
     "treasuries_1m": -0.2,
-    "gold_1m": -6.4,
-    "gold_ytd": 11.0
+    "gold_1m": -6.9,
+    "gold_ytd": 10.4
   },
   "trades": {
     "china_fxi": {
@@ -74,6 +74,6 @@
     "oil": 96.57,
     "dxy": 98.65,
     "bond_30y": 4.914,
-    "gold": 4787.3999
+    "gold": 4761.8999
   }
 }
