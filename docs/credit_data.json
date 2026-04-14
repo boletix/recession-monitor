@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-04-13T22:41:53.018129",
-  "credit_stress_score": 26.6667,
-  "credit_stress_label": "MODERATE",
+  "timestamp": "2026-04-14T22:43:50.620742",
+  "credit_stress_score": 20.0,
+  "credit_stress_label": "LOW",
   "n_danger": 1,
-  "n_warning": 2,
-  "n_ok": 3,
+  "n_warning": 1,
+  "n_ok": 4,
   "parallel_2008": false,
   "signals": {
     "hy_divergence": {
-      "divergence_1m": 0.9,
-      "divergence_3m": -2.32,
-      "hyg_1m": 1.26,
-      "hyg_3m": 0.17,
-      "sp500_1m": 2.16,
+      "divergence_1m": 2.0,
+      "divergence_3m": -1.8,
+      "hyg_1m": 1.83,
+      "hyg_3m": 0.5,
+      "sp500_1m": 3.83,
       "rebounding": true,
       "diverging": false,
       "status": "OK"
@@ -23,32 +23,32 @@
       "status": "OK"
     },
     "bank_loans": {
-      "bkln_1m": 0.52,
-      "bkln_3m": -1.16,
-      "bkln_drawdown": -1.16,
+      "bkln_1m": 0.82,
+      "bkln_3m": -1.07,
+      "bkln_drawdown": -1.07,
       "status": "OK"
     },
     "oil_trigger": {
-      "price": 96.6,
-      "rise_from_low": 74.7,
+      "price": 99.1,
+      "rise_from_low": 79.3,
       "above_100": false,
       "recession_threshold": false,
       "status": "WARNING"
     },
     "financials": {
-      "kre_1m": 9.27,
-      "kre_3m": 2.76,
-      "xlf_1m": 4.51,
-      "xlf_3m": -8.43,
-      "insurance_1m": 1.81,
-      "banks_weak": true,
-      "status": "WARNING"
+      "kre_1m": 10.59,
+      "kre_3m": 4.67,
+      "xlf_1m": 6.21,
+      "xlf_3m": -6.09,
+      "insurance_1m": 3.25,
+      "banks_weak": false,
+      "status": "OK"
     },
     "tech_debt": {
-      "software_1m": -12.14,
-      "software_3m": -28.89,
-      "cloud_1m": -14.79,
-      "cloud_3m": -30.47,
+      "software_1m": -6.52,
+      "software_3m": -25.3,
+      "cloud_1m": -10.18,
+      "cloud_3m": -26.67,
       "status": "DANGER"
     }
   }
