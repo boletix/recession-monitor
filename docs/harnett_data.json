@@ -1,26 +1,26 @@
 {
-  "timestamp": "2026-04-15T22:40:26.397263",
+  "timestamp": "2026-04-16T22:38:57.212516",
   "pain_levels": {
     "oil": {
-      "value": 91.28,
+      "value": 91.29,
       "threshold": 100,
       "active": false,
       "label": "Oil > 100"
     },
     "dxy": {
-      "value": 98.12,
+      "value": 98.06,
       "threshold": 100,
       "active": false,
       "label": "DXY > 100"
     },
     "bond30y": {
-      "value": 4.868,
+      "value": 4.891,
       "threshold": 5.0,
       "active": false,
       "label": "30Y Yield > 5%"
     },
     "sp500": {
-      "value": 6967.3799,
+      "value": 7022.9502,
       "threshold": 6000,
       "active": false,
       "label": "S&P 500 < 6000"
@@ -30,12 +30,12 @@
   "credit": {
     "hy_spread_zscore": -1.25,
     "hy_spread_status": "NORMAL",
-    "banks_1m": 9.8,
-    "banks_3m": 5.2,
+    "banks_1m": 9.6,
+    "banks_3m": 3.9,
     "banks_status": "OK",
-    "bank_loans_1m": 0.9,
+    "bank_loans_1m": 0.6,
     "bank_loans_status": "OK",
-    "yield_curve": 0.64,
+    "yield_curve": 0.67,
     "yield_curve_status": "NORMAL"
   },
   "credit_composite": 0.0,
@@ -44,36 +44,36 @@
   "harnett_label": "LOW",
   "contrarian_buy": false,
   "safety_net": {
-    "treasuries_1m": 0.4,
-    "gold_1m": -3.4,
-    "gold_ytd": 11.8
+    "treasuries_1m": -0.3,
+    "gold_1m": -4.0,
+    "gold_ytd": 11.3
   },
   "trades": {
     "china_fxi": {
-      "1m": 0.0,
-      "3m": -8.3,
+      "1m": -0.0,
+      "3m": -7.9,
       "rec": "BUY"
     },
     "consumer_disc": {
-      "1m": 4.0,
+      "1m": 4.6,
       "rec": "FAVOR (low-end)"
     },
     "small_caps": {
-      "1m": 8.1,
-      "3m": 3.0,
+      "1m": 7.7,
+      "3m": 2.5,
       "rec": "FAVOR"
     },
     "financials": {
-      "1m": 5.6,
+      "1m": 5.8,
       "rec": "AVOID (sell if drops)"
     }
   },
   "metrics": {
-    "sp500": 6967.3799,
-    "vix": 18.36,
-    "oil": 91.28,
-    "dxy": 98.12,
-    "bond_30y": 4.868,
-    "gold": 4825.0
+    "sp500": 7022.9502,
+    "vix": 18.17,
+    "oil": 91.29,
+    "dxy": 98.06,
+    "bond_30y": 4.891,
+    "gold": 4800.0
   }
 }
