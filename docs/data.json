@@ -1,84 +1,73 @@
 {
-  "timestamp": "2026-05-20T23:12:27.465358",
-  "composite_score": 0.1968,
-  "risk_label": "LOW",
-  "action": "WAIT / ACCUMULATE CASH",
-  "buy_checklist": {
-    "McClellan > -1 from below": false,
-    "VIX > 35 (panic)": false,
-    "Breadth < 12% above 200W": false,
-    "30Y yield >= 5%": true,
-    "S&P below 6475": false,
-    "Oil > $120 (stress)": false
-  },
+  "timestamp": "2026-05-21T20:09:35.186606Z",
+  "composite_score": 0.353,
+  "risk_label": "MODERADO",
+  "risk_color": "#ffd93d",
   "active_buy_signals": 1,
+  "action": "MANTENER liquidez \u2014 esperar capitulaci\u00f3n",
+  "buy_checklist": {
+    "VIX > 35 (p\u00e1nico mercado)": false,
+    "S&P drawdown > 15%": false,
+    "Curva 10Y-3M invertida": false,
+    "Bono 30Y > 5% (bubble killer activo)": true,
+    "Sahm Rule activada (\u2265 0.5)": false,
+    "HY spreads en estr\u00e9s": false,
+    "Oil > $100": false,
+    "Petr\u00f3leo +90% desde m\u00ednimos 52S": false
+  },
   "metrics": {
-    "sp500": 7353.6099,
-    "sp500_drawdown": -1.9681,
-    "vix": 18.06,
-    "oil": 107.77,
-    "gold": 4506.2998,
-    "bond_30y": 5.181,
-    "yield_curve": 1.092,
-    "pct_above_200": 39.2449,
-    "pct_above_50": 30.7695,
-    "mcclellan": -0.3165
+    "sp500": 743.0,
+    "sp500_drawdown": -0.7,
+    "vix": 16.7,
+    "oil": 97.3,
+    "bond_30y": 5.1,
+    "yield_curve": 0.49,
+    "yield_curve_10y3m": 0.89,
+    "pct_above_200": null,
+    "mcclellan": -55.7,
+    "dxy": 99.2,
+    "sox_vs_200dma": 60.0,
+    "sahm_rule": 0.13,
+    "unemployment": 4.3,
+    "oil_rise_pct": 76.1
   },
   "sector_performance": {
-    "Energy": {
-      "1M": 9.7,
-      "3M": 11.8,
-      "YTD": 35.1
+    "Tech": {
+      "1M": 12.94,
+      "3M": 26.89
     },
     "Financials": {
-      "1M": -2.3,
-      "3M": -1.5,
-      "YTD": -6.5
+      "1M": -0.88,
+      "3M": -0.9
     },
-    "Technology": {
-      "1M": 12.0,
-      "3M": 23.7,
-      "YTD": 20.2
-    },
-    "Healthcare": {
-      "1M": 1.0,
-      "3M": -5.9,
-      "YTD": -4.9
-    },
-    "Industrials": {
-      "1M": -1.6,
-      "3M": -4.0,
-      "YTD": 7.1
-    },
-    "Staples": {
-      "1M": 5.2,
-      "3M": -1.2,
-      "YTD": 11.4
-    },
-    "Discretionary": {
-      "1M": -3.3,
-      "3M": -0.8,
-      "YTD": -2.6
-    },
-    "Utilities": {
-      "1M": -1.4,
-      "3M": -3.2,
-      "YTD": 3.4
-    },
-    "Real Estate": {
-      "1M": 0.4,
-      "3M": 2.4,
-      "YTD": 9.5
+    "Energy": {
+      "1M": 4.6,
+      "3M": 8.47
     },
     "Materials": {
-      "1M": -5.3,
-      "3M": -6.8,
-      "YTD": 6.8
+      "1M": -3.49,
+      "3M": -5.13
     },
-    "Comms": {
-      "1M": -1.1,
-      "3M": 0.9,
-      "YTD": -0.6
+    "Health": {
+      "1M": 1.18,
+      "3M": -5.17
+    },
+    "Utilities": {
+      "1M": 0.26,
+      "3M": -2.22
+    },
+    "Industrials": {
+      "1M": -0.3,
+      "3M": -3.51
+    },
+    "Cons.Disc": {
+      "1M": -0.2,
+      "3M": 1.26
+    },
+    "Cons.Stap": {
+      "1M": 3.09,
+      "3M": -3.14
     }
-  }
+  },
+  "composite_recession_score": 35.3
 }

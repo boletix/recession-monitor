@@ -1,79 +1,64 @@
 {
-  "timestamp": "2026-05-20T23:12:31.958693",
+  "timestamp": "2026-05-21T20:09:35.186606Z",
   "pain_levels": {
-    "oil": {
-      "value": 107.77,
-      "threshold": 100,
-      "active": true,
-      "label": "Oil > 100"
+    "vix35": {
+      "label": "VIX > 35",
+      "value": 16.73,
+      "threshold": 35,
+      "active": false
     },
-    "dxy": {
-      "value": 99.3,
-      "threshold": 100,
-      "active": false,
-      "label": "DXY > 100"
+    "spy15dd": {
+      "label": "S&P -15% drawdown",
+      "value": -0.72,
+      "threshold": -15,
+      "active": false
     },
-    "bond30y": {
-      "value": 5.181,
+    "curva_inv": {
+      "label": "Curva 10Y-3M invertida",
+      "value": 0.89,
+      "threshold": 0,
+      "active": false
+    },
+    "bono30y": {
+      "label": "30Y Bono > 5%",
+      "value": 5.1,
       "threshold": 5.0,
-      "active": true,
-      "label": "30Y Yield > 5%"
+      "active": true
     },
-    "sp500": {
-      "value": 7353.6099,
-      "threshold": 6000,
-      "active": false,
-      "label": "S&P 500 < 6000"
+    "sahm05": {
+      "label": "Sahm Rule \u2265 0.5",
+      "value": 0.13,
+      "threshold": 0.5,
+      "active": false
+    },
+    "oil100": {
+      "label": "Petr\u00f3leo > $100",
+      "value": 97.35,
+      "threshold": 100,
+      "active": false
     }
   },
-  "active_pain_count": 2,
-  "credit": {
-    "hy_spread_zscore": -1.36,
-    "hy_spread_status": "NORMAL",
-    "banks_1m": -3.0,
-    "banks_3m": -4.3,
-    "banks_status": "OK",
-    "bank_loans_1m": 0.2,
-    "bank_loans_status": "OK",
-    "yield_curve": 1.09,
-    "yield_curve_status": "NORMAL"
-  },
-  "credit_composite": 5.375,
-  "credit_label": "LOW",
-  "harnett_danger": 0.2769,
-  "harnett_label": "LOW",
+  "n_pain_active": 1,
+  "harnett_danger": 0.353,
+  "harnett_label": "MODERADO",
   "contrarian_buy": false,
-  "safety_net": {
-    "treasuries_1m": -3.7,
-    "gold_1m": -4.1,
-    "gold_ytd": 4.4
-  },
-  "trades": {
-    "china_fxi": {
-      "1m": -2.2,
-      "3m": -6.0,
-      "rec": "BUY"
-    },
-    "consumer_disc": {
-      "1m": -3.3,
-      "rec": "FAVOR (low-end)"
-    },
-    "small_caps": {
-      "1m": -0.6,
-      "3m": 3.4,
-      "rec": "FAVOR"
-    },
-    "financials": {
-      "1m": -2.3,
-      "rec": "AVOID (sell if drops)"
-    }
-  },
+  "credit_composite": 0.0,
+  "credit_label": "OK",
   "metrics": {
-    "sp500": 7353.6099,
-    "vix": 18.06,
-    "oil": 107.77,
-    "dxy": 99.3,
-    "bond_30y": 5.181,
-    "gold": 4506.2998
+    "vix": 16.7,
+    "oil": 97.3,
+    "dxy": 99.2,
+    "bond_30y": 5.1,
+    "sox_vs_200dma": 60.0
+  },
+  "credit": {
+    "hy_spread_zscore": -2.11,
+    "hy_spread_status": "OK",
+    "banks_3m": -3.2,
+    "banks_status": "OK",
+    "bank_loans_1m": 1.3,
+    "bank_loans_status": "OK",
+    "yield_curve": 0.89,
+    "yield_curve_status": "OK"
   }
 }
