@@ -2,3 +2,4 @@ yfinance>=0.2.36
 pandas>=2.0
 numpy>=1.24
 matplotlib>=3.7
+fredapi>=0.5.1
