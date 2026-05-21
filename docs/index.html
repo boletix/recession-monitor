@@ -921,11 +921,13 @@ async function loadData() {
     const ts = rData.timestamp ? new Date(rData.timestamp).toLocaleDateString('es-ES') + ' ' + new Date(rData.timestamp).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}) : '--';
     document.getElementById('date-display').textContent = ts;
 
-    const score = rData.composite_score || 0;
+    const raw_score = rData.composite_score || 0;
+    // Handle both old (0-1) and new (0-100) scale formats
+    const score = raw_score > 1 ? raw_score / 100 : raw_score;
     const sColor = score < 0.3 ? '#00d68f' : score < 0.5 ? '#ffd93d' : score < 0.7 ? '#ff8c42' : '#ff4d4d';
     document.getElementById('r-score').textContent = Math.round(score * 100) + '%';
     document.getElementById('r-score').style.color = sColor;
-    document.getElementById('r-label').textContent = rData.risk_label || '--';
+    document.getElementById('r-label').textContent = rData.risk_label || rData.risk_color || '--';
     document.getElementById('r-label').style.color = sColor;
     document.getElementById('r-buysignals').innerHTML = 'Buy signals: <strong style="color:'+(rData.active_buy_signals >= 3 ? '#00d68f' : '#ffd93d')+'">'+rData.active_buy_signals+'/'+Object.keys(rData.buy_checklist||{}).length+'</strong>';
 
@@ -969,7 +971,42 @@ async function loadData() {
 
   document.getElementById('tab-dashboard').style.display = 'block';
 
+  // ── COMPOSITE BANNER: populate from data.json if macro not yet available ──
+  if (rData && !mData) {
+    const raw = rData.composite_score || 0;
+    const pct = raw > 1 ? raw : Math.round(raw * 100);
+    const c = pct < 30 ? '#00d68f' : pct < 50 ? '#ffd93d' : pct < 70 ? '#ff8c42' : '#ff4d4d';
+    const lbl = rData.risk_label || (pct < 30 ? 'RIESGO BAJO' : pct < 50 ? 'MODERADO' : pct < 70 ? 'ELEVADO' : 'ALTO RIESGO');
+    const csm = document.getElementById('comp-score-main');
+    const clm = document.getElementById('comp-label-main');
+    const cb  = document.getElementById('composite-banner');
+    if (csm) { csm.textContent = pct + '/100'; csm.style.color = c; }
+    if (clm) { clm.textContent = lbl; clm.style.color = c; }
+    if (cb)  { cb.style.display = 'flex'; }
+    const is = document.getElementById('ind-comp-score');
+    const il = document.getElementById('ind-comp-label');
+    const ib = document.getElementById('ind-comp-bar');
+    if (is) { is.textContent = pct + '/100'; is.style.color = c; }
+    if (il) { il.textContent = lbl + ' (actualización pendiente)'; il.style.color = c; }
+    if (ib) { ib.style.width = pct + '%'; ib.style.background = c; }
+  }
+
   // ── MACRO INDICATORS ──
+  // Show pending notice in Indicadores tab if macro_indicators.json not available
+  if (!mData) {
+    const notice = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#6b7280;">
+      <div style="font-size:32px;margin-bottom:12px;">⏳</div>
+      <div style="font-size:14px;font-weight:600;color:#ffd93d;margin-bottom:8px;">macro_indicators.json pendiente de generación</div>
+      <div style="font-size:12px;">Dispara el workflow manualmente en <strong>GitHub → Actions → "Update Recession Monitor" → Run workflow</strong></div>
+      <div style="font-size:11px;margin-top:12px;color:#4d4d6b;">Los JSON actuales (data.json, harnett_data.json, credit_data.json) siguen activos en el resto de tabs.</div>
+    </div>`;
+    const el = document.getElementById('tab-indicadores');
+    if (el) {
+      const grid = el.querySelector('[id="score-breakdown"]');
+      if (grid) grid.closest('.card').insertAdjacentHTML('beforebegin', '<div style="display:grid">' + notice + '</div>');
+    }
+  }
+
   if (mData) {
     renderComposite(mData.composite);
     renderSahm(mData.labor_market);
