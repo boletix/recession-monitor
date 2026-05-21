@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-05-21T20:09:35.186606Z",
+  "timestamp": "2026-05-21T23:02:44.168311Z",
   "composite": {
-    "score": 35.3,
+    "score": 38.7,
     "label": "MODERADO",
     "color": "#ffd93d",
     "components": {
@@ -38,7 +38,7 @@
         "weight": 0.08
       },
       "payrolls": {
-        "score": 10,
+        "score": 50,
         "weight": 0.08
       },
       "oil_rise": {
@@ -65,10 +65,10 @@
     "sox_200dma": 327.9,
     "bond_30y": 5.1,
     "bond_30y_triggered": true,
-    "oil_price": 97.3,
-    "oil_rise_pct": 76.1,
+    "oil_price": 97.7,
+    "oil_rise_pct": 76.8,
     "oil_trigger_90": false,
-    "vix": 16.7,
+    "vix": 16.8,
     "dxy": 99.2,
     "bull_bear_last": 7.6,
     "bull_bear_date": "2026-05-16",
@@ -77,8 +77,8 @@
   "market_signals": {
     "vix": {
       "label": "VIX",
-      "value": 16.729999542236328,
-      "value_str": "16.7",
+      "value": 16.760000228881836,
+      "value_str": "16.8",
       "score": 15,
       "status": "OK",
       "color": "#00d68f",
@@ -86,7 +86,7 @@
     },
     "sox_bubble": {
       "label": "SOX vs MM200 (%)",
-      "value": 60.02367930419999,
+      "value": 60.02367915526414,
       "value_str": "+60.0%",
       "score": 85,
       "status": "DANGER",
@@ -95,7 +95,7 @@
     },
     "spy_drawdown": {
       "label": "S&P drawdown 1Y (%)",
-      "value": -0.7217562188076565,
+      "value": -0.7284457184224769,
       "value_str": "-0.7%",
       "score": 5,
       "status": "OK",
@@ -104,8 +104,8 @@
     },
     "hy_stress": {
       "label": "Estr\u00e9s HY (LQD-HYG 3M)",
-      "value": -2.1078962090336217,
-      "value_str": "-2.11%",
+      "value": -2.0772357340334557,
+      "value_str": "-2.08%",
       "score": 10,
       "status": "OK",
       "color": "#00d68f",
@@ -122,7 +122,7 @@
     },
     "dxy": {
       "label": "DXY (d\u00f3lar)",
-      "value": 99.16600036621094,
+      "value": 99.19100189208984,
       "value_str": "99.2",
       "score": 10,
       "status": "OK",
@@ -131,7 +131,7 @@
     },
     "bkln_3m": {
       "label": "Bank Loans BKLN 3M (%)",
-      "value": 1.313571789124035,
+      "value": 1.3382963592056374,
       "value_str": "1.3%",
       "score": 10,
       "status": "OK",
@@ -140,7 +140,7 @@
     },
     "kre_3m": {
       "label": "Bancos regionales KRE 3M (%)",
-      "value": -3.1542870120914723,
+      "value": -3.182270948756849,
       "value_str": "-3.2%",
       "score": 15,
       "status": "OK",
@@ -173,20 +173,20 @@
     "sahm_triggered": false,
     "unemployment": {
       "label": "Tasa desempleo (%)",
-      "value": 4.3,
-      "value_str": "4.3%",
-      "score": 25,
-      "status": "WATCH",
-      "color": "#ffd93d",
+      "value": null,
+      "value_str": "--",
+      "score": 50,
+      "status": "WARNING",
+      "color": "#ff8c42",
       "note": "BLS, abril 2026"
     },
     "payrolls_mom": {
       "label": "N\u00f3minas MoM (miles)",
-      "value": 115.0,
-      "value_str": "+115K",
-      "score": 10,
-      "status": "OK",
-      "color": "#00d68f",
+      "value": null,
+      "value_str": "--",
+      "score": 50,
+      "status": "WARNING",
+      "color": "#ff8c42",
       "note": "BLS nonfarm payrolls"
     },
     "initial_claims": {
@@ -200,11 +200,11 @@
     },
     "quits_raw": {
       "label": "JOLTS renuncias (miles)",
-      "value": 844.0,
-      "value_str": "844K",
-      "score": 25,
-      "status": "WATCH",
-      "color": "#ffd93d",
+      "value": null,
+      "value_str": "--",
+      "score": 50,
+      "status": "WARNING",
+      "color": "#ff8c42",
       "note": "Bajo = trabajadores sin confianza"
     },
     "temp_employment": {
@@ -238,8 +238,8 @@
     },
     "oil_rise": {
       "label": "Petr\u00f3leo vs m\u00ednimo 52S (%)",
-      "value": 76.13533140553199,
-      "value_str": "+76%",
+      "value": 76.82287415868049,
+      "value_str": "+77%",
       "score": 55,
       "status": "WARNING",
       "color": "#ff8c42",
@@ -247,8 +247,8 @@
     },
     "oil_price": {
       "label": "Petr\u00f3leo WTI ($)",
-      "value": 97.3499984741211,
-      "value_str": "97.3$",
+      "value": 97.7300033569336,
+      "value_str": "97.7$",
       "score": 35,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -258,11 +258,11 @@
   "nber_coincident": {
     "payrolls_mom": {
       "label": "N\u00f3minas MoM (miles)",
-      "value": 115.0,
-      "value_str": "+115K",
-      "score": 10,
-      "status": "OK",
-      "color": "#00d68f",
+      "value": null,
+      "value_str": "--",
+      "score": 50,
+      "status": "WARNING",
+      "color": "#ff8c42",
       "note": "NBER indicator #1"
     },
     "indpro_mom": {
@@ -285,20 +285,20 @@
     },
     "unemployment_lvl": {
       "label": "Desempleo (%)",
-      "value": 4.3,
-      "value_str": "4.3%",
-      "score": 25,
-      "status": "WATCH",
-      "color": "#ffd93d",
+      "value": null,
+      "value_str": "--",
+      "score": 50,
+      "status": "WARNING",
+      "color": "#ff8c42",
       "note": "NBER indicator"
     },
     "recession_declared": false,
     "nber_note": "El NBER tarda de media 11 meses en declarar recesi\u00f3n. La Sahm Rule es la se\u00f1al m\u00e1s r\u00e1pida disponible en tiempo real."
   },
   "oil_breakdown": {
-    "price": 97.3,
+    "price": 97.7,
     "52w_low": 55.3,
-    "rise_from_low_pct": 76.1,
+    "rise_from_low_pct": 76.8,
     "recession_trigger_90pct": false,
     "above_100": false
   }

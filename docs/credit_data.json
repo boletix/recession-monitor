@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-21T20:09:35.186606Z",
+  "timestamp": "2026-05-21T23:02:44.168311Z",
   "credit_stress_score": 24,
   "credit_stress_label": "OK",
   "n_danger": 0,
@@ -20,12 +20,12 @@
       "status": "OK",
       "bkln_1m": 0.2,
       "bkln_3m": 1.3,
-      "bkln_drawdown": -0.4
+      "bkln_drawdown": -0.3
     },
     "oil_trigger": {
       "status": "WARNING",
-      "price": 97.3,
-      "rise_from_low": 76.1,
+      "price": 97.7,
+      "rise_from_low": 76.8,
       "above_100": false
     },
     "financials": {

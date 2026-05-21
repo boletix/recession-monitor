@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-05-21T20:09:35.186606Z",
+  "timestamp": "2026-05-21T23:02:44.168311Z",
   "pain_levels": {
     "vix35": {
       "label": "VIX > 35",
-      "value": 16.73,
+      "value": 16.76,
       "threshold": 35,
       "active": false
     },
     "spy15dd": {
       "label": "S&P -15% drawdown",
-      "value": -0.72,
+      "value": -0.73,
       "threshold": -15,
       "active": false
     },
@@ -33,26 +33,26 @@
     },
     "oil100": {
       "label": "Petr\u00f3leo > $100",
-      "value": 97.35,
+      "value": 97.73,
       "threshold": 100,
       "active": false
     }
   },
   "n_pain_active": 1,
-  "harnett_danger": 0.353,
+  "harnett_danger": 0.387,
   "harnett_label": "MODERADO",
   "contrarian_buy": false,
   "credit_composite": 0.0,
   "credit_label": "OK",
   "metrics": {
-    "vix": 16.7,
-    "oil": 97.3,
+    "vix": 16.8,
+    "oil": 97.7,
     "dxy": 99.2,
     "bond_30y": 5.1,
     "sox_vs_200dma": 60.0
   },
   "credit": {
-    "hy_spread_zscore": -2.11,
+    "hy_spread_zscore": -2.08,
     "hy_spread_status": "OK",
     "banks_3m": -3.2,
     "banks_status": "OK",
