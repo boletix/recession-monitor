@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-22T22:57:26.588027Z",
+  "timestamp": "2026-05-25T22:59:45.268333Z",
   "composite": {
     "score": 36.7,
     "label": "MODERADO",
@@ -65,11 +65,11 @@
     "sox_200dma": 329.4,
     "bond_30y": 5.07,
     "bond_30y_triggered": true,
-    "oil_price": 97.0,
-    "oil_rise_pct": 75.5,
+    "oil_price": 90.5,
+    "oil_rise_pct": 63.8,
     "oil_trigger_90": false,
-    "vix": 16.7,
-    "dxy": 99.3,
+    "vix": 16.6,
+    "dxy": 99.2,
     "bull_bear_last": 7.6,
     "bull_bear_date": "2026-05-16",
     "bull_bear_triggered": false
@@ -77,8 +77,8 @@
   "market_signals": {
     "vix": {
       "label": "VIX",
-      "value": 16.700000762939453,
-      "value_str": "16.7",
+      "value": 16.59000015258789,
+      "value_str": "16.6",
       "score": 15,
       "status": "OK",
       "color": "#00d68f",
@@ -122,8 +122,8 @@
     },
     "dxy": {
       "label": "DXY (d\u00f3lar)",
-      "value": 99.31900024414062,
-      "value_str": "99.3",
+      "value": 99.23899841308594,
+      "value_str": "99.2",
       "score": 10,
       "status": "OK",
       "color": "#00d68f",
@@ -131,7 +131,7 @@
     },
     "bkln_3m": {
       "label": "Bank Loans BKLN 3M (%)",
-      "value": 1.9791829787622284,
+      "value": 1.9791732885058089,
       "value_str": "2.0%",
       "score": 10,
       "status": "OK",
@@ -238,8 +238,8 @@
     },
     "oil_rise": {
       "label": "Petr\u00f3leo vs m\u00ednimo 52S (%)",
-      "value": 75.50207924120724,
-      "value_str": "+76%",
+      "value": 63.79590741722221,
+      "value_str": "+64%",
       "score": 55,
       "status": "WARNING",
       "color": "#ff8c42",
@@ -247,8 +247,8 @@
     },
     "oil_price": {
       "label": "Petr\u00f3leo WTI ($)",
-      "value": 97.0,
-      "value_str": "97.0$",
+      "value": 90.52999877929688,
+      "value_str": "90.5$",
       "score": 35,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -296,9 +296,9 @@
     "nber_note": "El NBER tarda de media 11 meses en declarar recesi\u00f3n. La Sahm Rule es la se\u00f1al m\u00e1s r\u00e1pida disponible en tiempo real."
   },
   "oil_breakdown": {
-    "price": 97.0,
+    "price": 90.5,
     "52w_low": 55.3,
-    "rise_from_low_pct": 75.5,
+    "rise_from_low_pct": 63.8,
     "recession_trigger_90pct": false,
     "above_100": false
   }

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-22T22:57:26.588027Z",
+  "timestamp": "2026-05-25T22:59:45.268333Z",
   "composite_score": 0.36700000000000005,
   "risk_label": "MODERADO",
   "risk_color": "#ffd93d",
@@ -18,18 +18,18 @@
   "metrics": {
     "sp500": 746.0,
     "sp500_drawdown": -0.3,
-    "vix": 16.7,
-    "oil": 97.0,
+    "vix": 16.6,
+    "oil": 90.5,
     "bond_30y": 5.07,
     "yield_curve": 0.43,
     "yield_curve_10y3m": 0.88,
     "pct_above_200": null,
     "mcclellan": -35.6,
-    "dxy": 99.3,
+    "dxy": 99.2,
     "sox_vs_200dma": 63.1,
     "sahm_rule": 0.13,
     "unemployment": 4.3,
-    "oil_rise_pct": 75.5
+    "oil_rise_pct": 63.8
   },
   "sector_performance": {
     "Tech": {
