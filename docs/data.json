@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-06-05T23:07:42.273595Z",
-  "composite_score": 0.405,
-  "risk_label": "ELEVADO",
+  "timestamp": "2026-06-08T23:11:17.519783Z",
+  "composite_score": 0.385,
+  "risk_label": "MODERADO",
   "risk_color": "#ffd93d",
   "active_buy_signals": 1,
   "action": "MANTENER liquidez \u2014 esperar capitulaci\u00f3n",
@@ -16,58 +16,58 @@
     "Petr\u00f3leo +90% desde m\u00ednimos 52S": false
   },
   "metrics": {
-    "sp500": 738.0,
-    "sp500_drawdown": -2.9,
-    "vix": 21.5,
-    "oil": 90.2,
-    "bond_30y": 5.01,
-    "yield_curve": 0.38,
-    "yield_curve_10y3m": 0.77,
+    "sp500": 739.0,
+    "sp500_drawdown": -2.7,
+    "vix": 18.9,
+    "oil": 91.4,
+    "bond_30y": 5.03,
+    "yield_curve": 0.41,
+    "yield_curve_10y3m": 0.76,
     "pct_above_200": null,
-    "mcclellan": -33.2,
-    "dxy": 100.1,
-    "sox_vs_200dma": 56.7,
+    "mcclellan": -27.6,
+    "dxy": 100.0,
+    "sox_vs_200dma": 65.2,
     "sahm_rule": 0.1,
     "unemployment": 4.3,
-    "oil_rise_pct": 63.3
+    "oil_rise_pct": 65.4
   },
   "sector_performance": {
     "Tech": {
-      "1M": 6.04,
-      "3M": 31.49
+      "1M": 8.54,
+      "3M": 31.95
     },
     "Financials": {
-      "1M": 0.89,
-      "3M": 3.95
+      "1M": 0.81,
+      "3M": 3.79
     },
     "Energy": {
-      "1M": 1.18,
-      "3M": 2.61
+      "1M": 4.25,
+      "3M": 4.25
     },
     "Materials": {
-      "1M": -3.4,
-      "3M": 2.0
+      "1M": -2.8,
+      "3M": 0.38
     },
     "Health": {
-      "1M": 5.23,
-      "3M": 0.61
+      "1M": 5.48,
+      "3M": -0.64
     },
     "Utilities": {
-      "1M": -2.98,
-      "3M": -4.45
+      "1M": -3.55,
+      "3M": -6.46
     },
     "Industrials": {
-      "1M": -1.52,
-      "3M": 2.78
+      "1M": -0.21,
+      "3M": 1.86
     },
     "Cons.Disc": {
-      "1M": -4.18,
-      "3M": 0.57
+      "1M": -3.75,
+      "3M": 0.9
     },
     "Cons.Stap": {
-      "1M": -0.95,
-      "3M": -2.18
+      "1M": -1.08,
+      "3M": -2.83
     }
   },
-  "composite_recession_score": 40.5
+  "composite_recession_score": 38.5
 }
