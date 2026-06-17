@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-06-16T23:23:11.733495Z",
-  "composite_score": 0.35700000000000004,
+  "timestamp": "2026-06-17T23:23:01.796320Z",
+  "composite_score": 0.363,
   "risk_label": "MODERADO",
   "risk_color": "#ffd93d",
   "active_buy_signals": 0,
@@ -16,58 +16,58 @@
     "Petr\u00f3leo +90% desde m\u00ednimos 52S": false
   },
   "metrics": {
-    "sp500": 750.0,
-    "sp500_drawdown": -1.2,
-    "vix": 16.4,
-    "oil": 75.9,
+    "sp500": 741.0,
+    "sp500_drawdown": -2.5,
+    "vix": 18.4,
+    "oil": 75.2,
     "bond_30y": 4.93,
-    "yield_curve": 0.38,
-    "yield_curve_10y3m": 0.64,
+    "yield_curve": 0.29,
+    "yield_curve_10y3m": 0.66,
     "pct_above_200": null,
-    "mcclellan": 2.2,
-    "dxy": 99.5,
-    "sox_vs_200dma": 66.1,
+    "mcclellan": 11.6,
+    "dxy": 100.4,
+    "sox_vs_200dma": 67.7,
     "sahm_rule": 0.1,
     "unemployment": 4.3,
-    "oil_rise_pct": 37.4
+    "oil_rise_pct": 36.1
   },
   "sector_performance": {
     "Tech": {
-      "1M": 5.78,
-      "3M": 33.78
+      "1M": 6.56,
+      "3M": 34.84
     },
     "Financials": {
-      "1M": 6.36,
-      "3M": 10.23
+      "1M": 4.46,
+      "3M": 10.94
     },
     "Energy": {
-      "1M": -6.86,
-      "3M": -4.77
+      "1M": -9.76,
+      "3M": -5.82
     },
     "Materials": {
-      "1M": 4.81,
-      "3M": 6.94
+      "1M": 3.58,
+      "3M": 7.78
     },
     "Health": {
-      "1M": 5.4,
-      "3M": 2.63
+      "1M": 3.42,
+      "3M": 2.85
     },
     "Utilities": {
-      "1M": 2.71,
-      "3M": -3.72
+      "1M": 1.18,
+      "3M": -4.19
     },
     "Industrials": {
-      "1M": 4.93,
-      "3M": 8.32
+      "1M": 5.18,
+      "3M": 9.04
     },
     "Cons.Disc": {
-      "1M": 1.66,
-      "3M": 4.88
+      "1M": -0.71,
+      "3M": 4.66
     },
     "Cons.Stap": {
-      "1M": 1.12,
-      "3M": 1.62
+      "1M": -2.58,
+      "3M": 1.83
     }
   },
-  "composite_recession_score": 35.7
+  "composite_recession_score": 36.3
 }
