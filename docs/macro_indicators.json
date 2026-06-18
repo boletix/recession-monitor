@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-06-17T23:23:01.796320Z",
+  "timestamp": "2026-06-18T23:44:04.550374Z",
   "composite": {
-    "score": 36.3,
+    "score": 37.5,
     "label": "MODERADO",
     "color": "#ffd93d",
     "components": {
@@ -10,7 +10,7 @@
         "weight": 0.08
       },
       "sox_bubble": {
-        "score": 85,
+        "score": 97,
         "weight": 0.09
       },
       "hy_stress": {
@@ -60,16 +60,16 @@
     }
   },
   "hartnett_live": {
-    "sox_vs_200dma": 67.7,
-    "sox_price": 599.73,
-    "sox_200dma": 357.7,
-    "bond_30y": 4.93,
+    "sox_vs_200dma": 77.8,
+    "sox_price": 639.45,
+    "sox_200dma": 359.69,
+    "bond_30y": 4.9,
     "bond_30y_triggered": false,
     "oil_price": 75.2,
     "oil_rise_pct": 36.1,
     "oil_trigger_90": false,
-    "vix": 18.4,
-    "dxy": 100.4,
+    "vix": 16.4,
+    "dxy": 100.8,
     "bull_bear_last": 7.6,
     "bull_bear_date": "2026-05-16",
     "bull_bear_triggered": false
@@ -77,8 +77,8 @@
   "market_signals": {
     "vix": {
       "label": "VIX",
-      "value": 18.440000534057617,
-      "value_str": "18.4",
+      "value": 16.399999618530273,
+      "value_str": "16.4",
       "score": 15,
       "status": "OK",
       "color": "#00d68f",
@@ -86,17 +86,17 @@
     },
     "sox_bubble": {
       "label": "SOX vs MM200 (%)",
-      "value": 67.66341378437504,
-      "value_str": "+67.7%",
-      "score": 85,
+      "value": 77.7793180295453,
+      "value_str": "+77.8%",
+      "score": 97,
       "status": "DANGER",
       "color": "#ff4d4d",
       "note": "Hartnett: >30% = burbuja"
     },
     "spy_drawdown": {
       "label": "S&P drawdown 1Y (%)",
-      "value": -2.4500684824458774,
-      "value_str": "-2.5%",
+      "value": -1.6891158110679982,
+      "value_str": "-1.7%",
       "score": 5,
       "status": "OK",
       "color": "#00d68f",
@@ -104,8 +104,8 @@
     },
     "hy_stress": {
       "label": "Estr\u00e9s HY (LQD-HYG 3M)",
-      "value": -0.7081192041094031,
-      "value_str": "-0.71%",
+      "value": -0.899277987034286,
+      "value_str": "-0.90%",
       "score": 25,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -113,8 +113,8 @@
     },
     "bond_30y": {
       "label": "Bono 30Y (%)",
-      "value": 4.93,
-      "value_str": "4.93%",
+      "value": 4.9,
+      "value_str": "4.90%",
       "score": 60,
       "status": "WARNING",
       "color": "#ff8c42",
@@ -122,8 +122,8 @@
     },
     "dxy": {
       "label": "DXY (d\u00f3lar)",
-      "value": 100.38800048828125,
-      "value_str": "100.4",
+      "value": 100.81400299072266,
+      "value_str": "100.8",
       "score": 25,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -131,8 +131,8 @@
     },
     "bkln_3m": {
       "label": "Bank Loans BKLN 3M (%)",
-      "value": 1.283749649754773,
-      "value_str": "1.3%",
+      "value": 1.1849858526891133,
+      "value_str": "1.2%",
       "score": 10,
       "status": "OK",
       "color": "#00d68f",
@@ -140,8 +140,8 @@
     },
     "kre_3m": {
       "label": "Bancos regionales KRE 3M (%)",
-      "value": 14.281728105313318,
-      "value_str": "14.3%",
+      "value": 14.15814132426705,
+      "value_str": "14.2%",
       "score": 5,
       "status": "OK",
       "color": "#00d68f",
@@ -150,11 +150,11 @@
   },
   "yield_curve": {
     "y3m": 3.83,
-    "y2y": 4.2,
-    "y10y": 4.49,
-    "y30y": 4.93,
-    "spread_10y2y": 0.29,
-    "spread_10y3m": 0.66,
+    "y2y": 4.19,
+    "y10y": 4.46,
+    "y30y": 4.9,
+    "spread_10y2y": 0.27,
+    "spread_10y3m": 0.63,
     "score_10y3m": 10,
     "score_10y2y": 25,
     "inverted_10y3m": false,
@@ -191,8 +191,8 @@
     },
     "initial_claims": {
       "label": "Peticiones desempleo (semanales)",
-      "value": 229000.0,
-      "value_str": "229,000",
+      "value": 226000.0,
+      "value_str": "226,000",
       "score": 25,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -238,7 +238,7 @@
     },
     "oil_rise": {
       "label": "Petr\u00f3leo vs m\u00ednimo 52S (%)",
-      "value": 36.11362897386439,
+      "value": 36.07743524798188,
       "value_str": "+36%",
       "score": 10,
       "status": "OK",
@@ -247,7 +247,7 @@
     },
     "oil_price": {
       "label": "Petr\u00f3leo WTI ($)",
-      "value": 75.2300033569336,
+      "value": 75.20999908447266,
       "value_str": "75.2$",
       "score": 15,
       "status": "OK",
