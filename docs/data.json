@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-18T23:44:04.550374Z",
+  "timestamp": "2026-06-19T22:55:54.834657Z",
   "composite_score": 0.375,
   "risk_label": "MODERADO",
   "risk_color": "#ffd93d",
@@ -17,9 +17,9 @@
   },
   "metrics": {
     "sp500": 747.0,
-    "sp500_drawdown": -1.7,
-    "vix": 16.4,
-    "oil": 75.2,
+    "sp500_drawdown": -1.4,
+    "vix": 16.8,
+    "oil": 76.5,
     "bond_30y": 4.9,
     "yield_curve": 0.27,
     "yield_curve_10y3m": 0.63,
@@ -29,7 +29,7 @@
     "sox_vs_200dma": 77.8,
     "sahm_rule": 0.1,
     "unemployment": 4.3,
-    "oil_rise_pct": 36.1
+    "oil_rise_pct": 38.5
   },
   "sector_performance": {
     "Tech": {
