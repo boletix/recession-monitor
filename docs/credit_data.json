@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-22T23:18:09.672046Z",
+  "timestamp": "2026-06-23T23:07:55.148816Z",
   "credit_stress_score": 12,
   "credit_stress_label": "OK",
   "n_danger": 0,
@@ -10,28 +10,28 @@
     "hy_divergence": {
       "status": "OK",
       "diverging": false,
-      "sp500_1m": 0.7,
-      "hyg_1m": 0.6
+      "sp500_1m": -1.0,
+      "hyg_1m": 0.5
     },
     "cds_proxy": {
       "status": "OK"
     },
     "bank_loans": {
       "status": "OK",
-      "bkln_1m": -0.7,
+      "bkln_1m": -0.2,
       "bkln_3m": 0.9,
-      "bkln_drawdown": -1.0
+      "bkln_drawdown": -0.6
     },
     "oil_trigger": {
       "status": "OK",
-      "price": 74.2,
-      "rise_from_low": 34.3,
+      "price": 72.9,
+      "rise_from_low": 32.0,
       "above_100": false
     },
     "financials": {
       "status": "OK",
-      "kre_3m": 14.9,
-      "xlf_3m": 10.0,
+      "kre_3m": 15.3,
+      "xlf_3m": 9.7,
       "insurance_1m": 0
     },
     "tech_debt": {
