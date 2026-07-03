@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-07-02T23:04:45.841341Z",
+  "timestamp": "2026-07-03T23:01:31.071534Z",
   "pain_levels": {
     "vix35": {
       "label": "VIX > 35",
-      "value": 16.15,
+      "value": 15.81,
       "threshold": 35,
       "active": false
     },
@@ -33,7 +33,7 @@
     },
     "oil100": {
       "label": "Petr\u00f3leo > $100",
-      "value": 68.49,
+      "value": 68.78,
       "threshold": 100,
       "active": false
     }
@@ -45,9 +45,9 @@
   "credit_composite": 0.0,
   "credit_label": "OK",
   "metrics": {
-    "vix": 16.1,
-    "oil": 68.5,
-    "dxy": 100.8,
+    "vix": 15.8,
+    "oil": 68.8,
+    "dxy": 100.9,
     "bond_30y": 4.98,
     "sox_vs_200dma": 50.6
   },

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-02T23:04:45.841341Z",
+  "timestamp": "2026-07-03T23:01:31.071534Z",
   "credit_stress_score": 12,
   "credit_stress_label": "OK",
   "n_danger": 0,
@@ -24,8 +24,8 @@
     },
     "oil_trigger": {
       "status": "OK",
-      "price": 68.5,
-      "rise_from_low": 23.9,
+      "price": 68.8,
+      "rise_from_low": 24.4,
       "above_100": false
     },
     "financials": {

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-02T23:04:45.841341Z",
+  "timestamp": "2026-07-03T23:01:31.071534Z",
   "composite_score": 0.376,
   "risk_label": "MODERADO",
   "risk_color": "#ffd93d",
@@ -18,18 +18,18 @@
   "metrics": {
     "sp500": 745.0,
     "sp500_drawdown": -1.7,
-    "vix": 16.1,
-    "oil": 68.5,
+    "vix": 15.8,
+    "oil": 68.8,
     "bond_30y": 4.98,
     "yield_curve": 0.35,
     "yield_curve_10y3m": 0.67,
     "pct_above_200": null,
     "mcclellan": 24.3,
-    "dxy": 100.8,
+    "dxy": 100.9,
     "sox_vs_200dma": 50.6,
     "sahm_rule": 0.07,
     "unemployment": 4.2,
-    "oil_rise_pct": 23.9
+    "oil_rise_pct": 24.4
   },
   "sector_performance": {
     "Tech": {
