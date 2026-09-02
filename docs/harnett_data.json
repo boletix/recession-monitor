@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-09-01T23:47:46.181713Z",
+  "timestamp": "2026-09-02T23:51:54.773657Z",
   "pain_levels": {
     "vix35": {
       "label": "VIX > 35",
-      "value": 16.34,
+      "value": 15.2,
       "threshold": 35,
       "active": false
     },
     "spy15dd": {
       "label": "S&P -15% drawdown",
-      "value": -2.07,
+      "value": -1.64,
       "threshold": -15,
       "active": false
     },
@@ -33,7 +33,7 @@
     },
     "oil100": {
       "label": "Petr\u00f3leo > $100",
-      "value": 90.71,
+      "value": 90.62,
       "threshold": 100,
       "active": false
     }
@@ -45,16 +45,16 @@
   "credit_composite": 0.0,
   "credit_label": "OK",
   "metrics": {
-    "vix": 16.3,
-    "oil": 90.7,
-    "dxy": 99.7,
+    "vix": 15.2,
+    "oil": 90.6,
+    "dxy": 99.6,
     "bond_30y": 5.27,
     "sox_vs_200dma": 16.9
   },
   "credit": {
-    "hy_spread_zscore": -2.66,
+    "hy_spread_zscore": -2.62,
     "hy_spread_status": "OK",
-    "banks_3m": 6.9,
+    "banks_3m": 10.0,
     "banks_status": "OK",
     "bank_loans_1m": 1.8,
     "bank_loans_status": "OK",
