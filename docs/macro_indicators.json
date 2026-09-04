@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-03T23:46:41.518032Z",
+  "timestamp": "2026-09-04T23:43:27.055705Z",
   "composite": {
-    "score": 32.2,
+    "score": 29.4,
     "label": "MODERADO",
     "color": "#ffd93d",
     "components": {
@@ -10,7 +10,7 @@
         "weight": 0.08
       },
       "sox_bubble": {
-        "score": 15,
+        "score": 30,
         "weight": 0.09
       },
       "hy_stress": {
@@ -38,7 +38,7 @@
         "weight": 0.08
       },
       "payrolls": {
-        "score": 60,
+        "score": 10,
         "weight": 0.08
       },
       "oil_rise": {
@@ -60,16 +60,16 @@
     }
   },
   "hartnett_live": {
-    "sox_vs_200dma": 16.8,
-    "sox_price": 502.2,
-    "sox_200dma": 430.1,
-    "bond_30y": 5.25,
+    "sox_vs_200dma": 20.5,
+    "sox_price": 519.86,
+    "sox_200dma": 431.28,
+    "bond_30y": 5.24,
     "bond_30y_triggered": true,
-    "oil_price": 91.9,
-    "oil_rise_pct": 66.2,
+    "oil_price": 91.2,
+    "oil_rise_pct": 65.0,
     "oil_trigger_90": false,
-    "vix": 14.3,
-    "dxy": 99.0,
+    "vix": 14.5,
+    "dxy": 99.2,
     "bull_bear_last": 7.6,
     "bull_bear_date": "2026-05-16",
     "bull_bear_triggered": false
@@ -77,8 +77,8 @@
   "market_signals": {
     "vix": {
       "label": "VIX",
-      "value": 14.319999694824219,
-      "value_str": "14.3",
+      "value": 14.529999732971191,
+      "value_str": "14.5",
       "score": 5,
       "status": "OK",
       "color": "#00d68f",
@@ -86,17 +86,17 @@
     },
     "sox_bubble": {
       "label": "SOX vs MM200 (%)",
-      "value": 16.764173122848945,
-      "value_str": "+16.8%",
-      "score": 15,
-      "status": "OK",
-      "color": "#00d68f",
+      "value": 20.538072841804023,
+      "value_str": "+20.5%",
+      "score": 30,
+      "status": "WATCH",
+      "color": "#ffd93d",
       "note": "Hartnett: >30% = burbuja"
     },
     "spy_drawdown": {
       "label": "S&P drawdown 1Y (%)",
-      "value": -0.6054946705264408,
-      "value_str": "-0.6%",
+      "value": -0.9885846651328634,
+      "value_str": "-1.0%",
       "score": 5,
       "status": "OK",
       "color": "#00d68f",
@@ -104,8 +104,8 @@
     },
     "hy_stress": {
       "label": "Estr\u00e9s HY (LQD-HYG 3M)",
-      "value": -2.6220389373669217,
-      "value_str": "-2.62%",
+      "value": -2.4673995211580313,
+      "value_str": "-2.47%",
       "score": 10,
       "status": "OK",
       "color": "#00d68f",
@@ -113,8 +113,8 @@
     },
     "bond_30y": {
       "label": "Bono 30Y (%)",
-      "value": 5.25,
-      "value_str": "5.25%",
+      "value": 5.24,
+      "value_str": "5.24%",
       "score": 80,
       "status": "DANGER",
       "color": "#ff4d4d",
@@ -122,8 +122,8 @@
     },
     "dxy": {
       "label": "DXY (d\u00f3lar)",
-      "value": 99.02899932861328,
-      "value_str": "99.0",
+      "value": 99.15699768066406,
+      "value_str": "99.2",
       "score": 10,
       "status": "OK",
       "color": "#00d68f",
@@ -131,8 +131,8 @@
     },
     "bkln_3m": {
       "label": "Bank Loans BKLN 3M (%)",
-      "value": 2.0371049001694175,
-      "value_str": "2.0%",
+      "value": 2.33590925746352,
+      "value_str": "2.3%",
       "score": 5,
       "status": "OK",
       "color": "#00d68f",
@@ -140,8 +140,8 @@
     },
     "kre_3m": {
       "label": "Bancos regionales KRE 3M (%)",
-      "value": 7.613403884248071,
-      "value_str": "7.6%",
+      "value": 7.895397625900524,
+      "value_str": "7.9%",
       "score": 5,
       "status": "OK",
       "color": "#00d68f",
@@ -149,12 +149,12 @@
     }
   },
   "yield_curve": {
-    "y3m": 3.89,
-    "y2y": 4.34,
-    "y10y": 4.77,
-    "y30y": 5.25,
-    "spread_10y2y": 0.43,
-    "spread_10y3m": 0.88,
+    "y3m": 3.91,
+    "y2y": 4.37,
+    "y10y": 4.78,
+    "y30y": 5.24,
+    "spread_10y2y": 0.41,
+    "spread_10y3m": 0.87,
     "score_10y3m": 10,
     "score_10y2y": 25,
     "inverted_10y3m": false,
@@ -163,8 +163,8 @@
   "labor_market": {
     "sahm_rule": {
       "label": "Sahm Rule",
-      "value": -0.03,
-      "value_str": "-0.03",
+      "value": -0.07,
+      "value_str": "-0.07",
       "score": 5,
       "status": "OK",
       "color": "#00d68f",
@@ -182,11 +182,11 @@
     },
     "payrolls_mom": {
       "label": "N\u00f3minas MoM (miles)",
-      "value": -23.0,
-      "value_str": "-23K",
-      "score": 60,
-      "status": "WARNING",
-      "color": "#ff8c42",
+      "value": 162.0,
+      "value_str": "+162K",
+      "score": 10,
+      "status": "OK",
+      "color": "#00d68f",
       "note": "BLS nonfarm payrolls"
     },
     "initial_claims": {
@@ -200,17 +200,17 @@
     },
     "quits_raw": {
       "label": "JOLTS renuncias (miles)",
-      "value": 793.0,
-      "value_str": "793K",
-      "score": 50,
-      "status": "WARNING",
-      "color": "#ff8c42",
+      "value": 914.0,
+      "value_str": "914K",
+      "score": 10,
+      "status": "OK",
+      "color": "#00d68f",
       "note": "Bajo = trabajadores sin confianza"
     },
     "temp_employment": {
       "label": "Temp employment YoY (%)",
-      "value": 0.43300457060380104,
-      "value_str": "0.4%",
+      "value": 1.4577376877541903,
+      "value_str": "1.5%",
       "score": 15,
       "status": "OK",
       "color": "#00d68f",
@@ -238,8 +238,8 @@
     },
     "oil_rise": {
       "label": "Petr\u00f3leo vs m\u00ednimo 52S (%)",
-      "value": 66.23845936753881,
-      "value_str": "+66%",
+      "value": 65.04432868679237,
+      "value_str": "+65%",
       "score": 55,
       "status": "WARNING",
       "color": "#ff8c42",
@@ -247,8 +247,8 @@
     },
     "oil_price": {
       "label": "Petr\u00f3leo WTI ($)",
-      "value": 91.87999725341797,
-      "value_str": "91.9$",
+      "value": 91.22000122070312,
+      "value_str": "91.2$",
       "score": 35,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -258,11 +258,11 @@
   "nber_coincident": {
     "payrolls_mom": {
       "label": "N\u00f3minas MoM (miles)",
-      "value": -23.0,
-      "value_str": "-23K",
-      "score": 60,
-      "status": "WARNING",
-      "color": "#ff8c42",
+      "value": 162.0,
+      "value_str": "+162K",
+      "score": 10,
+      "status": "OK",
+      "color": "#00d68f",
       "note": "NBER indicator #1"
     },
     "indpro_mom": {
@@ -276,8 +276,8 @@
     },
     "sahm_rule": {
       "label": "Sahm Rule",
-      "value": -0.03,
-      "value_str": "-0.03",
+      "value": -0.07,
+      "value_str": "-0.07",
       "score": 5,
       "status": "OK",
       "color": "#00d68f",
@@ -296,9 +296,9 @@
     "nber_note": "El NBER tarda de media 11 meses en declarar recesi\u00f3n. La Sahm Rule es la se\u00f1al m\u00e1s r\u00e1pida disponible en tiempo real."
   },
   "oil_breakdown": {
-    "price": 91.9,
+    "price": 91.2,
     "52w_low": 55.3,
-    "rise_from_low_pct": 66.2,
+    "rise_from_low_pct": 65.0,
     "recession_trigger_90pct": false,
     "above_100": false
   }
