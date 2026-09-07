@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-09-04T23:43:27.055705Z",
-  "composite_score": 0.294,
+  "timestamp": "2026-09-07T23:59:37.372805Z",
+  "composite_score": 0.302,
   "risk_label": "MODERADO",
   "risk_color": "#ffd93d",
   "active_buy_signals": 1,
@@ -18,8 +18,8 @@
   "metrics": {
     "sp500": 770.0,
     "sp500_drawdown": -1.0,
-    "vix": 14.5,
-    "oil": 91.2,
+    "vix": 15.3,
+    "oil": 92.5,
     "bond_30y": 5.24,
     "yield_curve": 0.41,
     "yield_curve_10y3m": 0.87,
@@ -29,7 +29,7 @@
     "sox_vs_200dma": 20.5,
     "sahm_rule": -0.07,
     "unemployment": 4.1,
-    "oil_rise_pct": 65.0
+    "oil_rise_pct": 67.4
   },
   "sector_performance": {
     "Tech": {
@@ -69,5 +69,5 @@
       "3M": 2.07
     }
   },
-  "composite_recession_score": 29.4
+  "composite_recession_score": 30.2
 }

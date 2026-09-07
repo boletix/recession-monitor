@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-04T23:43:27.055705Z",
+  "timestamp": "2026-09-07T23:59:37.372805Z",
   "pain_levels": {
     "vix35": {
       "label": "VIX > 35",
-      "value": 14.53,
+      "value": 15.3,
       "threshold": 35,
       "active": false
     },
@@ -33,20 +33,20 @@
     },
     "oil100": {
       "label": "Petr\u00f3leo > $100",
-      "value": 91.22,
+      "value": 92.51,
       "threshold": 100,
       "active": false
     }
   },
   "n_pain_active": 1,
-  "harnett_danger": 0.294,
+  "harnett_danger": 0.302,
   "harnett_label": "MODERADO",
   "contrarian_buy": false,
   "credit_composite": 0.0,
   "credit_label": "OK",
   "metrics": {
-    "vix": 14.5,
-    "oil": 91.2,
+    "vix": 15.3,
+    "oil": 92.5,
     "dxy": 99.2,
     "bond_30y": 5.24,
     "sox_vs_200dma": 20.5

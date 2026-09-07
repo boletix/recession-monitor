@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-04T23:43:27.055705Z",
+  "timestamp": "2026-09-07T23:59:37.372805Z",
   "composite": {
-    "score": 29.4,
+    "score": 30.2,
     "label": "MODERADO",
     "color": "#ffd93d",
     "components": {
       "vix": {
-        "score": 5,
+        "score": 15,
         "weight": 0.08
       },
       "sox_bubble": {
@@ -65,10 +65,10 @@
     "sox_200dma": 431.28,
     "bond_30y": 5.24,
     "bond_30y_triggered": true,
-    "oil_price": 91.2,
-    "oil_rise_pct": 65.0,
+    "oil_price": 92.5,
+    "oil_rise_pct": 67.4,
     "oil_trigger_90": false,
-    "vix": 14.5,
+    "vix": 15.3,
     "dxy": 99.2,
     "bull_bear_last": 7.6,
     "bull_bear_date": "2026-05-16",
@@ -77,16 +77,16 @@
   "market_signals": {
     "vix": {
       "label": "VIX",
-      "value": 14.529999732971191,
-      "value_str": "14.5",
-      "score": 5,
+      "value": 15.300000190734863,
+      "value_str": "15.3",
+      "score": 15,
       "status": "OK",
       "color": "#00d68f",
       "note": "Estr\u00e9s mercado \u2014 >35 = p\u00e1nico"
     },
     "sox_bubble": {
       "label": "SOX vs MM200 (%)",
-      "value": 20.538072841804023,
+      "value": 20.538072713864874,
       "value_str": "+20.5%",
       "score": 30,
       "status": "WATCH",
@@ -122,7 +122,7 @@
     },
     "dxy": {
       "label": "DXY (d\u00f3lar)",
-      "value": 99.15699768066406,
+      "value": 99.1760025024414,
       "value_str": "99.2",
       "score": 10,
       "status": "OK",
@@ -238,8 +238,8 @@
     },
     "oil_rise": {
       "label": "Petr\u00f3leo vs m\u00ednimo 52S (%)",
-      "value": 65.04432868679237,
-      "value_str": "+65%",
+      "value": 67.37832706718525,
+      "value_str": "+67%",
       "score": 55,
       "status": "WARNING",
       "color": "#ff8c42",
@@ -247,8 +247,8 @@
     },
     "oil_price": {
       "label": "Petr\u00f3leo WTI ($)",
-      "value": 91.22000122070312,
-      "value_str": "91.2$",
+      "value": 92.51000213623047,
+      "value_str": "92.5$",
       "score": 35,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -296,9 +296,9 @@
     "nber_note": "El NBER tarda de media 11 meses en declarar recesi\u00f3n. La Sahm Rule es la se\u00f1al m\u00e1s r\u00e1pida disponible en tiempo real."
   },
   "oil_breakdown": {
-    "price": 91.2,
+    "price": 92.5,
     "52w_low": 55.3,
-    "rise_from_low_pct": 65.0,
+    "rise_from_low_pct": 67.4,
     "recession_trigger_90pct": false,
     "above_100": false
   }
