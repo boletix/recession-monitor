@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-10T23:43:14.499222Z",
-  "composite_score": 0.28800000000000003,
+  "timestamp": "2026-09-11T23:52:49.196996Z",
+  "composite_score": 0.298,
   "risk_label": "MODERADO",
   "risk_color": "#ffd93d",
-  "active_buy_signals": 2,
+  "active_buy_signals": 1,
   "action": "MANTENER liquidez \u2014 esperar capitulaci\u00f3n",
   "buy_checklist": {
     "VIX > 35 (p\u00e1nico mercado)": false,
@@ -12,62 +12,62 @@
     "Bono 30Y > 5% (bubble killer activo)": true,
     "Sahm Rule activada (\u2265 0.5)": false,
     "HY spreads en estr\u00e9s": false,
-    "Oil > $100": true,
+    "Oil > $100": false,
     "Petr\u00f3leo +90% desde m\u00ednimos 52S": false
   },
   "metrics": {
-    "sp500": 758.0,
-    "sp500_drawdown": -2.6,
-    "vix": 17.8,
-    "oil": 103.8,
-    "bond_30y": 5.37,
-    "yield_curve": 0.39,
-    "yield_curve_10y3m": 0.95,
+    "sp500": 764.0,
+    "sp500_drawdown": -1.7,
+    "vix": 15.8,
+    "oil": 100.0,
+    "bond_30y": 5.35,
+    "yield_curve": 0.33,
+    "yield_curve_10y3m": 0.89,
     "pct_above_200": null,
-    "mcclellan": 9.4,
+    "mcclellan": 6.0,
     "dxy": 99.1,
-    "sox_vs_200dma": 18.9,
+    "sox_vs_200dma": 20.8,
     "sahm_rule": -0.07,
     "unemployment": 4.1,
-    "oil_rise_pct": 87.7
+    "oil_rise_pct": 80.9
   },
   "sector_performance": {
     "Tech": {
-      "1M": -0.47,
-      "3M": 4.99
+      "1M": -0.63,
+      "3M": 2.56
     },
     "Financials": {
-      "1M": -1.61,
-      "3M": 9.27
+      "1M": -1.16,
+      "3M": 9.18
     },
     "Energy": {
-      "1M": 6.56,
-      "3M": 12.27
+      "1M": 6.73,
+      "3M": 14.86
     },
     "Materials": {
-      "1M": -4.66,
-      "3M": 2.72
+      "1M": -3.1,
+      "3M": -0.16
     },
     "Health": {
-      "1M": -1.4,
-      "3M": 8.86
+      "1M": -1.83,
+      "3M": 7.79
     },
     "Utilities": {
-      "1M": -2.54,
-      "3M": -2.75
+      "1M": -3.31,
+      "3M": -3.15
     },
     "Industrials": {
-      "1M": -8.16,
-      "3M": 0.77
+      "1M": -7.27,
+      "3M": -1.35
     },
     "Cons.Disc": {
-      "1M": -6.11,
-      "3M": -1.15
+      "1M": -4.18,
+      "3M": -2.68
     },
     "Cons.Stap": {
-      "1M": -1.89,
-      "3M": -2.13
+      "1M": -2.0,
+      "3M": -1.54
     }
   },
-  "composite_recession_score": 28.8
+  "composite_recession_score": 29.8
 }
