@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-09-15T00:17:25.409380Z",
-  "composite_score": 0.436,
-  "risk_label": "ELEVADO",
+  "timestamp": "2026-09-15T23:57:47.576226Z",
+  "composite_score": 0.301,
+  "risk_label": "MODERADO",
   "risk_color": "#ffd93d",
-  "active_buy_signals": 2,
-  "action": "MANTENER liquidez \u2014 esperar capitulaci\u00f3n",
+  "active_buy_signals": 3,
+  "action": "ACUMULAR por tramos \u2014 condiciones mejorando",
   "buy_checklist": {
     "VIX > 35 (p\u00e1nico mercado)": false,
     "S&P drawdown > 15%": false,
@@ -13,61 +13,61 @@
     "Sahm Rule activada (\u2265 0.5)": false,
     "HY spreads en estr\u00e9s": false,
     "Oil > $100": true,
-    "Petr\u00f3leo +90% desde m\u00ednimos 52S": false
+    "Petr\u00f3leo +90% desde m\u00ednimos 52S": true
   },
   "metrics": {
-    "sp500": NaN,
-    "sp500_drawdown": NaN,
-    "vix": 17.1,
-    "oil": 102.1,
-    "bond_30y": 5.34,
-    "yield_curve": 0.32,
-    "yield_curve_10y3m": 0.86,
+    "sp500": 757.0,
+    "sp500_drawdown": -2.6,
+    "vix": 17.2,
+    "oil": 105.3,
+    "bond_30y": 5.36,
+    "yield_curve": 0.33,
+    "yield_curve_10y3m": 0.89,
     "pct_above_200": null,
-    "mcclellan": NaN,
-    "dxy": 99.5,
-    "sox_vs_200dma": NaN,
+    "mcclellan": 8.6,
+    "dxy": 99.7,
+    "sox_vs_200dma": 13.8,
     "sahm_rule": -0.07,
     "unemployment": 4.1,
-    "oil_rise_pct": 84.8
+    "oil_rise_pct": 90.5
   },
   "sector_performance": {
     "Tech": {
-      "1M": NaN,
-      "3M": NaN
+      "1M": -3.3,
+      "3M": -4.08
     },
     "Financials": {
-      "1M": NaN,
-      "3M": NaN
+      "1M": -2.25,
+      "3M": 6.51
     },
     "Energy": {
-      "1M": NaN,
-      "3M": NaN
+      "1M": 6.49,
+      "3M": 19.54
     },
     "Materials": {
-      "1M": NaN,
-      "3M": NaN
+      "1M": -3.44,
+      "3M": -3.01
     },
     "Health": {
-      "1M": NaN,
-      "3M": NaN
+      "1M": 0.17,
+      "3M": 10.14
     },
     "Utilities": {
-      "1M": NaN,
-      "3M": NaN
+      "1M": -6.75,
+      "3M": -7.05
     },
     "Industrials": {
-      "1M": NaN,
-      "3M": NaN
+      "1M": -9.47,
+      "3M": -5.27
     },
     "Cons.Disc": {
-      "1M": NaN,
-      "3M": NaN
+      "1M": -6.19,
+      "3M": -6.3
     },
     "Cons.Stap": {
-      "1M": NaN,
-      "3M": NaN
+      "1M": -2.74,
+      "3M": -1.37
     }
   },
-  "composite_recession_score": 43.6
+  "composite_recession_score": 30.1
 }
