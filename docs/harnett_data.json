@@ -1,27 +1,27 @@
 {
-  "timestamp": "2026-09-15T23:57:47.576226Z",
+  "timestamp": "2026-09-17T00:05:14.575456Z",
   "pain_levels": {
     "vix35": {
       "label": "VIX > 35",
-      "value": 17.2,
+      "value": 17.71,
       "threshold": 35,
       "active": false
     },
     "spy15dd": {
       "label": "S&P -15% drawdown",
-      "value": -2.63,
+      "value": NaN,
       "threshold": -15,
       "active": false
     },
     "curva_inv": {
       "label": "Curva 10Y-3M invertida",
-      "value": 0.89,
+      "value": 0.87,
       "threshold": 0,
       "active": false
     },
     "bono30y": {
       "label": "30Y Bono > 5%",
-      "value": 5.36,
+      "value": 5.35,
       "threshold": 5.0,
       "active": true
     },
@@ -33,32 +33,32 @@
     },
     "oil100": {
       "label": "Petr\u00f3leo > $100",
-      "value": 105.3,
+      "value": 101.76,
       "threshold": 100,
       "active": true
     }
   },
   "n_pain_active": 2,
-  "harnett_danger": 0.301,
-  "harnett_label": "MODERADO",
+  "harnett_danger": 0.442,
+  "harnett_label": "ELEVADO",
   "contrarian_buy": false,
   "credit_composite": 0.0,
   "credit_label": "OK",
   "metrics": {
-    "vix": 17.2,
-    "oil": 105.3,
-    "dxy": 99.7,
-    "bond_30y": 5.36,
-    "sox_vs_200dma": 13.8
+    "vix": 17.7,
+    "oil": 101.8,
+    "dxy": 100.3,
+    "bond_30y": 5.35,
+    "sox_vs_200dma": NaN
   },
   "credit": {
-    "hy_spread_zscore": -2.56,
+    "hy_spread_zscore": NaN,
     "hy_spread_status": "OK",
-    "banks_3m": 3.1,
+    "banks_3m": NaN,
     "banks_status": "OK",
-    "bank_loans_1m": 2.5,
+    "bank_loans_1m": NaN,
     "bank_loans_status": "OK",
-    "yield_curve": 0.89,
+    "yield_curve": 0.87,
     "yield_curve_status": "OK"
   }
 }
