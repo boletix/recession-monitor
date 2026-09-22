@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-18T23:52:51.788799Z",
-  "composite_score": 0.3,
-  "risk_label": "MODERADO",
+  "timestamp": "2026-09-22T00:35:40.423294Z",
+  "composite_score": 0.434,
+  "risk_label": "ELEVADO",
   "risk_color": "#ffd93d",
   "active_buy_signals": 1,
   "action": "MANTENER liquidez \u2014 esperar capitulaci\u00f3n",
@@ -16,58 +16,58 @@
     "Petr\u00f3leo +90% desde m\u00ednimos 52S": false
   },
   "metrics": {
-    "sp500": 762.0,
-    "sp500_drawdown": -2.1,
-    "vix": 14.8,
-    "oil": 95.5,
-    "bond_30y": 5.34,
-    "yield_curve": 0.25,
-    "yield_curve_10y3m": 0.87,
+    "sp500": NaN,
+    "sp500_drawdown": NaN,
+    "vix": 14.9,
+    "oil": 92.5,
+    "bond_30y": 5.29,
+    "yield_curve": 0.2,
+    "yield_curve_10y3m": 0.79,
     "pct_above_200": null,
-    "mcclellan": -2.2,
-    "dxy": 100.2,
-    "sox_vs_200dma": 20.7,
+    "mcclellan": NaN,
+    "dxy": 100.4,
+    "sox_vs_200dma": NaN,
     "sahm_rule": -0.07,
     "unemployment": 4.1,
-    "oil_rise_pct": 72.7
+    "oil_rise_pct": 67.4
   },
   "sector_performance": {
     "Tech": {
-      "1M": 3.25,
-      "3M": -0.84
+      "1M": NaN,
+      "3M": NaN
     },
     "Financials": {
-      "1M": -2.82,
-      "3M": 4.64
+      "1M": NaN,
+      "3M": NaN
     },
     "Energy": {
-      "1M": 1.15,
-      "3M": 20.46
+      "1M": NaN,
+      "3M": NaN
     },
     "Materials": {
-      "1M": -4.82,
-      "3M": -3.15
+      "1M": NaN,
+      "3M": NaN
     },
     "Health": {
-      "1M": -4.15,
-      "3M": 13.21
+      "1M": NaN,
+      "3M": NaN
     },
     "Utilities": {
-      "1M": -6.63,
-      "3M": -7.59
+      "1M": NaN,
+      "3M": NaN
     },
     "Industrials": {
-      "1M": -6.71,
-      "3M": -5.94
+      "1M": NaN,
+      "3M": NaN
     },
     "Cons.Disc": {
-      "1M": -6.37,
-      "3M": -5.04
+      "1M": NaN,
+      "3M": NaN
     },
     "Cons.Stap": {
-      "1M": -4.32,
-      "3M": 0.09
+      "1M": NaN,
+      "3M": NaN
     }
   },
-  "composite_recession_score": 30.0
+  "composite_recession_score": 43.4
 }
