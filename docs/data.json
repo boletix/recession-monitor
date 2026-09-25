@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-24T00:14:03.072098Z",
+  "timestamp": "2026-09-25T00:16:33.491308Z",
   "composite_score": 0.442,
   "risk_label": "ELEVADO",
   "risk_color": "#ffd93d",
@@ -18,18 +18,18 @@
   "metrics": {
     "sp500": NaN,
     "sp500_drawdown": NaN,
-    "vix": 15.2,
-    "oil": 92.0,
-    "bond_30y": 5.4,
-    "yield_curve": 0.26,
-    "yield_curve_10y3m": 0.92,
+    "vix": 15.7,
+    "oil": 93.9,
+    "bond_30y": 5.47,
+    "yield_curve": 0.31,
+    "yield_curve_10y3m": 0.94,
     "pct_above_200": null,
     "mcclellan": NaN,
-    "dxy": 101.1,
+    "dxy": 101.3,
     "sox_vs_200dma": NaN,
     "sahm_rule": -0.07,
     "unemployment": 4.1,
-    "oil_rise_pct": 66.5
+    "oil_rise_pct": 69.8
   },
   "sector_performance": {
     "Tech": {
