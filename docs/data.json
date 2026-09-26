@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-09-25T00:16:33.491308Z",
-  "composite_score": 0.442,
+  "timestamp": "2026-09-26T00:22:04.934408Z",
+  "composite_score": 0.434,
   "risk_label": "ELEVADO",
   "risk_color": "#ffd93d",
   "active_buy_signals": 1,
@@ -18,18 +18,18 @@
   "metrics": {
     "sp500": NaN,
     "sp500_drawdown": NaN,
-    "vix": 15.7,
-    "oil": 93.9,
-    "bond_30y": 5.47,
-    "yield_curve": 0.31,
-    "yield_curve_10y3m": 0.94,
+    "vix": 14.9,
+    "oil": 92.4,
+    "bond_30y": 5.49,
+    "yield_curve": 0.36,
+    "yield_curve_10y3m": 0.93,
     "pct_above_200": null,
     "mcclellan": NaN,
-    "dxy": 101.3,
+    "dxy": 101.0,
     "sox_vs_200dma": NaN,
     "sahm_rule": -0.07,
     "unemployment": 4.1,
-    "oil_rise_pct": 69.8
+    "oil_rise_pct": 67.3
   },
   "sector_performance": {
     "Tech": {
@@ -69,5 +69,5 @@
       "3M": NaN
     }
   },
-  "composite_recession_score": 44.2
+  "composite_recession_score": 43.4
 }

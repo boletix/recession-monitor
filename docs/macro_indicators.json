@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-09-25T00:16:33.491308Z",
+  "timestamp": "2026-09-26T00:22:04.934408Z",
   "composite": {
-    "score": 44.2,
+    "score": 43.4,
     "label": "ELEVADO",
     "color": "#ffd93d",
     "components": {
       "vix": {
-        "score": 15,
+        "score": 5,
         "weight": 0.08
       },
       "sox_bubble": {
@@ -63,13 +63,13 @@
     "sox_vs_200dma": NaN,
     "sox_price": NaN,
     "sox_200dma": NaN,
-    "bond_30y": 5.47,
+    "bond_30y": 5.49,
     "bond_30y_triggered": true,
-    "oil_price": 93.9,
-    "oil_rise_pct": 69.8,
+    "oil_price": 92.4,
+    "oil_rise_pct": 67.3,
     "oil_trigger_90": false,
-    "vix": 15.7,
-    "dxy": 101.3,
+    "vix": 14.9,
+    "dxy": 101.0,
     "bull_bear_last": 7.6,
     "bull_bear_date": "2026-05-16",
     "bull_bear_triggered": false
@@ -77,9 +77,9 @@
   "market_signals": {
     "vix": {
       "label": "VIX",
-      "value": 15.670000076293945,
-      "value_str": "15.7",
-      "score": 15,
+      "value": 14.869999885559082,
+      "value_str": "14.9",
+      "score": 5,
       "status": "OK",
       "color": "#00d68f",
       "note": "Estr\u00e9s mercado \u2014 >35 = p\u00e1nico"
@@ -113,8 +113,8 @@
     },
     "bond_30y": {
       "label": "Bono 30Y (%)",
-      "value": 5.47,
-      "value_str": "5.47%",
+      "value": 5.49,
+      "value_str": "5.49%",
       "score": 80,
       "status": "DANGER",
       "color": "#ff4d4d",
@@ -122,8 +122,8 @@
     },
     "dxy": {
       "label": "DXY (d\u00f3lar)",
-      "value": 101.28399658203125,
-      "value_str": "101.3",
+      "value": 101.03500366210938,
+      "value_str": "101.0",
       "score": 25,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -150,11 +150,11 @@
   },
   "yield_curve": {
     "y3m": 4.24,
-    "y2y": 4.87,
-    "y10y": 5.18,
-    "y30y": 5.47,
-    "spread_10y2y": 0.31,
-    "spread_10y3m": 0.94,
+    "y2y": 4.81,
+    "y10y": 5.17,
+    "y30y": 5.49,
+    "spread_10y2y": 0.36,
+    "spread_10y3m": 0.93,
     "score_10y3m": 10,
     "score_10y2y": 25,
     "inverted_10y3m": false,
@@ -229,8 +229,8 @@
     },
     "umich_sentiment": {
       "label": "UMich Consumer Sentiment",
-      "value": 55.2,
-      "value_str": "55",
+      "value": 51.7,
+      "value_str": "52",
       "score": 75,
       "status": "DANGER",
       "color": "#ff4d4d",
@@ -238,8 +238,8 @@
     },
     "oil_rise": {
       "label": "Petr\u00f3leo vs m\u00ednimo 52S (%)",
-      "value": 69.82087901750185,
-      "value_str": "+70%",
+      "value": 67.2516766343203,
+      "value_str": "+67%",
       "score": 55,
       "status": "WARNING",
       "color": "#ff8c42",
@@ -247,8 +247,8 @@
     },
     "oil_price": {
       "label": "Petr\u00f3leo WTI ($)",
-      "value": 93.86000061035156,
-      "value_str": "93.9$",
+      "value": 92.44000244140625,
+      "value_str": "92.4$",
       "score": 35,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -296,9 +296,9 @@
     "nber_note": "El NBER tarda de media 11 meses en declarar recesi\u00f3n. La Sahm Rule es la se\u00f1al m\u00e1s r\u00e1pida disponible en tiempo real."
   },
   "oil_breakdown": {
-    "price": 93.9,
+    "price": 92.4,
     "52w_low": 55.3,
-    "rise_from_low_pct": 69.8,
+    "rise_from_low_pct": 67.3,
     "recession_trigger_90pct": false,
     "above_100": false
   }
