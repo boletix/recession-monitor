@@ -1,0 +1,5 @@
+{
+  "_nota": "Datos que no se pueden descargar y se actualizan a mano. Cambia el valor y la fecha; el panel avisa cuando un dato tiene más de 45 días.",
+  "bull_bear": { "value": 7.6, "date": "2026-05-16", "sell_signal": 8.0, "source": "BofA Global Research (Hartnett)" },
+  "materials_weight_sp500": { "value": 2.0, "date": "2026-05-09", "source": "Hartnett, «Living in a Material World»" }
+}

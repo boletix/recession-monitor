@@ -2,39 +2,56 @@ name: Update Recession Monitor
 
 on:
   schedule:
-    - cron: '0 22 * * 1-5'   # Mon-Fri 22:00 UTC (NYSE close + 2h)
-  workflow_dispatch:           # manual trigger button
+    # GitHub retrasa los cron 1-3 h en horas punta. 21:15 UTC deja margen
+    # tras el cierre de Nueva York (20:00 UTC en horario de verano de EE. UU.).
+    - cron: '15 21 * * 1-5'
+  workflow_dispatch:
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: write
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: pip
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run unified data fetcher (v3)
+      - name: Fetch data (v4)
         run: python scripts/update_data.py
         env:
-          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}   # opcional — activa Sahm oficial, UMich, savings rate
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
 
-      - name: Show generated files
-        run: ls -la docs/*.json
+      # Si el JSON no es estricto (NaN, Infinity) el job falla y la web
+      # conserva el último dato bueno en lugar de quedarse en blanco.
+      - name: Validate JSON
+        run: |
+          python - <<'PY'
+          import json, sys
+          def bad(x): raise ValueError(f'constante no válida en JSON: {x}')
+          for f in ['docs/dashboard.json', 'docs/history.json', 'docs/manual.json']:
+              json.load(open(f, encoding='utf-8'), parse_constant=bad)
+              print('ok', f)
+          d = json.load(open('docs/dashboard.json', encoding='utf-8'))
+          print('score', d['composite']['score'], 'cobertura', d['composite']['coverage'])
+          PY
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/
+          git add docs/dashboard.json docs/history.json
           git diff --staged --quiet || git commit -m "chore: update data $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push

@@ -3,1169 +3,576 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Recession & Harnett Monitor</title>
+<title>Recession Monitor</title>
+<meta name="description" content="Riesgo de recesión en EE. UU.: score compuesto de mercados, crédito, empleo y consumo, actualizado cada día hábil.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;600;700&display=swap');
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0a12; color: #e0e0e0; font-family: 'Inter', sans-serif; }
-  .header { background: linear-gradient(135deg, #0f0f1a, #141428); border-bottom: 1px solid #1e1e2f; padding: 16px 24px; }
-  .header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; flex-wrap: wrap; gap: 12px; }
-  .header h1 { font-size: 20px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: #00d68f; }
-  .header .sub { font-size: 11px; color: #6b7280; margin-top: 2px; }
-  .container { max-width: 1400px; margin: 0 auto; padding: 20px 24px; }
-  .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
-  .tab { padding: 6px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 12px; font-weight: 600; background: #1e1e2f; color: #8892a4; transition: all 0.2s; }
-  .tab.active { background: #00d68f; color: #0a0a12; }
-  .tab.harnett.active { background: #ff8c42; color: #0a0a12; }
-  .card { background: #13131f; border-radius: 12px; padding: 20px; border: 1px solid #1e1e2f; margin-bottom: 20px; }
-  .grid-2 { display: grid; grid-template-columns: 280px 1fr; gap: 20px; margin-bottom: 20px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .grid-2-eq { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-  .metric { background: #13131f; border-radius: 8px; padding: 12px 16px; border: 1px solid #1a1a2a; position: relative; overflow: hidden; }
-  .metric .bar { position: absolute; top: 0; left: 0; width: 3px; height: 100%; border-radius: 8px 0 0 8px; }
-  .metric .label { font-size: 10px; color: #6b7280; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px; }
-  .metric .value { font-size: 22px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
-  .metric .suffix { font-size: 12px; color: #6b7280; margin-left: 2px; }
-  .green { color: #00d68f; } .yellow { color: #ffd93d; } .red { color: #ff4d4d; } .orange { color: #ff8c42; } .neutral { color: #8892a4; }
-  .bar-green { background: #00d68f; } .bar-yellow { background: #ffd93d; } .bar-red { background: #ff4d4d; } .bar-orange { background: #ff8c42; } .bar-neutral { background: #8892a4; }
-  .gauge-container { text-align: center; padding: 20px 10px; }
-  .gauge-score { font-size: 48px; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
-  .gauge-label { font-size: 16px; font-weight: 700; margin-top: 4px; }
-  .gauge-sub { font-size: 11px; color: #6b7280; margin-top: 8px; }
-  .action-box { text-align: center; padding: 10px 16px; margin: 12px; border-radius: 6px; font-size: 11px; font-weight: 700; }
-  .checklist-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #1e1e2f; }
-  .checklist-dot { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
-  .checklist-dot.active { background: #00d68f22; border: 2px solid #00d68f; color: #00d68f; }
-  .checklist-dot.inactive { background: #1e1e2f; border: 2px solid #3a3a4a; color: transparent; }
-  .sector-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 12px; }
-  .sector-name { width: 100px; color: #8892a4; text-align: right; flex-shrink: 0; }
-  .sector-bar-container { flex: 1; height: 18px; position: relative; }
-  .sector-bar { height: 100%; border-radius: 3px; position: absolute; top: 0; }
-  .sector-val { width: 50px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; }
-  .pain-card { background: #13131f; border-radius: 12px; padding: 20px; text-align: center; position: relative; overflow: hidden; }
-  .pain-card.active { border: 2px solid #ff4d4d; }
-  .pain-card.inactive { border: 1px solid #1e1e2f; }
-  .pain-value { font-size: 36px; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
-  .pain-label { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
-  .pain-threshold { font-size: 11px; color: #6b7280; }
-  .pain-status { font-size: 13px; font-weight: 700; margin-top: 8px; }
-  .trade-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1e1e2f; }
-  .trade-name { font-weight: 700; font-size: 13px; }
-  .trade-detail { font-size: 11px; color: #6b7280; }
-  .trade-badge { padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; }
-  .img-container { text-align: center; }
-  .img-container img { max-width: 100%; height: auto; border-radius: 12px; border: 1px solid #1e1e2f; }
-  .footer { text-align: center; padding: 16px; font-size: 10px; color: #3a3a4a; margin-top: 20px; }
-  .loading { text-align: center; padding: 60px; color: #6b7280; font-size: 14px; }
-  .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
-  .credit-bar { height: 8px; border-radius: 4px; background: #1e1e2f; overflow: hidden; margin-top: 6px; }
-  .credit-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
-
-  .ind-table { width:100%; border-collapse:collapse; }
-  .ind-table tr { border-bottom:1px solid #1e1e2f; }
-  .ind-table tr:last-child { border-bottom:none; }
-  .ind-table td { padding:8px 6px; font-size:12px; vertical-align:middle; }
-  .ind-table .ind-name { color:#e0e0e0; font-weight:500; }
-  .ind-table .ind-val  { font-family:'JetBrains Mono',monospace; font-weight:700; text-align:right; }
-  .ind-table .ind-note { color:#6b7280; font-size:10px; }
-  .ind-badge { display:inline-block; font-size:9px; padding:1px 6px; border-radius:3px; font-weight:700; letter-spacing:.5px; }
-  .composite-ring { width:120px; height:120px; border-radius:50%; margin:0 auto; display:flex; align-items:center; justify-content:center; flex-direction:column; position:relative; }
-  .score-arc { width:100%;height:100%;border-radius:50%; }
-  .sahm-card { padding:16px; border-radius:10px; margin-bottom:16px; }
-  .ind-section { margin-bottom:18px; }
-  .ind-section-title { font-size:11px; color:#6b7280; text-transform:uppercase; letter-spacing:1.2px; margin-bottom:8px; border-bottom:1px solid #1e1e2f; padding-bottom:4px; display:flex; justify-content:space-between; align-items:center; }
-  .lead-badge { font-size:9px; padding:1px 6px; border-radius:3px; background:#1e1e2f; color:#6b7280; }
-  .score-bar-wrap { background:#1a1a2a; border-radius:4px; height:6px; overflow:hidden; margin-top:4px; }
-  .score-bar-fill { height:100%; border-radius:4px; transition:width .8s ease; }
-  .hartnett-kpi { text-align:center; padding:14px; background:#13131f; border-radius:10px; }
-  .hartnett-kpi .kv { font-size:32px; font-weight:800; font-family:'JetBrains Mono',monospace; margin:4px 0; }
-  .hartnett-kpi .kl { font-size:10px; color:#6b7280; text-transform:uppercase; letter-spacing:1px; }
-  .hartnett-kpi .ks { font-size:10px; font-weight:700; margin-top:4px; }
-
-  @media (max-width: 900px) {
-    .grid-2 { grid-template-columns: 1fr; }
-    .grid-4 { grid-template-columns: repeat(2, 1fr); }
-    .grid-2-eq { grid-template-columns: 1fr; }
+:root {
+  color-scheme: dark;
+  --page: #0d0d0d; --surface: #1a1a19; --surface-2: #222220;
+  --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
+  --series: #3987e5; --series-soft: rgba(57,135,229,0.16);
+  --neg: #e66767;
+  --good: #0ca30c; --warning: #fab219; --serious: #ec835a; --critical: #d03b3b;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --surface-2: #f0efec;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10);
+    --series: #2a78d6; --series-soft: rgba(42,120,214,0.12);
+    --neg: #e34948;
   }
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --page: #f9f9f7; --surface: #fcfcfb; --surface-2: #f0efec;
+  --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10);
+  --series: #2a78d6; --series-soft: rgba(42,120,214,0.12);
+  --neg: #e34948;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--page); color: var(--ink); font: 14px/1.5 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+header { border-bottom: 1px solid var(--border); background: var(--surface); position: sticky; top: 0; z-index: 10; }
+.head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 12px 0; }
+.brand { font-weight: 700; font-size: 16px; letter-spacing: -0.01em; }
+.brand small { display: block; font-weight: 500; font-size: 12px; color: var(--muted); }
+.fresh { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--ink-2); }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2); font-size: 12px; white-space: nowrap; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+button.theme { background: none; border: 1px solid var(--border); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; cursor: pointer; font: inherit; font-size: 12px; }
+nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+nav button { background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); font: inherit; font-weight: 600; font-size: 13px; padding: 10px 12px; cursor: pointer; white-space: nowrap; }
+nav button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--series); }
+main { padding: 20px 0 40px; }
+section[hidden] { display: none; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; min-width: 0; }
+.card h2 { font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.card h2 .hint { font-weight: 400; color: var(--muted); font-size: 12px; }
+.grid { display: grid; gap: 16px; }
+.g-hero { grid-template-columns: minmax(260px, 340px) 1fr; }
+.g-2 { grid-template-columns: 1fr 1fr; }
+.g-3 { grid-template-columns: repeat(3, 1fr); }
+.mt { margin-top: 16px; }
+@media (max-width: 900px) { .g-hero, .g-2, .g-3 { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { header { position: static; } .fresh { margin-left: 0; } .hero-num { font-size: 52px; } }
+
+.banner { border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 13px; border: 1px solid; display: flex; gap: 10px; align-items: flex-start; }
+.banner b { font-weight: 700; }
+.banner.warn { border-color: color-mix(in srgb, var(--warning) 50%, transparent); background: color-mix(in srgb, var(--warning) 10%, transparent); }
+.banner.bad { border-color: color-mix(in srgb, var(--critical) 50%, transparent); background: color-mix(in srgb, var(--critical) 10%, transparent); }
+
+.hero-num { font: 700 64px/1 var(--mono); letter-spacing: -0.03em; }
+.hero-num small { font-size: 20px; color: var(--muted); font-weight: 500; }
+.hero-label { font-weight: 700; font-size: 15px; margin-top: 6px; display: flex; align-items: center; gap: 8px; }
+.scale { position: relative; height: 10px; border-radius: 5px; margin: 18px 0 4px; display: flex; gap: 2px; }
+.scale span { height: 100%; border-radius: 3px; opacity: .85; }
+.scale .needle { position: absolute; top: -5px; width: 3px; height: 20px; background: var(--ink); border-radius: 2px; transform: translateX(-50%); box-shadow: 0 0 0 2px var(--surface); }
+.scale-lbl { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
+.deltas { display: flex; gap: 16px; margin-top: 14px; font-size: 12px; color: var(--ink-2); flex-wrap: wrap; }
+.deltas b { font-family: var(--mono); color: var(--ink); }
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+.pillar { background: var(--surface-2); border-radius: 8px; padding: 8px 10px; }
+.pillar .k { font-size: 11px; color: var(--muted); }
+.pillar .v { font: 700 20px var(--mono); }
+.pillar .w { font-size: 10px; color: var(--muted); }
+.cov { font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+.status { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
+.status i { font-style: normal; width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 10px; color: #0b0b0b; }
+
+.list { display: grid; gap: 2px; }
+.row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--grid); font-size: 13px; }
+.row:last-child { border-bottom: 0; }
+.row .name { flex: 1; min-width: 0; }
+.row .name small { display: block; color: var(--muted); font-size: 11px; }
+.row .val { font: 600 13px var(--mono); text-align: right; white-space: nowrap; }
+.check { width: 20px; height: 20px; border-radius: 6px; display: grid; place-items: center; font-size: 12px; font-weight: 700; flex-shrink: 0; border: 1.5px solid var(--axis); color: var(--muted); }
+.check.on { border-color: var(--good); background: color-mix(in srgb, var(--good) 18%, transparent); color: var(--good); }
+.action { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: var(--surface-2); font-weight: 600; font-size: 13px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-size: 11px; font-weight: 600; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--axis); white-space: nowrap; }
+td { padding: 9px 8px; border-bottom: 1px solid var(--grid); vertical-align: middle; }
+td.num, th.num { text-align: right; font-family: var(--mono); white-space: nowrap; }
+tr.group td { font-size: 11px; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; padding-top: 18px; border-bottom: 1px solid var(--axis); }
+td .sub { display: block; font-size: 11px; color: var(--muted); }
+.sbar { width: 70px; height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 6px; }
+.sbar span { display: block; height: 100%; border-radius: 3px; }
+.stale { color: var(--warning); font-weight: 600; }
+.tscroll { overflow-x: auto; }
+@media (max-width: 700px) { .hide-sm { display: none; } }
+
+.chart { position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { fill: var(--muted); font: 10px Inter, sans-serif; }
+.chart .lbl { fill: var(--ink-2); font-weight: 600; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 9px; font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,.25); white-space: nowrap; opacity: 0; transition: opacity .08s; z-index: 5; }
+.tip b { font-family: var(--mono); }
+.tip .d { color: var(--muted); font-size: 11px; }
+.small-title { font-size: 13px; font-weight: 600; display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.small-title .now { font: 700 15px var(--mono); }
+.small-sub { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.seg button { background: none; border: 0; padding: 4px 10px; font: inherit; font-size: 12px; color: var(--muted); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface-2); color: var(--ink); font-weight: 600; }
+
+.thesis { display: grid; gap: 10px; }
+.claim { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 12px; border-radius: 10px; background: var(--surface-2); }
+.claim .c { font-weight: 600; }
+.claim .n { grid-column: 1 / -1; font-size: 12px; color: var(--ink-2); }
+.prose { font-size: 13px; color: var(--ink-2); line-height: 1.7; }
+.prose li { margin-left: 18px; }
+.prose b { color: var(--ink); }
+.tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); }
+footer { font-size: 12px; color: var(--muted); padding: 20px 0 30px; border-top: 1px solid var(--border); }
+footer a { color: var(--series); }
+.loading { padding: 80px 0; text-align: center; color: var(--muted); }
 </style>
 </head>
 <body>
-
-<div class="header">
-  <div class="header-inner">
-    <div>
-      <h1>&#9673; RECESSION & HARNETT MONITOR</h1>
-      <div class="sub">Carpatos x Harnett x Roger's Framework — Hartnett May'26 actualizado &mdash; <span id="date-display"></span></div>
+<header>
+  <div class="wrap">
+    <div class="head">
+      <div class="brand">Recession Monitor<small>EE. UU. · mercados, crédito, empleo y consumo</small></div>
+      <div class="fresh" id="fresh"></div>
+      <button class="theme" id="themeBtn" type="button" aria-label="Cambiar tema">◐ Tema</button>
     </div>
-    <div class="tabs">
-      <button class="tab active" onclick="showTab('dashboard',this)">Recession</button>
-      <button class="tab harnett" onclick="showTab('harnett',this)">Harnett Pain</button>
-      <button class="tab" style="background:#ff4d4d22;color:#ff8c42;border:1px solid #ff4d4d44;" onclick="showTab('hartnett26',this)">🔴 Hartnett May'26</button>
-      <button class="tab" onclick="showTab('indicadores',this)">📊 Indicadores</button>
-      <button class="tab" onclick="showTab('charts',this)">Charts</button>
-      <button class="tab" onclick="showTab('credit',this)">Credit Stress</button>
-      <button class="tab" onclick="showTab('scenarios',this)">Escenarios</button>
-    </div>
+    <nav role="tablist" id="tabs">
+      <button role="tab" data-tab="resumen" aria-selected="true">Resumen</button>
+      <button role="tab" data-tab="indicadores" aria-selected="false">Indicadores</button>
+      <button role="tab" data-tab="graficos" aria-selected="false">Gráficos</button>
+      <button role="tab" data-tab="curva" aria-selected="false">Curva y sectores</button>
+      <button role="tab" data-tab="tesis" aria-selected="false">Tesis Hartnett</button>
+      <button role="tab" data-tab="metodo" aria-selected="false">Método</button>
+    </nav>
   </div>
-</div>
+</header>
 
-<div class="container">
-  <div id="loading" class="loading">Cargando datos...</div>
+<main class="wrap">
+  <div id="banners"></div>
+  <div id="loading" class="loading">Cargando datos…</div>
 
-  <!-- ═══ RECESSION TAB ═══ -->
-  <div id="tab-dashboard" style="display:none;">
-
-    <!-- Composite score banner -->
-    <div id="composite-banner" style="display:none;background:#13131f;border-radius:10px;padding:14px 20px;margin-bottom:16px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;border:1px solid #1e1e2f;">
-      <div style="text-align:center;min-width:80px;">
-        <div style="font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:1px;">Score Recesión</div>
-        <div id="comp-score-main" style="font-size:36px;font-weight:800;font-family:'JetBrains Mono',monospace;">--</div>
-        <div id="comp-label-main" style="font-size:11px;font-weight:700;">--</div>
-      </div>
-      <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;" id="comp-pillars"></div>
-    </div>
-
-    <div class="grid-2">
+  <!-- ═══ RESUMEN ═══ -->
+  <section id="tab-resumen" hidden>
+    <div class="grid g-hero">
       <div class="card">
-        <div class="gauge-container">
-          <div class="gauge-score" id="r-score">--</div>
-          <div class="gauge-label" id="r-label">--</div>
-          <div class="gauge-sub">RECESSION RISK SCORE</div>
-        </div>
-        <div class="gauge-sub" style="text-align:center" id="r-buysignals"></div>
-        <div class="action-box" id="r-action">--</div>
-      </div>
-      <div class="grid-4" id="r-metrics"></div>
-    </div>
-    <div class="grid-2-eq">
-      <div class="card">
-        <h3 style="font-size:14px;color:#8892a4;margin-bottom:16px;">Checklist de Compra (Carpatos / Harnett)</h3>
-        <div id="r-checklist"></div>
-        <div style="margin-top:12px;padding:10px;border-radius:6px;background:#0a0a12;text-align:center;font-size:11px;color:#6b7280;">
-          Comprar cuando 3+ senales activas simultaneamente
-        </div>
+        <h2>Score de riesgo de recesión <span class="hint">0 = calma · 100 = crisis</span></h2>
+        <div class="hero-num" id="heroNum">–</div>
+        <div class="hero-label" id="heroLabel"></div>
+        <div class="scale" id="scale"></div>
+        <div class="scale-lbl"><span>0</span><span>20</span><span>40</span><span>55</span><span>70</span><span>85</span><span>100</span></div>
+        <div class="deltas" id="deltas"></div>
+        <div class="pillars" id="pillars"></div>
+        <div class="cov" id="coverage"></div>
       </div>
       <div class="card">
-        <h3 style="font-size:14px;color:#8892a4;margin-bottom:16px;">Rendimiento Sectorial (1M %)</h3>
-        <div id="r-sectors"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ HARNETT TAB ═══ -->
-  <div id="tab-harnett" style="display:none;">
-
-    <!-- Live Hartnett signals -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;" id="h-live-kpis"></div>
-
-    <!-- Pain Levels -->
-    <div class="grid-4" id="h-pain" style="margin-bottom:20px;"></div>
-
-    <!-- Composite Status -->
-    <div class="grid-2-eq">
-      <div class="card">
-        <h3 style="font-size:14px;color:#ff8c42;margin-bottom:16px;">Harnett Danger Score</h3>
-        <div style="text-align:center;">
-          <div id="h-danger-score" style="font-size:48px;font-weight:800;font-family:'JetBrains Mono',monospace;">--</div>
-          <div id="h-danger-label" style="font-size:16px;font-weight:700;margin-top:4px;">--</div>
-        </div>
-        <div style="margin-top:16px;">
-          <div style="display:flex;justify-content:space-between;font-size:11px;color:#6b7280;margin-bottom:4px;">
-            <span>Credit Stress</span><span id="h-credit-val">--</span>
-          </div>
-          <div class="credit-bar"><div class="credit-fill" id="h-credit-bar" style="width:0%;background:#6b7280;"></div></div>
-        </div>
-        <div style="margin-top:14px;padding:12px;border-radius:8px;background:#0a0a12;">
-          <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">2008 PARALLEL (Oil masking credit crisis)</div>
-          <div id="h-2008" style="font-size:13px;font-weight:700;">--</div>
-        </div>
-        <div style="margin-top:14px;padding:12px;border-radius:8px;" id="h-contrarian-box">
-          <div style="font-size:11px;margin-bottom:4px;">CONTRARIAN BUY SIGNAL</div>
-          <div id="h-contrarian" style="font-size:14px;font-weight:700;">--</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3 style="font-size:14px;color:#ff8c42;margin-bottom:16px;">Harnett Trade Recommendations</h3>
-        <div id="h-trades"></div>
+        <h2>Evolución del score <span class="hint" id="histHint"></span></h2>
+        <div class="chart" id="histChart"></div>
       </div>
     </div>
 
-    <!-- Credit Details -->
+    <div class="grid g-2 mt">
+      <div class="card">
+        <h2>Qué empuja el score <span class="hint">indicadores en alerta o peligro</span></h2>
+        <div class="list" id="drivers"></div>
+      </div>
+      <div class="card">
+        <h2>Umbrales de capitulación <span class="hint" id="painHint"></span></h2>
+        <div class="list" id="pain"></div>
+        <div class="action" id="action"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ INDICADORES ═══ -->
+  <section id="tab-indicadores" hidden>
     <div class="card">
-      <h3 style="font-size:14px;color:#8892a4;margin-bottom:16px;">Credit Market Health (key Harnett indicator)</h3>
-      <div class="grid-4" id="h-credit-details"></div>
+      <h2>Todos los indicadores <span class="hint">«Peso» = cuánto cuenta en el score; sin peso = solo informativo</span></h2>
+      <div class="tscroll"><table id="indTable"></table></div>
     </div>
-  </div>
+  </section>
 
-  <!-- ═══ CREDIT STRESS TAB ═══ -->
-  <div id="tab-credit" style="display:none;">
-    <div class="grid-2-eq" style="margin-bottom:20px;">
+  <!-- ═══ GRÁFICOS ═══ -->
+  <section id="tab-graficos" hidden>
+    <div class="grid g-3" id="smalls"></div>
+  </section>
+
+  <!-- ═══ CURVA Y SECTORES ═══ -->
+  <section id="tab-curva" hidden>
+    <div class="grid g-2">
       <div class="card">
-        <div style="text-align:center;">
-          <div style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:1.2px;">Credit Stress Score</div>
-          <div id="c-score" style="font-size:48px;font-weight:800;font-family:'JetBrains Mono',monospace;">--</div>
-          <div id="c-label" style="font-size:16px;font-weight:700;">--</div>
-          <div style="margin-top:12px;font-size:12px;color:#6b7280;" id="c-counts">--</div>
-        </div>
-        <div style="margin-top:16px;padding:14px;border-radius:8px;background:#0a0a12;">
-          <div style="font-size:11px;color:#ff4d4d;font-weight:700;margin-bottom:6px;">2008 PARALLEL (Oil masking credit crisis)</div>
-          <div id="c-2008" style="font-size:13px;font-weight:700;">--</div>
-          <div style="font-size:11px;color:#6b7280;margin-top:8px;">Triggers: HY diverging from equities + Oil above 100 + Credit spreads widening</div>
-        </div>
+        <h2>Curva del Tesoro <span class="hint" id="curveHint"></span></h2>
+        <div class="chart" id="curveChart"></div>
+        <div class="deltas" id="curveSpreads"></div>
       </div>
       <div class="card">
-        <h3 style="font-size:14px;color:#ff4d4d;margin-bottom:16px;">6 Credit Signals</h3>
-        <div id="c-signals"></div>
+        <h2>Sectores del S&amp;P 500
+          <span class="seg" id="secSeg"><button data-p="1M" aria-pressed="false">1M</button><button data-p="3M" aria-pressed="true">3M</button><button data-p="12M" aria-pressed="false">12M</button></span>
+        </h2>
+        <div class="chart" id="secChart"></div>
       </div>
     </div>
+  </section>
 
-    <div class="card">
-      <h3 style="font-size:14px;color:#8892a4;margin-bottom:16px;">Signal Details</h3>
-      <div class="grid-2-eq" id="c-details"></div>
-    </div>
-
-    <div class="card" style="margin-top:20px;">
-      <h3 style="font-size:14px;color:#8892a4;margin-bottom:16px;">Key Context (Harnett/Carpatos)</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:12px;color:#8892a4;line-height:1.8;">
-        <div>
-          <div style="color:#ff4d4d;font-weight:700;margin-bottom:8px;">What to watch</div>
-          <ul style="padding-left:16px;">
-            <li><strong style="color:#e0e0e0">HY bonds not rebounding</strong> with equities = credit deterioration under surface</li>
-            <li><strong style="color:#e0e0e0">Banks creating CDS indices</strong> for private credit = positioning short (2008 playbook)</li>
-            <li><strong style="color:#e0e0e0">Mass redemptions</strong> in private credit funds (Blue Owl: 41% requested out)</li>
-            <li><strong style="color:#e0e0e0">Fed investigating</strong> bank exposure to private credit = systemic concern</li>
-          </ul>
-        </div>
-        <div>
-          <div style="color:#ffd93d;font-weight:700;margin-bottom:8px;">Structural risks</div>
-          <ul style="padding-left:16px;">
-            <li><strong style="color:#e0e0e0">130B tech debt wall</strong> maturing by 2028 - AI-disrupted software companies may not refinance</li>
-            <li><strong style="color:#e0e0e0">Oil 90%+ rise</strong> from lows historically precedes recession</li>
-            <li><strong style="color:#e0e0e0">No safety net:</strong> flat fiscal spending, low private savings, weak employment</li>
-            <li><strong style="color:#e0e0e0">Insurance exposure:</strong> private credit = 35% of insurer portfolios</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:20px;">
-      <h3 style="font-size:14px;color:#ff4d4d;margin-bottom:16px;">Credit Monitor Chart</h3>
-      <div class="img-container">
-        <img src="credit_monitor.png" alt="Credit Monitor" onerror="this.parentElement.innerHTML='<p style=color:#6b7280>Chart not yet generated. Run workflow first.</p>'">
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ CHARTS TAB ═══ -->
-  <div id="tab-charts" style="display:none;">
-    <div class="card">
-      <h3 style="font-size:14px;color:#8892a4;margin-bottom:16px;">Recession Monitor Dashboard</h3>
-      <div class="img-container">
-        <img src="recession_monitor_dashboard.png" alt="Recession Monitor"
-             onerror="this.parentElement.innerHTML='<p style=color:#6b7280>PNG not yet generated.</p>'">
-      </div>
-    </div>
-    <div class="card" style="margin-top:20px;">
-      <h3 style="font-size:14px;color:#ff8c42;margin-bottom:16px;">Harnett Pain Levels Dashboard</h3>
-      <div class="img-container">
-        <img src="harnett_monitor.png" alt="Harnett Monitor"
-             onerror="this.parentElement.innerHTML='<p style=color:#6b7280>PNG not yet generated.</p>'">
-      </div>
-    </div>
-  </div>
-
-<!-- ═══ HARTNETT MAY26 TAB ═══ -->
-  <div id="tab-hartnett26" style="display:none;">
-
-    <!-- ALERT BANNER -->
-    <div style="background:#ff4d4d15;border:1px solid #ff4d4d55;border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;">
-      <div style="font-size:28px;">⚠️</div>
-      <div>
-        <div style="font-size:13px;font-weight:800;color:#ff4d4d;letter-spacing:1px;">ALERTA HARTNETT — MAYO 2026</div>
-        <div style="font-size:12px;color:#e0e0e0;margin-top:4px;">
-          Bull &amp; Bear en <strong style="color:#ff8c42;">7.6 / 8.0</strong> — Señal de venta a 8.0. 
-          Predicción de <strong style="color:#ff4d4d;">techo de mercado en junio 2026</strong>. 
-          SOX <strong style="color:#ff4d4d;">62% sobre su media de 200 sesiones</strong> — sólo visto en Mississippi 1720 y Japón 1989.
-        </div>
-      </div>
-    </div>
-
-    <!-- TOP KPIs -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;">
-
-      <!-- Bull & Bear -->
-      <div style="background:#13131f;border-radius:12px;padding:18px;border:2px solid #ff4d4d55;text-align:center;">
-        <div style="font-size:10px;color:#ff8c42;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;">Bull &amp; Bear (BofA)</div>
-        <div id="h26-bull-bear" style="font-size:44px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#ff8c42;">7.6</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0;">Señal de VENTA en <strong style="color:#ff4d4d;">8.0</strong></div>
-        <!-- progress bar -->
-        <div style="background:#1e1e2f;border-radius:4px;height:8px;margin-top:10px;overflow:hidden;">
-          <div style="width:95%;height:100%;background:linear-gradient(90deg,#00d68f,#ffd93d,#ff8c42,#ff4d4d);border-radius:4px;"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:9px;color:#6b7280;margin-top:3px;"><span>0</span><span style="color:#ff4d4d;font-weight:700;">8▲</span><span>10</span></div>
-        <div style="margin-top:8px;font-size:10px;font-weight:700;color:#ff4d4d;background:#ff4d4d15;padding:3px 8px;border-radius:4px;">CAPITULACIÓN ALCISTA INMINENTE</div>
-      </div>
-
-      <!-- SOX Bubble -->
-      <div style="background:#13131f;border-radius:12px;padding:18px;border:2px solid #ff4d4d55;text-align:center;">
-        <div style="font-size:10px;color:#ff8c42;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;">SOX vs Media 200 sesiones</div>
-        <div id="h26-sox" style="font-size:44px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#ff4d4d;">--</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0;">Sólo visto en <strong style="color:#ff4d4d;">1720</strong> y <strong style="color:#ff4d4d;">1989</strong></div>
-        <div style="margin-top:10px;font-size:10px;font-weight:700;color:#ff4d4d;background:#ff4d4d15;padding:3px 8px;border-radius:4px;">⚡ BURBUJA EN SEMICONDUCTORES</div>
-        <div style="margin-top:6px;font-size:9px;color:#6b7280;">Mississippi 1720 / Japón 1989 parallel</div>
-      </div>
-
-      <!-- Materials vs S&P -->
-      <div style="background:#13131f;border-radius:12px;padding:18px;border:2px solid #00d68f55;text-align:center;">
-        <div style="font-size:10px;color:#00d68f;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;">Materiales % del S&amp;P 500</div>
-        <div style="font-size:44px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#00d68f;">2%</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0;">Mínimos de <strong style="color:#00d68f;">30 años</strong></div>
-        <div style="margin-top:10px;font-size:10px;font-weight:700;color:#00d68f;background:#00d68f15;padding:3px 8px;border-radius:4px;">📈 OPORTUNIDAD SECULAR</div>
-        <div style="margin-top:6px;font-size:9px;color:#6b7280;">Gasto militar + déficit vivienda USA</div>
-      </div>
-
-      <!-- June Peak Countdown -->
-      <div style="background:#13131f;border-radius:12px;padding:18px;border:2px solid #ffd93d55;text-align:center;">
-        <div style="font-size:10px;color:#ffd93d;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;">Techo Predicho</div>
-        <div style="font-size:44px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#ffd93d;">JUN</div>
-        <div style="font-size:11px;color:#6b7280;margin:4px 0;">2026 — Confluencia de catalizadores</div>
-        <div style="margin-top:6px;font-size:10px;color:#8892a4;">OPEP + G7 + Fed (nuevo chair)</div>
-        <div style="margin-top:8px;font-size:10px;font-weight:700;color:#ffd93d;background:#ffd93d15;padding:3px 8px;border-radius:4px;">🕐 ~4 SEMANAS</div>
-      </div>
-    </div>
-
-    <!-- UPDATES TIMELINE + 5 C's -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
-
-      <!-- Timeline -->
+  <!-- ═══ TESIS ═══ -->
+  <section id="tab-tesis" hidden>
+    <div class="banner warn"><span>⚠</span><div><b>Notas de mayo de 2026.</b> Lo que sigue es la tesis de Hartnett tal como se escribió entonces. Cada afirmación lleva al lado lo que dicen hoy los datos: ese contraste es lo útil de esta pestaña.</div></div>
+    <div class="grid g-2">
       <div class="card">
-        <h3 style="font-size:14px;color:#ff8c42;margin-bottom:16px;">📅 Cronología Hartnett 2026</h3>
-
-        <!-- Apr 25 -->
-        <div style="display:flex;gap:12px;margin-bottom:16px;">
-          <div style="flex-shrink:0;width:48px;text-align:center;">
-            <div style="font-size:9px;color:#6b7280;font-weight:700;">ABR</div>
-            <div style="font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#ffd93d;">25</div>
-          </div>
-          <div style="border-left:2px solid #ffd93d44;padding-left:12px;flex:1;">
-            <div style="font-size:12px;font-weight:700;color:#ffd93d;margin-bottom:4px;">Riesgo "Castaña" — SOX más sobrecomprado desde 2000</div>
-            <ul style="font-size:11px;color:#8892a4;padding-left:14px;line-height:1.8;margin:0;">
-              <li>SOX en máximos de sobrecompra vs MM200</li>
-              <li>400.000 despidos en S&amp;P 500</li>
-              <li>Comprar volatilidad mientras esté barata</li>
-              <li>Incentivo político para bajar precio gasolina</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- May 9 -->
-        <div style="display:flex;gap:12px;margin-bottom:16px;">
-          <div style="flex-shrink:0;width:48px;text-align:center;">
-            <div style="font-size:9px;color:#6b7280;font-weight:700;">MAY</div>
-            <div style="font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#4da8ff;">9</div>
-          </div>
-          <div style="border-left:2px solid #4da8ff44;padding-left:12px;flex:1;">
-            <div style="font-size:12px;font-weight:700;color:#4da8ff;margin-bottom:4px;">"Vivir en un Mundo Material" — Sectores humillados</div>
-            <ul style="font-size:11px;color:#8892a4;padding-left:14px;line-height:1.8;margin:0;">
-              <li>Materiales = 2% del S&amp;P (mínimos 30 años)</li>
-              <li>EM + Commodities + Small caps girando desde mínimos seculares</li>
-              <li><strong style="color:#ff4d4d">Asesino de burbujas = bonos</strong>, no los fundamentales</li>
-              <li>30Y al 5% es el nivel de quiebre</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- May 16 -->
-        <div style="display:flex;gap:12px;">
-          <div style="flex-shrink:0;width:48px;text-align:center;">
-            <div style="font-size:9px;color:#6b7280;font-weight:700;">MAY</div>
-            <div style="font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#ff4d4d;">16</div>
-          </div>
-          <div style="border-left:2px solid #ff4d4d55;padding-left:12px;flex:1;">
-            <div style="font-size:12px;font-weight:700;color:#ff4d4d;margin-bottom:4px;">Capitulación alcista — Techo en junio</div>
-            <ul style="font-size:11px;color:#8892a4;padding-left:14px;line-height:1.8;margin:0;">
-              <li>Bull &amp; Bear: 7.2 → <strong style="color:#ff8c42;">7.6</strong> (señal venta en 8)</li>
-              <li>SOX <strong style="color:#ff4d4d;">62% sobre MM200</strong> — Mississippi 1720 / Japón 1989</li>
-              <li>IPC &gt;4% → S&amp;P baja media <strong style="color:#ff4d4d;">-7%</strong> en 6 meses</li>
-              <li>Techo junio: OPEP + G7 + Fed (Wars)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5 C's Strategy -->
-      <div class="card">
-        <h3 style="font-size:14px;color:#00d68f;margin-bottom:16px;">🎯 Las 5 C's de Hartnett (Rotación)</h3>
-        <div style="display:grid;gap:8px;">
-
-          <div style="background:#0a0a12;border-radius:8px;padding:10px 14px;border-left:3px solid #00d68f;display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div style="font-size:12px;font-weight:700;color:#00d68f;">① Curve Steepeners</div>
-              <div style="font-size:11px;color:#8892a4;margin-top:2px;">Empinadores de curva — bono 30Y vigilar 5%</div>
-            </div>
-            <span style="font-size:10px;padding:2px 8px;background:#00d68f22;color:#00d68f;border-radius:4px;font-weight:700;">BONOS</span>
-          </div>
-
-          <div style="background:#0a0a12;border-radius:8px;padding:10px 14px;border-left:3px solid #4da8ff;display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div style="font-size:12px;font-weight:700;color:#4da8ff;">② China (FXI)</div>
-              <div style="font-size:11px;color:#8892a4;margin-top:2px;">Barata — exit deflación — defensivo vs USD</div>
-            </div>
-            <span style="font-size:10px;padding:2px 8px;background:#4da8ff22;color:#4da8ff;border-radius:4px;font-weight:700;">MACRO</span>
-          </div>
-
-          <div style="background:#0a0a12;border-radius:8px;padding:10px 14px;border-left:3px solid #ffd93d;display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div style="font-size:12px;font-weight:700;color:#ffd93d;">③ Consumo Cíclico</div>
-              <div style="font-size:11px;color:#8892a4;margin-top:2px;">Trump consumer play + caída de gasolina</div>
-            </div>
-            <span style="font-size:10px;padding:2px 8px;background:#ffd93d22;color:#ffd93d;border-radius:4px;font-weight:700;">SECTORIAL</span>
-          </div>
-
-          <div style="background:#0a0a12;border-radius:8px;padding:10px 14px;border-left:3px solid #ff8c42;display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div style="font-size:12px;font-weight:700;color:#ff8c42;">④ Chips Industriales "Cuello Azul"</div>
-              <div style="font-size:11px;color:#8892a4;margin-top:2px;">NON-AI chips: industriales, autos, defensa — no SOX</div>
-            </div>
-            <span style="font-size:10px;padding:2px 8px;background:#ff8c4222;color:#ff8c42;border-radius:4px;font-weight:700;">SEMI</span>
-          </div>
-
-          <div style="background:#0a0a12;border-radius:8px;padding:10px 14px;border-left:3px solid #9b8afb;display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div style="font-size:12px;font-weight:700;color:#9b8afb;">⑤ Commodities + Materiales</div>
-              <div style="font-size:11px;color:#8892a4;margin-top:2px;">Gasto militar + vivienda + mínimos 30Y — "mercado alcista tapado"</div>
-            </div>
-            <span style="font-size:10px;padding:2px 8px;background:#9b8afb22;color:#9b8afb;border-radius:4px;font-weight:700;">REAL ASSETS</span>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- Bubble Killer Warning + CPI Warning -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;">
-
-      <div style="background:#13131f;border-radius:12px;padding:18px;border:1px solid #ff4d4d33;">
-        <div style="font-size:11px;color:#ff4d4d;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">💥 El Asesino de Burbujas</div>
-        <div style="font-size:13px;color:#e0e0e0;line-height:1.7;">No son los fundamentales los que pinchan las burbujas — son los <strong style="color:#ff8c42;">bonos</strong>. Una subida fuerte en rentabilidades (bono 30Y al 5%) es lo que finalmente "rompe cosas".</div>
-        <div style="margin-top:12px;padding:8px;background:#ff4d4d11;border-radius:6px;text-align:center;">
-          <div style="font-size:10px;color:#6b7280;">Umbral crítico 30Y</div>
-          <div style="font-size:24px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#ff4d4d;">5.00%</div>
-        </div>
-      </div>
-
-      <div style="background:#13131f;border-radius:12px;padding:18px;border:1px solid #ffd93d33;">
-        <div style="font-size:11px;color:#ffd93d;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">📊 IPC &gt;4% → S&amp;P -7%</div>
-        <div style="font-size:13px;color:#e0e0e0;line-height:1.7;">En los últimos <strong style="color:#ffd93d;">100 años</strong>, cuando el IPC cruza el 4% al alza, el S&amp;P 500 baja de media un <strong style="color:#ff4d4d;">-7%</strong> en los 6 meses siguientes.</div>
-        <div style="margin-top:12px;padding:8px;background:#ffd93d11;border-radius:6px;display:flex;justify-content:space-around;text-align:center;">
-          <div><div style="font-size:9px;color:#6b7280;">Escenario base</div><div style="font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#ff4d4d;">-7%</div></div>
-          <div><div style="font-size:9px;color:#6b7280;">Horizonte</div><div style="font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#ffd93d;">6M</div></div>
-        </div>
-      </div>
-
-      <div style="background:#13131f;border-radius:12px;padding:18px;border:1px solid #ff8c4233;">
-        <div style="font-size:11px;color:#ff8c42;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">🌐 Boom Nominal Distorsionado</div>
-        <div style="font-size:13px;color:#e0e0e0;line-height:1.7;">Hartnett alerta que vivimos un <strong style="color:#ff8c42;">"boom nominal"</strong> distorsionado por precios. Los retornos reales de la renta variable están siendo erosionados por la inflación.</div>
-        <div style="margin-top:12px;padding:8px;background:#ff8c4211;border-radius:6px;text-align:center;font-size:11px;color:#8892a4;">
-          Rotar hacia <strong style="color:#ff8c42;">Commodities + Real Assets</strong><br>sobre renta variable cara
-        </div>
-      </div>
-    </div>
-
-    <!-- Humiliated Markets -->
-    <div class="card" style="margin-bottom:20px;">
-      <h3 style="font-size:14px;color:#4da8ff;margin-bottom:14px;">📉 Mercados "Humillados" — Giro desde mínimos seculares</h3>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
-        <div style="text-align:center;padding:14px;background:#0a0a12;border-radius:8px;border:1px solid #4da8ff33;">
-          <div style="font-size:22px;margin-bottom:6px;">🌍</div>
-          <div style="font-size:12px;font-weight:700;color:#4da8ff;">Emergentes</div>
-          <div style="font-size:10px;color:#8892a4;margin-top:4px;">China + EM Asia — deflación exit play</div>
-          <div style="margin-top:8px;font-size:10px;font-weight:700;color:#00d68f;background:#00d68f15;padding:2px 6px;border-radius:4px;">OPORTUNIDAD</div>
-        </div>
-        <div style="text-align:center;padding:14px;background:#0a0a12;border-radius:8px;border:1px solid #9b8afb33;">
-          <div style="font-size:22px;margin-bottom:6px;">⛏️</div>
-          <div style="font-size:12px;font-weight:700;color:#9b8afb;">Materias Primas</div>
-          <div style="font-size:10px;color:#8892a4;margin-top:4px;">Gasto militar global + déficit vivienda</div>
-          <div style="margin-top:8px;font-size:10px;font-weight:700;color:#00d68f;background:#00d68f15;padding:2px 6px;border-radius:4px;">ALCISTA TAPADO</div>
-        </div>
-        <div style="text-align:center;padding:14px;background:#0a0a12;border-radius:8px;border:1px solid #ffd93d33;">
-          <div style="font-size:22px;margin-bottom:6px;">🏭</div>
-          <div style="font-size:12px;font-weight:700;color:#ffd93d;">Small Caps</div>
-          <div style="font-size:10px;color:#8892a4;margin-top:4px;">USA + Japan/Korea — subvaloradas vs large</div>
-          <div style="margin-top:8px;font-size:10px;font-weight:700;color:#ffd93d;background:#ffd93d15;padding:2px 6px;border-radius:4px;">VIGILAR</div>
-        </div>
-        <div style="text-align:center;padding:14px;background:#0a0a12;border-radius:8px;border:1px solid #ff4d4d33;">
-          <div style="font-size:22px;margin-bottom:6px;">🔴</div>
-          <div style="font-size:12px;font-weight:700;color:#ff4d4d;">SOX / AI Semis</div>
-          <div style="font-size:10px;color:#8892a4;margin-top:4px;">62% sobre MM200 — burbuja activa</div>
-          <div style="margin-top:8px;font-size:10px;font-weight:700;color:#ff4d4d;background:#ff4d4d15;padding:2px 6px;border-radius:4px;">EVITAR</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- June Catalysts -->
-    <div class="card">
-      <h3 style="font-size:14px;color:#ffd93d;margin-bottom:14px;">📆 Catalizadores Junio 2026 — Confluencia de riesgos</h3>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:12px;">
-        <div style="padding:12px;background:#0a0a12;border-radius:8px;border:1px solid #ffd93d33;">
-          <div style="color:#ffd93d;font-weight:700;margin-bottom:6px;">🛢️ Reunión OPEP</div>
-          <div style="color:#8892a4;line-height:1.6;">Decisión sobre política de producción. Hartnett ve el petróleo como variable clave para la narrativa inflacionista.</div>
-        </div>
-        <div style="padding:12px;background:#0a0a12;border-radius:8px;border:1px solid #ffd93d33;">
-          <div style="color:#ffd93d;font-weight:700;margin-bottom:6px;">🌍 Cumbre G7</div>
-          <div style="color:#8892a4;line-height:1.6;">Geopolítica y coordinación fiscal. Potencial anuncio de resolución de conflictos que baje gasolina = incentivo político.</div>
-        </div>
-        <div style="padding:12px;background:#0a0a12;border-radius:8px;border:1px solid #ff4d4d33;">
-          <div style="color:#ff4d4d;font-weight:700;margin-bottom:6px;">🏦 Fed — Nuevo Chair (Wars)</div>
-          <div style="color:#8892a4;line-height:1.6;">Primera reunión con nuevo presidente de la Fed. Riesgo de cambio de mensaje. Hartnett lo señala como catalizador de volatilidad.</div>
-        </div>
-      </div>
-      <div style="margin-top:14px;padding:12px;background:#ff4d4d11;border:1px solid #ff4d4d33;border-radius:8px;font-size:12px;color:#8892a4;">
-        <strong style="color:#ff4d4d;">Estrategia recomendada por Hartnett:</strong> Rotar hacia commodities y recursos naturales. Vigilar estrechamente la rentabilidad de los bonos (30Y al 5% como nivel de quiebre). Prepararse para corrección a partir de junio. El boom nominal está distorsionado por precios — los retornos reales están deteriorándose.
-      </div>
-    </div>
-  </div>
-
-
-
-  <!-- ═══ INDICADORES TAB ═══ -->
-  <div id="tab-indicadores" style="display:none;">
-
-    <!-- Composite score + Sahm -->
-    <div style="display:grid;grid-template-columns:280px 1fr;gap:20px;margin-bottom:20px;">
-      <div class="card" style="text-align:center;">
-        <div style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Score Riesgo Recesión</div>
-        <div id="ind-comp-score" style="font-size:56px;font-weight:800;font-family:'JetBrains Mono',monospace;">--</div>
-        <div id="ind-comp-label" style="font-size:14px;font-weight:700;margin:4px 0 12px;">--</div>
-        <div style="background:#1a1a2a;border-radius:6px;height:10px;overflow:hidden;margin-bottom:12px;">
-          <div id="ind-comp-bar" style="height:100%;border-radius:6px;transition:width 1s ease;width:0%;"></div>
-        </div>
-        <div style="font-size:10px;color:#6b7280;margin-top:8px;">Ponderado: mercados 45% · economía 35% · consumidor 20%</div>
-        <div id="ind-comp-pillars" style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;"></div>
-      </div>
-
-      <div class="card">
-        <div class="sahm-card" id="sahm-card" style="background:#13131f;">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-            <div>
-              <div style="font-size:13px;font-weight:700;color:#e0e0e0;">Sahm Rule</div>
-              <div style="font-size:11px;color:#6b7280;margin-top:2px;">Indicador más fiable y rápido de recesión (7/7 desde 1970)</div>
-            </div>
-            <div id="sahm-badge" style="font-size:10px;padding:3px 10px;border-radius:4px;font-weight:700;">--</div>
-          </div>
-          <div style="display:flex;align-items:baseline;gap:12px;margin:8px 0;">
-            <div id="sahm-val" style="font-size:48px;font-weight:800;font-family:'JetBrains Mono',monospace;">--</div>
-            <div style="font-size:13px;color:#6b7280;">umbral: <strong style="color:#ff4d4d;">0.50</strong></div>
-          </div>
-          <div style="background:#1a1a2a;border-radius:4px;height:8px;overflow:hidden;margin-bottom:8px;">
-            <div id="sahm-bar" style="height:100%;border-radius:4px;transition:width .8s;"></div>
-          </div>
-          <div style="font-size:11px;color:#6b7280;">3M avg desempleo − mínimo desempleo 12M. ≥0.50 = recesión activa. Declarado por NBER con ~11M de retraso.</div>
-        </div>
-
-        <!-- NBER Coincident -->
-        <div style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Indicadores NBER Coincidentes</div>
-        <div id="nber-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
-        <div style="margin-top:10px;padding:8px 12px;border-radius:6px;background:#0a0a12;font-size:11px;color:#6b7280;">
-          ⚠ El NBER tarda media de <strong style="color:#ffd93d;">11 meses</strong> en declarar recesión. Los leading indicators aquí son la única señal anticipada real.
-        </div>
-      </div>
-    </div>
-
-    <!-- Yield Curve -->
-    <div class="card" style="margin-bottom:16px;">
-      <div class="ind-section-title">Curva de tipos (Treasury.gov — tiempo real diario) <span class="lead-badge">Lead 6–18M</span></div>
-      <div id="yield-curve-section" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-        <div>
-          <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;" id="yield-pills"></div>
-          <table class="ind-table" id="yield-table"></table>
-        </div>
-        <div id="yield-curve-visual" style="display:flex;align-items:flex-end;gap:4px;height:120px;padding:8px 0;"></div>
-      </div>
-    </div>
-
-    <!-- 3-column grid of indicator sections -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
-      <div class="card">
-        <div class="ind-section-title">Mercados y crédito <span class="lead-badge">0–6M</span></div>
-        <table class="ind-table" id="ind-market"></table>
+        <h2>Afirmaciones contra los datos de hoy</h2>
+        <div class="thesis" id="claims"></div>
       </div>
       <div class="card">
-        <div class="ind-section-title">Mercado laboral <span class="lead-badge">3–12M</span></div>
-        <table class="ind-table" id="ind-labor"></table>
-      </div>
-      <div class="card">
-        <div class="ind-section-title">Consumidor y petróleo <span class="lead-badge">3–9M</span></div>
-        <table class="ind-table" id="ind-consumer"></table>
-      </div>
-    </div>
-
-    <!-- Score breakdown -->
-    <div class="card">
-      <div class="ind-section-title">Desglose score por componente</div>
-      <div id="score-breakdown" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px;"></div>
-    </div>
-  </div>
-
-
-  <!-- ═══ SCENARIOS TAB ═══ -->
-  <div id="tab-scenarios" style="display:none;">
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;" id="scenarios-grid"></div>
-    <div class="card">
-      <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Senales de Transicion entre Escenarios</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;font-size:12px;">
-        <div>
-          <div class="green" style="font-weight:700;margin-bottom:8px;">A - Resolucion rapida</div>
-          <ul style="padding-left:16px;color:#8892a4;line-height:1.8;">
-            <li>Alto el fuego confirmado</li>
-            <li>Ormuz reabierto parcialmente</li>
-            <li>Brent bajo 90</li>
-            <li>Spreads HY estrechandose</li>
-          </ul>
+        <h2>Las 5 C de Hartnett <span class="hint">rotación propuesta, mayo 2026</span></h2>
+        <div class="prose">
+          <ol>
+            <li><b>Curve steepeners</b> — empinamiento de la curva; vigilar el 30 años en el 5%.</li>
+            <li><b>China</b> — barata, salida de la deflación, defensiva frente al dólar.</li>
+            <li><b>Consumo cíclico</b> — apuesta por el consumidor si baja la gasolina.</li>
+            <li><b>Chips «de cuello azul»</b> — semis industriales, autos y defensa; no los de IA.</li>
+            <li><b>Commodities y materiales</b> — gasto militar, déficit de vivienda, peso mínimo en 30 años.</li>
+          </ol>
+          <p class="mt"><b>Idea central:</b> las burbujas no las pinchan los fundamentales sino los bonos. El 30 años al 5% es el nivel que «rompe cosas».</p>
         </div>
-        <div>
-          <div class="yellow" style="font-weight:700;margin-bottom:8px;">B - Compra principal (Q2-Q3)</div>
-          <ul style="padding-left:16px;color:#8892a4;line-height:1.8;">
-            <li>VIX &gt; 35 sostenido</li>
-            <li>Put/Call ratio extremo</li>
-            <li>AAII pesimismo &gt; 55%</li>
-            <li>Gestores cash &gt; 5%</li>
-          </ul>
-        </div>
-        <div>
-          <div class="red" style="font-weight:700;margin-bottom:8px;">C - Suelo generacional</div>
-          <ul style="padding-left:16px;color:#8892a4;line-height:1.8;">
-            <li>Fed recorta de emergencia</li>
-            <li>S&amp;P cae 30%+ desde max</li>
-            <li>Div yield S&amp;P &ge; 10Y bond</li>
-            <li>88% bajo ambas MAs (Harnett)</li>
-          </ul>
+        <h2 class="mt">Escenarios de marzo–abril 2026 <span class="tag">OBSOLETOS</span></h2>
+        <div class="prose">
+          <p>Los tres escenarios (resolución rápida 25%, estanflación 50%, crisis 25%) situaban el S&amp;P entre 4.800 y 6.000 y el petróleo entre 65 y 150 $. Con el S&amp;P cerca de máximos y el WTI en <span id="oilNow">–</span>, ninguno describe el mercado actual: conviene reescribirlos antes de usarlos para decidir.</p>
         </div>
       </div>
     </div>
-  </div>
-</div>
+  </section>
 
-<div class="footer">
-  Recession & Harnett Monitor v2.0 &mdash; Auto-updated Mon-Fri 22:00 UTC via GitHub Actions
-  &mdash; <a href="https://github.com/boletix/recession-monitor" style="color:#4da8ff;">Source</a>
-</div>
+  <!-- ═══ MÉTODO ═══ -->
+  <section id="tab-metodo" hidden>
+    <div class="grid g-2">
+      <div class="card prose">
+        <h2>Cómo se calcula el score</h2>
+        <p>Cada indicador se traduce a una puntuación de 0 a 100 por tramos (la tabla de <b>Indicadores</b> muestra el umbral de cada uno). El score es la media ponderada de 13 indicadores en tres pilares: mercados, economía y consumidor.</p>
+        <p class="mt"><b>Un dato que falta no puntúa.</b> El score se recalcula con los pesos disponibles y la cobertura se muestra debajo del número. Si la cobertura baja del 60%, el proceso no publica y el panel conserva el último dato bueno.</p>
+        <p class="mt"><b>Etiquetas:</b> &lt;20 riesgo bajo · 20–40 moderado · 40–55 elevado · 55–70 alto riesgo · 70–85 crisis inminente · ≥85 crisis activa.</p>
+        <p class="mt"><b>Umbrales de capitulación</b> es otra cosa: no mide riesgo de recesión sino dolor de mercado (VIX, caída del S&amp;P, crédito…). Con 3 o más activos, la historia dice que suele ser momento de comprar por tramos.</p>
+      </div>
+      <div class="card prose">
+        <h2>Fuentes</h2>
+        <ul>
+          <li><b>Precios</b> (VIX, SPY, SOXX, KRE, BKLN, WTI, DXY, sectores): Yahoo Finance.</li>
+          <li><b>Curva</b>: Treasury.gov, curva oficial diaria.</li>
+          <li><b>Empleo y consumo</b>: FRED (Sahm en tiempo real, paro, nóminas, peticiones, JOLTS, ahorro, UMich, NFCI); BLS como respaldo.</li>
+          <li><b>Crédito HY</b>: diferencial ICE BofA (FRED). Sin clave de FRED se usa un proxy, LQD−HYG a 3 meses, y se indica.</li>
+          <li><b>Manual</b>: Bull &amp; Bear de BofA en <code>docs/manual.json</code>.</li>
+        </ul>
+        <p class="mt">Se actualiza de lunes a viernes tras el cierre de Nueva York con GitHub Actions. El histórico anterior al 3-oct-2026 se reconstruyó desde el historial de git con la puntuación actual.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="wrap"><footer>
+  Recession Monitor v4 · <a href="https://github.com/boletix/recession-monitor">código</a> · No es una recomendación de inversión.
+</footer></div>
 
 <script>
-const SCENARIOS = [
-  { id:"A", title:"Resolucion rapida", prob:"25%", timeline:"Abr-May 2026", oil:"65-75",
-    rates:"Fed recorta 50bp", sp500:"Rebote a 5800-6000", action:"Comprar Tramo 2-3 en el rebote",
-    sectors:["Tecnologia","Consumo Disc.","Marketplaces","Small caps Japan/Korea"], color:"#00d68f" },
-  { id:"B", title:"Estanflacion transitoria", prob:"50%", timeline:"3-6 meses", oil:"100-130",
-    rates:"BCE sube, Fed congela", sp500:"Suelo en 5400-5800", action:"Acumular en Fase 2 (jun-ago)",
-    sectors:["Energia midstream","Nuclear","Consumer staples EU","Infra electrica"], color:"#ffd93d" },
-  { id:"C", title:"Crisis prolongada", prob:"25%", timeline:"6+ meses", oil:"130-150+",
-    rates:"Tipos al alza", sp500:"Caida a 4800-5200", action:"Esperar capitulacion total",
-    sectors:["Oro","Defensa","Utilities reguladas","Bonos 30Y al 5%+"], color:"#ff4d4d" },
-];
+// ── utilidades ─────────────────────────────────────────────────────────────
+const $ = s => document.querySelector(s);
+const NF = (d) => new Intl.NumberFormat('es-ES', { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmt = (v, d = 1, unit = '', sign = false) => {
+  if (v == null || !isFinite(v)) return '–';
+  const s = NF(d).format(v);
+  return (sign && v > 0 ? '+' : '') + s + unit;
+};
+const esDate = iso => iso ? new Date(iso + (iso.length === 10 ? 'T12:00:00Z' : '')).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : '–';
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const STATUS = {
+  'OK':       { c: '--good',     i: '✓', t: 'OK' },
+  'VIGILAR':  { c: '--warning',  i: '!', t: 'VIGILAR' },
+  'ALERTA':   { c: '--serious',  i: '▲', t: 'ALERTA' },
+  'PELIGRO':  { c: '--critical', i: '✕', t: 'PELIGRO' },
+  'SIN DATO': { c: '--muted',    i: '?', t: 'SIN DATO' },
+};
+const statusOfScore = s => s == null ? 'SIN DATO' : s < 25 ? 'OK' : s < 50 ? 'VIGILAR' : s < 75 ? 'ALERTA' : 'PELIGRO';
+const badge = st => { const m = STATUS[st] || STATUS['SIN DATO']; return `<span class="status" style="color:var(${m.c})"><i style="background:var(${m.c})">${m.i}</i>${m.t}</span>`; };
+const LABELS = [[20, 'RIESGO BAJO', '--good'], [40, 'MODERADO', '--warning'], [55, 'ELEVADO', '--serious'], [70, 'ALTO RIESGO', '--critical'], [85, 'CRISIS INMINENTE', '--critical'], [101, 'CRISIS ACTIVA', '--critical']];
+const labelColor = s => (LABELS.find(([t]) => s < t) || LABELS[5])[2];
 
-
-// ── MACRO INDICATORS ──────────────────────────────────────────────────────
-function statusColor(s) {
-  return s==='OK'?'#00d68f':s==='WATCH'?'#ffd93d':s==='WARNING'?'#ff8c42':'#ff4d4d';
+async function getJSON(path) {
+  const r = await fetch(path + '?t=' + Date.now());
+  if (!r.ok) throw new Error(path + ': HTTP ' + r.status);
+  // Tolera NaN de versiones antiguas del generador
+  return JSON.parse((await r.text()).replace(/\bNaN\b/g, 'null'));
 }
 
-function renderIndTable(elId, indicators) {
-  const el = document.getElementById(elId);
-  if (!el || !indicators) return;
-  let h = '';
-  for (const [k, ind] of Object.entries(indicators)) {
-    if (!ind || ind.value === undefined) continue;
-    const c = statusColor(ind.status || 'OK');
-    const badge = `<span class="ind-badge" style="background:${c}22;color:${c}">${ind.status||'--'}</span>`;
-    h += `<tr>
-      <td class="ind-name">${ind.label||k}<br><span class="ind-note">${ind.note||''}</span></td>
-      <td class="ind-val" style="color:${c}">${ind.value_str||'--'}</td>
-      <td>${badge}</td>
-    </tr>`;
-  }
-  el.innerHTML = h;
-}
-
-function renderYieldCurve(yields) {
-  if (!yields) return;
-  const points = [
-    {t:'3M', v:yields.y3m}, {t:'2Y', v:yields.y2y}, {t:'5Y', v:yields.y5y||null},
-    {t:'10Y', v:yields.y10y}, {t:'30Y', v:yields.y30y}
-  ].filter(p => p.v != null);
-
-  // Pills for spread status
-  const pp = document.getElementById('yield-pills');
-  if (pp) {
-    const s10y2y = yields.spread_10y2y;
-    const s10y3m = yields.spread_10y3m;
-    const c2y = s10y2y < 0 ? '#ff4d4d' : s10y2y < 0.5 ? '#ffd93d' : '#00d68f';
-    const c3m = s10y3m < 0 ? '#ff4d4d' : s10y3m < 0.3 ? '#ffd93d' : '#00d68f';
-    pp.innerHTML = `
-      <span class="ind-badge" style="font-size:11px;padding:4px 10px;background:${c2y}22;color:${c2y}">
-        10Y-2Y: ${s10y2y!=null?(s10y2y>0?'+':'')+s10y2y.toFixed(2)+'%':'--'}
-      </span>
-      <span class="ind-badge" style="font-size:11px;padding:4px 10px;background:${c3m}22;color:${c3m}">
-        10Y-3M: ${s10y3m!=null?(s10y3m>0?'+':'')+s10y3m.toFixed(2)+'%':'--'}
-      </span>
-      ${yields.inverted_10y3m ? '<span class="ind-badge" style="font-size:11px;padding:4px 10px;background:#ff4d4d22;color:#ff4d4d">⚠ CURVA INVERTIDA</span>' : ''}`;
-  }
-
-  // Table of yields
-  const tbl = document.getElementById('yield-table');
-  if (tbl) {
-    let h = points.map(p => {
-      const c = p.v >= 5 ? '#ff4d4d' : p.v >= 4.5 ? '#ff8c42' : p.v >= 4 ? '#ffd93d' : '#00d68f';
-      return `<tr>
-        <td class="ind-name">${p.t} Treasury</td>
-        <td class="ind-val" style="color:${c}">${p.v.toFixed(2)}%</td>
-        <td><div class="score-bar-wrap" style="width:80px"><div class="score-bar-fill" style="width:${Math.min(p.v/6*100,100)}%;background:${c}"></div></div></td>
-      </tr>`;
-    }).join('');
-    tbl.innerHTML = h;
-  }
-
-  // Mini bar chart
-  const vis = document.getElementById('yield-curve-visual');
-  if (vis && points.length) {
-    const maxV = Math.max(...points.map(p=>p.v));
-    vis.innerHTML = points.map(p => {
-      const h = Math.round(p.v/maxV*100);
-      const c = p.v >= 5 ? '#ff4d4d' : p.v >= 4.5 ? '#ff8c42' : '#4da8ff';
-      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;">
-        <span style="font-size:9px;color:#6b7280;">${p.v.toFixed(2)}</span>
-        <div style="width:100%;height:${h}px;background:${c};border-radius:3px 3px 0 0;opacity:0.8;"></div>
-        <span style="font-size:9px;color:#6b7280;">${p.t}</span>
-      </div>`;
-    }).join('');
-  }
-}
-
-function renderComposite(comp) {
-  if (!comp) return;
-  const sc = comp.score, c = comp.color;
-  // Main recession tab
-  const csm = document.getElementById('comp-score-main');
-  const clm = document.getElementById('comp-label-main');
-  const cb = document.getElementById('composite-banner');
-  if (csm) { csm.textContent = sc + '/100'; csm.style.color = c; }
-  if (clm) { clm.textContent = comp.label; clm.style.color = c; }
-  if (cb) cb.style.display = 'flex';
-
-  // Indicadores tab
-  const is = document.getElementById('ind-comp-score');
-  const il = document.getElementById('ind-comp-label');
-  const ib = document.getElementById('ind-comp-bar');
-  if (is) { is.textContent = sc + '/100'; is.style.color = c; }
-  if (il) { il.textContent = comp.label; il.style.color = c; }
-  if (ib) { ib.style.width = sc + '%'; ib.style.background = c; }
-
-  // Component pillars
-  const groups = {
-    'Mercados': ['vix','sox_bubble','hy_stress','spy_drawdown','bond_30y','dxy'],
-    'Economía': ['sahm','spread_10y3m','payrolls','oil_rise'],
-    'Consumidor': ['savings','umich','kre']
+// ── tema ───────────────────────────────────────────────────────────────────
+(function theme() {
+  let t = null; try { t = localStorage.getItem('rm-theme'); } catch (e) {}
+  if (t) document.documentElement.dataset.theme = t;
+  $('#themeBtn').onclick = () => {
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+    const cur = document.documentElement.dataset.theme || (dark ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('rm-theme', next); } catch (e) {}
+    if (window.__render) window.__render();
   };
-  const cp = document.getElementById('comp-pillars');
-  const ip = document.getElementById('ind-comp-pillars');
-  [cp, ip].forEach(el => {
-    if (!el) return;
-    let h = '';
-    for (const [grp, keys] of Object.entries(groups)) {
-      const scores = keys.map(k => comp.components[k]?.score || 50);
-      const avg = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
-      const gc = avg < 25 ? '#00d68f' : avg < 50 ? '#ffd93d' : avg < 75 ? '#ff8c42' : '#ff4d4d';
-      h += `<div style="padding:8px;background:#0a0a12;border-radius:6px;text-align:center;">
-        <div style="font-size:9px;color:#6b7280;margin-bottom:2px;">${grp}</div>
-        <div style="font-size:20px;font-weight:800;font-family:'JetBrains Mono',monospace;color:${gc}">${avg}</div>
-      </div>`;
-    }
-    el.innerHTML = h;
+})();
+
+// ── pestañas ───────────────────────────────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('nav button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === id));
+  document.querySelectorAll('main section').forEach(s => s.hidden = s.id !== 'tab-' + id);
+  try { history.replaceState(null, '', '#' + id); } catch (e) {}
+  if (window.__render) window.__render();
+}
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => showTab(b.dataset.tab));
+addEventListener('hashchange', () => { const t = location.hash.slice(1); if (document.querySelector(`nav button[data-tab="${t}"]`)) showTab(t); });
+
+// ── gráfico de línea con tooltip ───────────────────────────────────────────
+function lineChart(el, pts, o = {}) {
+  el.innerHTML = '';
+  pts = (pts || []).filter(p => p && p[1] != null);
+  if (pts.length < 2) { el.innerHTML = '<div class="small-sub" style="padding:30px 0;text-align:center">Sin datos suficientes</div>'; return; }
+  const W = el.clientWidth || 600, H = o.h || 180, m = { l: 38, r: 14, t: 10, b: 22 };
+  const xs = pts.map(p => new Date(p[0] + 'T12:00:00Z').getTime()), ys = pts.map(p => p[1]);
+  const refs = (o.refs || []).map(r => r.y);
+  let y0 = o.yMin ?? Math.min(...ys, ...refs), y1 = o.yMax ?? Math.max(...ys, ...refs);
+  const pad = (y1 - y0) * 0.08 || 1; if (o.yMin == null) y0 -= pad; if (o.yMax == null) y1 += pad;
+  const X = t => m.l + (t - xs[0]) / (xs.at(-1) - xs[0]) * (W - m.l - m.r);
+  const Y = v => m.t + (1 - (v - y0) / (y1 - y0)) * (H - m.t - m.b);
+  // ticks Y
+  const step = niceStep((y1 - y0) / 4), ticks = [];
+  for (let v = Math.ceil(y0 / step) * step; v <= y1 + 1e-9; v += step) ticks.push(+v.toFixed(6));
+  const dec = step < 1 ? (step < 0.1 ? 2 : 1) : 0;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${o.label || ''}">`;
+  (o.bands || []).forEach(b => {
+    const a = Y(Math.min(b.to, y1)), z = Y(Math.max(b.from, y0));
+    if (z > a) s += `<rect x="${m.l}" y="${a}" width="${W - m.l - m.r}" height="${z - a}" fill="${css(b.color)}" opacity="0.07"/>`;
   });
-
-  // Score breakdown
-  const sb = document.getElementById('score-breakdown');
-  if (sb && comp.components) {
-    const labels = {
-      vix:'VIX', sox_bubble:'SOX burbuja', hy_stress:'HY spreads',
-      spy_drawdown:'S&P drawdown', bond_30y:'Bono 30Y', dxy:'DXY',
-      sahm:'Sahm Rule', spread_10y3m:'Curva 10Y-3M', payrolls:'Nóminas',
-      oil_rise:'Petróleo rise', savings:'Tasa ahorro', umich:'UMich', kre:'Bancos'
-    };
-    let h = '';
-    for (const [k, obj] of Object.entries(comp.components)) {
-      const sc2 = obj.score, lbl = labels[k] || k;
-      const c2 = sc2 < 25 ? '#00d68f' : sc2 < 50 ? '#ffd93d' : sc2 < 75 ? '#ff8c42' : '#ff4d4d';
-      h += `<div style="background:#0a0a12;border-radius:6px;padding:8px;">
-        <div style="font-size:10px;color:#6b7280;margin-bottom:4px;">${lbl}</div>
-        <div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;color:${c2}">${sc2}</div>
-        <div class="score-bar-wrap"><div class="score-bar-fill" style="width:${sc2}%;background:${c2}"></div></div>
-      </div>`;
-    }
-    sb.innerHTML = h;
-  }
-}
-
-function renderSahm(labor) {
-  if (!labor) return;
-  const s = labor.sahm_rule;
-  if (!s) return;
-  const v = s.value, c = s.color;
-  const triggered = labor.sahm_triggered;
-  const pct = Math.min((v / 0.75) * 100, 100);
-  const sv = document.getElementById('sahm-val');
-  const sb = document.getElementById('sahm-bar');
-  const badge = document.getElementById('sahm-badge');
-  const card = document.getElementById('sahm-card');
-  if (sv) { sv.textContent = v != null ? v.toFixed(2) : '--'; sv.style.color = c; }
-  if (sb) { sb.style.width = pct + '%'; sb.style.background = c; }
-  if (badge) { badge.textContent = triggered ? '⚠ ACTIVADA' : s.status; badge.style.background = c + '22'; badge.style.color = c; }
-  if (card) card.style.border = triggered ? '1px solid #ff4d4d88' : '1px solid #1e1e2f';
-}
-
-function renderNBER(nber) {
-  const el = document.getElementById('nber-grid');
-  if (!el || !nber) return;
-  const items = ['payrolls_mom','indpro_mom','sahm_rule','unemployment_lvl'].filter(k=>nber[k]);
-  el.innerHTML = items.map(k => {
-    const ind2 = nber[k];
-    const c2 = statusColor(ind2.status || 'OK');
-    return `<div style="padding:8px;background:#0a0a12;border-radius:6px;">
-      <div style="font-size:9px;color:#6b7280;margin-bottom:2px;">${ind2.label}</div>
-      <div style="font-size:16px;font-weight:700;font-family:'JetBrains Mono',monospace;color:${c2}">${ind2.value_str||'--'}</div>
-      <span class="ind-badge" style="background:${c2}22;color:${c2};font-size:8px;">${ind2.status}</span>
-    </div>`;
-  }).join('');
-}
-
-function renderHartnettLive(hl) {
-  if (!hl) return;
-  // Update Hartnett May'26 SOX live value
-  const soxEl = document.getElementById('h26-sox');
-  if (soxEl && hl.sox_vs_200dma != null) {
-    const c = hl.sox_vs_200dma > 50 ? '#ff4d4d' : hl.sox_vs_200dma > 30 ? '#ff8c42' : '#ffd93d';
-    soxEl.textContent = (hl.sox_vs_200dma > 0 ? '+' : '') + hl.sox_vs_200dma.toFixed(1) + '%';
-    soxEl.style.color = c;
-  }
-
-  // Live KPIs in Harnett Pain tab
-  const kpiEl = document.getElementById('h-live-kpis');
-  if (kpiEl) {
-    const sox_c = hl.sox_vs_200dma > 50 ? '#ff4d4d' : '#ff8c42';
-    const bond_c = hl.bond_30y_triggered ? '#ff4d4d' : '#ffd93d';
-    const oil_c  = hl.oil_trigger_90 ? '#ff4d4d' : hl.oil_rise_pct > 60 ? '#ff8c42' : '#ffd93d';
-    const bb_c   = hl.bull_bear_triggered ? '#ff4d4d' : '#ff8c42';
-    kpiEl.innerHTML = `
-      <div class="hartnett-kpi" style="border:1px solid ${sox_c}44">
-        <div class="kl">SOX vs MM200</div>
-        <div class="kv" style="color:${sox_c}">${hl.sox_vs_200dma!=null?('+'+hl.sox_vs_200dma.toFixed(1)+'%'):'--'}</div>
-        <div class="ks" style="color:${sox_c}">${hl.sox_vs_200dma>50?'⚠ BURBUJA ACTIVA':'VIGILAR'}</div>
-      </div>
-      <div class="hartnett-kpi" style="border:1px solid ${bond_c}44">
-        <div class="kl">Bono 30Y</div>
-        <div class="kv" style="color:${bond_c}">${hl.bond_30y!=null?hl.bond_30y.toFixed(2)+'%':'--'}</div>
-        <div class="ks" style="color:${bond_c}">${hl.bond_30y_triggered?'⚠ BUBBLE KILLER ACTIVO':'< 5% umbral'}</div>
-      </div>
-      <div class="hartnett-kpi" style="border:1px solid ${oil_c}44">
-        <div class="kl">Petróleo vs 52S mín</div>
-        <div class="kv" style="color:${oil_c}">${hl.oil_rise_pct!=null?'+'+hl.oil_rise_pct.toFixed(0)+'%':'--'} <span style="font-size:14px">($${hl.oil_price||'--'})</span></div>
-        <div class="ks" style="color:${oil_c}">${hl.oil_trigger_90?'⚠ TRIGGER >90%':'Umbral: 90%'}</div>
-      </div>
-      <div class="hartnett-kpi" style="border:1px solid ${bb_c}44">
-        <div class="kl">Bull &amp; Bear (último)</div>
-        <div class="kv" style="color:${bb_c}">${hl.bull_bear_last}</div>
-        <div class="ks" style="color:${bb_c}">Fecha: ${hl.bull_bear_date||'--'} · Venta: 8.0</div>
-      </div>`;
-  }
-}
-
-
-function sc(metric, value) {
-  const r = {
-    vix: v => v > 35 ? 'red' : v > 25 ? 'yellow' : 'green',
-    oil: v => v > 120 ? 'red' : v > 90 ? 'yellow' : 'green',
-    sp500_drawdown: v => v < -15 ? 'red' : v < -8 ? 'yellow' : 'green',
-    pct_above_200: v => v < 20 ? 'red' : v < 40 ? 'yellow' : 'green',
-    bond_30y: v => v >= 5 ? 'red' : v >= 4.5 ? 'yellow' : 'neutral',
-    yield_curve: v => v < 0 ? 'red' : v < 0.5 ? 'yellow' : 'green',
-    mcclellan: v => v < -3 ? 'red' : v < 0 ? 'yellow' : 'green',
+  ticks.forEach(v => s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="${css('--grid')}" stroke-width="1"/><text x="${m.l - 6}" y="${Y(v) + 3}" text-anchor="end">${NF(dec).format(v)}</text>`);
+  // ticks X: comienzo de cada mes (o trimestre si hay muchos)
+  const months = []; let last = '';
+  pts.forEach((p, i) => { const k = p[0].slice(0, 7); if (k !== last) { months.push(i); last = k; } });
+  const every = Math.ceil(months.length / Math.max(2, Math.floor((W - m.l) / 70)));
+  months.filter((_, j) => j % every === 0).forEach(i => {
+    const d = new Date(pts[i][0] + 'T12:00:00Z');
+    if (X(xs[i]) < m.l + 4) return;
+    s += `<text x="${X(xs[i])}" y="${H - 6}" text-anchor="middle">${d.toLocaleDateString('es-ES', { month: 'short' }).replace('.', '')}${d.getUTCMonth() === 0 ? ' ' + String(d.getUTCFullYear()).slice(2) : ''}</text>`;
+  });
+  (o.refs || []).forEach(r => {
+    if (r.y < y0 || r.y > y1) return;
+    s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(r.y)}" y2="${Y(r.y)}" stroke="${css(r.color || '--critical')}" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+    s += `<text x="${m.l + 4}" y="${Y(r.y) - 4}" class="lbl" style="fill:${css(r.color || '--critical')}">${r.label}</text>`;
+  });
+  s += `<line x1="${m.l}" x2="${W - m.r}" y1="${H - m.b}" y2="${H - m.b}" stroke="${css('--axis')}"/>`;
+  const d = pts.map((p, i) => (i ? 'L' : 'M') + X(xs[i]).toFixed(1) + ',' + Y(p[1]).toFixed(1)).join('');
+  if (o.area) s += `<path d="${d}L${X(xs.at(-1))},${H - m.b}L${X(xs[0])},${H - m.b}Z" fill="${css('--series-soft')}"/>`;
+  s += `<path d="${d}" fill="none" stroke="${css('--series')}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  const lx = X(xs.at(-1)), ly = Y(ys.at(-1));
+  s += `<circle cx="${lx}" cy="${ly}" r="4" fill="${css('--series')}" stroke="${css('--surface')}" stroke-width="2"/>`;
+  s += `<line id="xh" x1="0" x2="0" y1="${m.t}" y2="${H - m.b}" stroke="${css('--muted')}" stroke-width="1" opacity="0"/><circle id="xd" r="4" fill="${css('--series')}" stroke="${css('--surface')}" stroke-width="2" opacity="0"/>`;
+  s += `<rect x="${m.l}" y="0" width="${W - m.l - m.r}" height="${H}" fill="transparent" id="hit"/></svg><div class="tip"></div>`;
+  el.innerHTML = s;
+  const svg = el.querySelector('svg'), tip = el.querySelector('.tip'), xh = svg.querySelector('#xh'), xd = svg.querySelector('#xd');
+  const move = ev => {
+    const r = svg.getBoundingClientRect(), px = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+    const t = xs[0] + (px * W / r.width - m.l) / (W - m.l - m.r) * (xs.at(-1) - xs[0]);
+    let i = 0, best = Infinity; xs.forEach((x, j) => { const dd = Math.abs(x - t); if (dd < best) { best = dd; i = j; } });
+    const cx = X(xs[i]), cy = Y(ys[i]);
+    xh.setAttribute('x1', cx); xh.setAttribute('x2', cx); xh.setAttribute('opacity', .6);
+    xd.setAttribute('cx', cx); xd.setAttribute('cy', cy); xd.setAttribute('opacity', 1);
+    tip.innerHTML = `<div class="d">${esDate(pts[i][0])}</div><b>${(o.fmt || (v => fmt(v, o.dec ?? 1, o.unit || '')))(ys[i])}</b>${o.extra ? o.extra(pts[i], i) : ''}`;
+    const sx = r.width / W, tx = cx * sx;
+    tip.style.left = Math.min(Math.max(tx - tip.offsetWidth / 2, 0), r.width - tip.offsetWidth) + 'px';
+    tip.style.top = Math.max(cy * sx - tip.offsetHeight - 12, 0) + 'px';
+    tip.style.opacity = 1;
   };
-  return (r[metric] || (() => 'neutral'))(value);
+  const leave = () => { tip.style.opacity = 0; xh.setAttribute('opacity', 0); xd.setAttribute('opacity', 0); };
+  const hit = svg.querySelector('#hit');
+  hit.addEventListener('mousemove', move); hit.addEventListener('touchmove', move, { passive: true });
+  hit.addEventListener('mouseleave', leave); hit.addEventListener('touchend', leave);
+}
+function niceStep(raw) {
+  const p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p;
+  return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p;
 }
 
-function renderMetric(label, value, suffix, status) {
-  return '<div class="metric"><div class="bar bar-'+status+'"></div><div class="label">'+label+'</div><div class="value '+status+'">'+value+'<span class="suffix">'+suffix+'</span></div></div>';
+// ── barras divergentes (sectores) ──────────────────────────────────────────
+function divBars(el, rows, key) {
+  rows = rows.filter(r => r[key] != null).sort((a, b) => b[key] - a[key]);
+  if (!rows.length) { el.innerHTML = '<div class="small-sub">Sin datos</div>'; return; }
+  const W = el.clientWidth || 500, rh = 26, H = rows.length * rh + 4, lw = Math.min(120, W * 0.3), vw = 52;
+  const max = Math.max(...rows.map(r => Math.abs(r[key])), 1), cx = lw + (W - lw - vw) / 2, half = (W - lw - vw) / 2 - 4;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Rentabilidad sectorial ${key}">`;
+  s += `<line x1="${cx}" x2="${cx}" y1="0" y2="${H}" stroke="${css('--axis')}"/>`;
+  rows.forEach((r, i) => {
+    const v = r[key], w = Math.abs(v) / max * half, y = i * rh + 4, pos = v >= 0;
+    s += `<g><title>${r.name} (${r.ticker}): ${fmt(v, 1, '%', true)}</title>`;
+    s += `<text x="${lw - 8}" y="${y + 13}" text-anchor="end" class="lbl" style="font-weight:500">${r.name}</text>`;
+    s += `<rect x="${pos ? cx : cx - w}" y="${y + 3}" width="${Math.max(w, 1)}" height="${rh - 10}" rx="3" fill="${css(pos ? '--series' : '--neg')}"/>`;
+    s += `<text x="${W - 4}" y="${y + 13}" text-anchor="end" style="fill:${css('--ink')};font-family:var(--mono);font-weight:600">${fmt(v, 1, '%', true)}</text></g>`;
+  });
+  el.innerHTML = s + '</svg>';
 }
 
-function showTab(tab, btn) {
-  document.querySelectorAll('[id^="tab-"]').forEach(el => el.style.display = 'none');
-  document.getElementById('tab-' + tab).style.display = 'block';
-  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-  if (btn) btn.classList.add('active');
+// ── curva de tipos ─────────────────────────────────────────────────────────
+function curveChart(el, pts) {
+  const order = ['1M', '3M', '6M', '1Y', '2Y', '3Y', '5Y', '7Y', '10Y', '20Y', '30Y'];
+  const yrs = { '1M': 1/12, '3M': .25, '6M': .5, '1Y': 1, '2Y': 2, '3Y': 3, '5Y': 5, '7Y': 7, '10Y': 10, '20Y': 20, '30Y': 30 };
+  const P = order.filter(k => pts[k] != null).map(k => [k, pts[k]]);
+  if (P.length < 3) { el.innerHTML = '<div class="small-sub">Sin datos</div>'; return; }
+  const W = el.clientWidth || 500, H = 220, m = { l: 38, r: 14, t: 18, b: 24 };
+  const sx = y => Math.sqrt(y);              // raíz: separa los plazos cortos sin aplastar los largos
+  const X = k => m.l + (sx(yrs[k]) - sx(yrs[P[0][0]])) / (sx(30) - sx(yrs[P[0][0]])) * (W - m.l - m.r);
+  const vs = P.map(p => p[1]); let y0 = Math.floor((Math.min(...vs) - .2) * 2) / 2, y1 = Math.ceil((Math.max(...vs) + .2) * 2) / 2;
+  const Y = v => m.t + (1 - (v - y0) / (y1 - y0)) * (H - m.t - m.b);
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Curva del Tesoro">`;
+  for (let v = y0; v <= y1 + 1e-9; v += .5) s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="${css('--grid')}"/><text x="${m.l - 6}" y="${Y(v) + 3}" text-anchor="end">${NF(1).format(v)}%</text>`;
+  s += `<path d="${P.map((p, i) => (i ? 'L' : 'M') + X(p[0]) + ',' + Y(p[1])).join('')}" fill="none" stroke="${css('--series')}" stroke-width="2"/>`;
+  P.forEach(([k, v]) => {
+    s += `<g><title>${k}: ${fmt(v, 2, '%')}</title><circle cx="${X(k)}" cy="${Y(v)}" r="4.5" fill="${css('--series')}" stroke="${css('--surface')}" stroke-width="2"/></g>`;
+    if (['3M', '2Y', '10Y', '30Y'].includes(k)) s += `<text x="${X(k)}" y="${Y(v) - 9}" text-anchor="middle" class="lbl">${fmt(v, 2)}</text>`;
+    if (['1M', '6M', '2Y', '5Y', '10Y', '30Y'].includes(k) || W > 520) s += `<text x="${X(k)}" y="${H - 6}" text-anchor="middle">${k.replace('Y', 'A')}</text>`;
+  });
+  el.innerHTML = s + '</svg>';
 }
 
-async function loadData() {
-  let rData = null, hData = null;
+// ── render principal ───────────────────────────────────────────────────────
+async function main() {
+  let D, H = [], M = {};
+  const errs = [];
+  try { D = await getJSON('dashboard.json'); } catch (e) { errs.push(e.message); }
+  try { H = await getJSON('history.json'); } catch (e) { errs.push(e.message); }
+  try { M = await getJSON('manual.json'); } catch (e) {}
+  $('#loading').remove();
+  if (!D) {
+    $('#banners').innerHTML = `<div class="banner bad"><span>✕</span><div><b>No se han podido cargar los datos.</b> ${errs.join(' · ')}</div></div>`;
+    return;
+  }
+  const I = Object.fromEntries(D.indicators.map(i => [i.key, i]));
+  const C = D.composite;
 
-  try { rData = await (await fetch('data.json?' + Date.now())).json(); } catch(e) { console.warn('data.json failed', e); }
-  try { hData = await (await fetch('harnett_data.json?' + Date.now())).json(); } catch(e) { console.warn('harnett_data.json failed', e); }
-  let mData = null;
-  try { mData = await (await fetch('macro_indicators.json?' + Date.now())).json(); } catch(e) { console.warn('macro_indicators.json failed', e); }
+  // Frescura
+  const run = new Date(D.timestamp), mkt = I.vix?.as_of || I.spy_drawdown?.as_of;
+  const ageH = (Date.now() - run) / 36e5;
+  const bizDays = (() => { let n = 0, d = new Date(run); const now = new Date(); while (d < now) { d.setUTCDate(d.getUTCDate() + 1); if (d < now && d.getUTCDay() % 6) n++; } return n; })();
+  const freshCol = bizDays <= 1 ? '--good' : bizDays <= 3 ? '--warning' : '--critical';
+  $('#fresh').innerHTML = `<span class="pill"><span class="dot" style="background:var(${freshCol})"></span>Cierre ${esDate(mkt)}</span><span class="pill">Generado ${run.toLocaleString('es-ES', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>`;
+  const banners = [];
+  if (bizDays > 1) banners.push(['warn', '⚠', `<b>Datos de hace ${bizDays} días hábiles.</b> La actualización automática no ha publicado desde entonces; revisa GitHub Actions.`]);
+  if (C.coverage < 0.9) banners.push(['warn', '⚠', `<b>Cobertura del ${Math.round(C.coverage * 100)}%.</b> Faltan: ${C.missing.map(k => I[k]?.label || k).join(', ')}. El score se calcula sin ellos.`]);
+  const stale = D.indicators.filter(i => i.stale);
+  if (stale.length) banners.push(['warn', '⚠', `<b>Datos atrasados:</b> ${stale.map(i => `${i.label} (${esDate(i.as_of)})`).join(', ')}.`]);
+  $('#banners').innerHTML = banners.map(([k, ic, t]) => `<div class="banner ${k}"><span>${ic}</span><div>${t}</div></div>`).join('');
 
-  document.getElementById('loading').style.display = 'none';
+  const render = () => {
+    // ── Hero
+    const col = labelColor(C.score);
+    $('#heroNum').innerHTML = `${fmt(C.score, 1)}<small> /100</small>`;
+    $('#heroLabel').innerHTML = `<span class="dot" style="background:var(${col})"></span>${C.label}`;
+    const segs = [[0, 20, '--good'], [20, 40, '--warning'], [40, 55, '--serious'], [55, 70, '--critical'], [70, 85, '--critical'], [85, 100, '--critical']];
+    $('#scale').innerHTML = segs.map(([a, b, c], i) => `<span style="flex:${b - a};background:var(${c});opacity:${i > 3 ? 1 : .8}"></span>`).join('') + `<div class="needle" style="left:${C.score}%"></div>`;
+    // deltas contra el histórico
+    const back = n => { const h = H.filter(r => r.date < (mkt || '9999')); return h.length >= n ? h[h.length - n] : null; };
+    const dl = (r, t) => r ? `${t} <b style="color:var(${C.score - r.score > 0.5 ? '--serious' : C.score - r.score < -0.5 ? '--good' : '--ink'})">${fmt(C.score - r.score, 1, '', true)}</b>` : '';
+    $('#deltas').innerHTML = [dl(back(5), 'vs hace 1 semana'), dl(back(21), 'vs hace 1 mes')].filter(Boolean).join('') || '<span>Histórico insuficiente para comparar</span>';
+    const totW = Object.values(C.weights).reduce((a, b) => a + b, 0);
+    $('#pillars').innerHTML = Object.entries(C.pillars).map(([k, v]) => {
+      const w = C.pillar_keys[k].reduce((a, kk) => a + C.weights[kk], 0) / totW;
+      return `<div class="pillar"><div class="k">${k}</div><div class="v" style="color:var(${v == null ? '--muted' : labelColor(v)})">${fmt(v, 0)}</div><div class="w">peso ${Math.round(w * 100)}%</div></div>`;
+    }).join('');
+    $('#coverage').textContent = `Cobertura ${Math.round(C.coverage * 100)}% de los pesos · crédito HY: ${D.extra.hy_kind === 'oas' ? 'diferencial ICE BofA' : 'proxy LQD−HYG'}`;
 
-  // ── RECESSION TAB ──
-  if (rData) {
-    const m = rData.metrics || {};
-    const ts = rData.timestamp ? new Date(rData.timestamp).toLocaleDateString('es-ES') + ' ' + new Date(rData.timestamp).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}) : '--';
-    document.getElementById('date-display').textContent = ts;
+    // ── Histórico
+    const hp = H.map(r => [r.date, r.score]);
+    $('#histHint').textContent = H.length ? `${esDate(H[0].date)} – ${esDate(H.at(-1).date)} · ${H.length} días` : '';
+    lineChart($('#histChart'), hp, {
+      h: 260, yMin: 0, yMax: Math.max(60, ...hp.map(p => p[1] + 5)), dec: 1, area: true, label: 'Evolución del score',
+      bands: [{ from: 0, to: 20, color: '--good' }, { from: 20, to: 40, color: '--warning' }, { from: 40, to: 55, color: '--serious' }, { from: 55, to: 100, color: '--critical' }],
+      refs: [{ y: 40, label: 'Elevado ≥40', color: '--serious' }],
+      extra: (p, i) => { const r = H[i]; return `<div class="d">${Math.round(r.coverage * 100)}% cobertura${r.bf ? ' · reconstruido' : ''}</div>`; },
+    });
 
-    const raw_score = rData.composite_score || 0;
-    // Handle both old (0-1) and new (0-100) scale formats
-    const score = raw_score > 1 ? raw_score / 100 : raw_score;
-    const sColor = score < 0.3 ? '#00d68f' : score < 0.5 ? '#ffd93d' : score < 0.7 ? '#ff8c42' : '#ff4d4d';
-    document.getElementById('r-score').textContent = Math.round(score * 100) + '%';
-    document.getElementById('r-score').style.color = sColor;
-    document.getElementById('r-label').textContent = rData.risk_label || rData.risk_color || '--';
-    document.getElementById('r-label').style.color = sColor;
-    document.getElementById('r-buysignals').innerHTML = 'Buy signals: <strong style="color:'+(rData.active_buy_signals >= 3 ? '#00d68f' : '#ffd93d')+'">'+rData.active_buy_signals+'/'+Object.keys(rData.buy_checklist||{}).length+'</strong>';
+    // ── Drivers
+    const drv = D.indicators.filter(i => i.score != null && i.score >= 50).sort((a, b) => (b.score * (b.weight || .01)) - (a.score * (a.weight || .01)));
+    $('#drivers').innerHTML = drv.length ? drv.map(i => `<div class="row"><div class="name">${i.label}<small>${i.note}</small></div><div class="val">${fmt(i.value, i.decimals, i.unit, ['sox_bubble', 'curve_10y3m', 'curve_10y2y'].includes(i.key) || (i.key === 'hy' && D.extra.hy_kind !== 'oas'))}</div>${badge(i.status)}</div>`).join('')
+      : '<div class="row"><div class="name">Ningún indicador en alerta.</div></div>';
 
-    const ab = document.getElementById('r-action');
-    const abC = rData.active_buy_signals >= 4 ? '#00d68f' : rData.active_buy_signals >= 2 ? '#ffd93d' : '#ff8c42';
-    ab.textContent = rData.action || '--';
-    ab.style.background = abC + '22'; ab.style.color = abC;
+    // ── Umbrales de capitulación
+    const P = D.pain;
+    $('#painHint').textContent = `${P.active} de ${P.known} activos`;
+    $('#pain').innerHTML = P.levels.map(p => `<div class="row"><div class="check ${p.active ? 'on' : ''}">${p.active ? '✓' : p.active === null ? '?' : ''}</div><div class="name">${p.label}<small>umbral ${p.op === '<' ? '<' : p.op === '>' ? '>' : '≥'} ${fmt(p.threshold, p.threshold % 1 ? 1 : 0, p.unit)}</small></div><div class="val">${fmt(p.value, Math.abs(p.value) >= 100 ? 0 : 2, p.unit)}</div></div>`).join('');
+    $('#action').innerHTML = P.action + '<div class="small-sub" style="margin:4px 0 0;font-weight:400">3 o más activos a la vez = comprar por tramos; 5 o más = desplegar.</div>';
 
-    const metrics = [
-      ['S&P 500', m.sp500, '', sc('sp500_drawdown', m.sp500_drawdown)],
-      ['Drawdown', m.sp500_drawdown != null ? m.sp500_drawdown.toFixed(1) : '--', '%', sc('sp500_drawdown', m.sp500_drawdown)],
-      ['VIX', m.vix, '', sc('vix', m.vix)],
-      ['WTI Oil', m.oil ? m.oil.toFixed(1) : '--', '', sc('oil', m.oil)],
-      ['30Y Yield', m.bond_30y != null ? m.bond_30y.toFixed(2) : '--', '%', sc('bond_30y', m.bond_30y)],
-      ['Yield Curve', m.yield_curve != null ? (m.yield_curve > 0 ? '+' : '') + m.yield_curve.toFixed(2) : '--', '%', sc('yield_curve', m.yield_curve)],
-      ['Above 200W', m.pct_above_200 != null ? m.pct_above_200.toFixed(1) : '--', '%', sc('pct_above_200', m.pct_above_200)],
-      ['McClellan', m.mcclellan != null ? m.mcclellan.toFixed(1) : '--', '', sc('mcclellan', m.mcclellan)],
+    // ── Tabla
+    let t = '<thead><tr><th>Indicador</th><th class="num">Valor</th><th>Puntuación</th><th>Estado</th><th class="num hide-sm">Peso</th><th class="hide-sm">Adelanto</th><th class="hide-sm">Dato a</th></tr></thead><tbody>';
+    let g = '';
+    D.indicators.forEach(i => {
+      if (i.group !== g) { g = i.group; t += `<tr class="group"><td colspan="7">${g}</td></tr>`; }
+      const sc = i.score, c = STATUS[i.status]?.c || '--muted';
+      t += `<tr><td>${i.label}<span class="sub">${i.note || ''}${i.note ? ' · ' : ''}${i.source || ''}</span></td>
+        <td class="num">${fmt(i.value, i.decimals, i.unit)}</td>
+        <td style="white-space:nowrap"><span class="sbar"><span style="width:${sc ?? 0}%;background:var(${c})"></span></span><span style="font-family:var(--mono);font-size:12px">${sc ?? '–'}</span></td>
+        <td>${badge(i.status)}</td>
+        <td class="num hide-sm">${i.weight ? Math.round(i.weight / totW * 100) + '%' : '–'}</td>
+        <td class="hide-sm">${i.lead}</td>
+        <td class="hide-sm ${i.stale ? 'stale' : ''}">${esDate(i.as_of)}${i.stale ? ' ⚠' : ''}</td></tr>`;
+    });
+    $('#indTable').innerHTML = t + '</tbody>';
+
+    // ── Pequeños múltiplos
+    const hyO = D.extra.hy_kind === 'oas';
+    const SM = [
+      ['spy_drawdown', 'S&P 500: caída desde máximo', '%', 1, [{ y: -15, label: '−15%' }], 'Corrección seria por debajo de −15%'],
+      ['sox_bubble', 'Semis sobre su MM200', '%', 1, [{ y: 30, label: 'Burbuja 30%' }], 'Hartnett: >30% es zona de burbuja'],
+      ['vix', 'VIX', '', 1, [{ y: 35, label: 'Pánico 35' }], 'Volatilidad implícita del S&P 500'],
+      ['bond_30y', 'Bono a 30 años', '%', 2, [{ y: 5, label: '5%' }], '«Bubble killer» por encima del 5%'],
+      ['curve_10y3m', 'Curva 10A − 3M', ' pp', 2, [{ y: 0, label: 'Inversión' }], 'Invertida (<0) anticipa recesión a 6–18M'],
+      hyO ? ['hy', 'Diferencial high yield', '%', 2, [{ y: 5, label: 'Estrés 5%' }], 'ICE BofA US HY OAS'] : null,
+      ['oil_price', 'Petróleo WTI', ' $', 1, [{ y: 100, label: '100 $' }], 'Por encima de 100 $ frena el consumo'],
+      ['unrate', 'Tasa de paro', '%', 1, [], 'Mensual, BLS'],
+      ['sahm', 'Regla de Sahm', '', 2, [{ y: 0.5, label: 'Recesión 0,50' }], 'Media 3M del paro menos su mínimo de 12M'],
+      ['claims_4w', 'Peticiones de paro semanales', '', 0, [{ y: 300000, label: '300K' }], 'FRED ICSA'],
+    ].filter(Boolean).filter(([k]) => (D.charts[k] || []).length > 1);
+    $('#smalls').innerHTML = SM.map(([k, t, , , , sub]) => `<div class="card"><div class="small-title"><span>${t}</span><span class="now">${fmt(I[k]?.value, I[k]?.decimals ?? 1, I[k]?.unit ?? '')}</span></div><div class="small-sub">${sub}</div><div class="chart" id="sm-${k}"></div></div>`).join('');
+    SM.forEach(([k, t, u, d, refs]) => lineChart($('#sm-' + k), D.charts[k], { unit: u, dec: d, refs, h: 160, label: t }));
+
+    // ── Curva
+    $('#curveHint').textContent = 'Treasury.gov · ' + esDate(D.curve.date);
+    curveChart($('#curveChart'), D.curve.points);
+    const sp = (k, l) => `${l} <b style="color:var(${I[k]?.value < 0 ? '--critical' : '--ink'})">${fmt(I[k]?.value, 2, ' pp', true)}</b>`;
+    $('#curveSpreads').innerHTML = sp('curve_10y3m', '10A − 3M') + sp('curve_10y2y', '10A − 2A');
+    const secKey = document.querySelector('#secSeg [aria-pressed="true"]').dataset.p;
+    divBars($('#secChart'), D.sectors, secKey);
+
+    // ── Tesis
+    const bb = M.bull_bear || {}, bbAge = bb.date ? Math.round((Date.now() - new Date(bb.date)) / 864e5) : null;
+    const sox = I.sox_bubble?.value, dd = I.spy_drawdown?.value, b30 = I.bond_30y?.value;
+    const verdict = (ok, txt) => `<span class="status" style="color:var(${ok === null ? '--muted' : ok ? '--good' : '--serious'})"><i style="background:var(${ok === null ? '--muted' : ok ? '--good' : '--serious'})">${ok === null ? '?' : ok ? '✓' : '✕'}</i>${txt}</span>`;
+    const claims = [
+      ['SOX un 62% por encima de su media de 200 sesiones', verdict(sox == null ? null : sox > 50, sox == null ? 'sin dato' : sox > 50 ? 'sigue' : 'ya no'), (() => { const c = (D.charts.sox_bubble || []).reduce((a, p) => p[1] > (a?.[1] ?? -Infinity) ? p : a, null); return `Hoy: ${fmt(sox, 1, '%', true)}` + (c ? `; máximo del último año ${fmt(c[1], 1, '%', true)} el ${esDate(c[0])}.` : '.'); })()],
+      ['Techo del mercado en junio de 2026', verdict(dd == null ? null : dd < -10, dd == null ? 'sin dato' : dd < -10 ? 'se cumple' : 'no se cumplió'), `El S&P está a ${fmt(dd, 1, '%')} de su máximo de 52 semanas.`],
+      ['El 30 años al 5% pincha la burbuja', verdict(b30 == null ? null : b30 >= 5 && dd < -10, b30 >= 5 ? (dd < -10 ? 'confirmado' : 'umbral roto, sin pinchazo') : 'umbral no alcanzado'), `30 años en ${fmt(b30, 2, '%')}; el S&P a ${fmt(dd, 1, '%')} del máximo. El umbral se cruzó y la bolsa no ha caído: de momento, la tesis no se confirma.`],
+      ['Bull & Bear de BofA en 7,6 (venta en 8)', verdict(null, bbAge > 45 ? `dato de hace ${bbAge} días` : 'vigente'), `Último dato manual: ${fmt(bb.value, 1)} el ${esDate(bb.date)}. Actualízalo en docs/manual.json.`],
+      ['Petróleo: subida >90% desde mínimos = recesión', verdict(I.oil_rise?.value == null ? null : I.oil_rise.value >= 90, I.oil_rise?.value >= 90 ? 'activado' : 'no activado'), `WTI ${fmt(I.oil_price?.value, 1, ' $')}, ${fmt(I.oil_rise?.value, 0, '%', true)} sobre su mínimo de 52 semanas (${fmt(D.extra.oil_low52, 1, ' $')}).`],
     ];
-    document.getElementById('r-metrics').innerHTML = metrics.map(([l,v,s,st]) => renderMetric(l, v != null ? v : '--', s, st)).join('');
-
-    // Checklist
-    let cl = '';
-    for (const [signal, active] of Object.entries(rData.buy_checklist || {})) {
-      cl += '<div class="checklist-item"><div class="checklist-dot '+(active?'active':'inactive')+'">'+(active?'&#10003;':'')+'</div><span class="checklist-text" style="color:'+(active?'#00d68f':'#8892a4')+'">'+signal+'</span></div>';
-    }
-    document.getElementById('r-checklist').innerHTML = cl;
-
-    // Sectors
-    const perf = rData.sector_performance || {};
-    const sorted = Object.entries(perf).sort((a,b) => (b[1]['1M']||0) - (a[1]['1M']||0));
-    const maxAbs = Math.max(...sorted.map(([,v]) => Math.abs(v['1M']||0)), 1);
-    let sh = '';
-    for (const [name, vals] of sorted) {
-      const v = vals['1M'] || 0;
-      const pct = Math.abs(v) / maxAbs * 100;
-      const color = v > 0 ? '#00d68f' : '#ff4d4d';
-      sh += '<div class="sector-row"><div class="sector-name">'+name+'</div><div class="sector-bar-container"><div style="position:absolute;left:50%;top:0;height:100%;width:1px;background:#2a2a3a;"></div><div class="sector-bar" style="background:'+color+';opacity:0.6;width:'+pct/2+'%;'+(v>0?'left:50%':'left:'+(50-pct/2)+'%')+'"></div></div><div class="sector-val" style="color:'+color+'">'+(v>0?'+':'')+v.toFixed(1)+'%</div></div>';
-    }
-    document.getElementById('r-sectors').innerHTML = sh || '<div style="color:#6b7280">No data</div>';
-  }
-
-  document.getElementById('tab-dashboard').style.display = 'block';
-
-  // ── COMPOSITE BANNER: populate from data.json if macro not yet available ──
-  if (rData && !mData) {
-    const raw = rData.composite_score || 0;
-    const pct = raw > 1 ? raw : Math.round(raw * 100);
-    const c = pct < 30 ? '#00d68f' : pct < 50 ? '#ffd93d' : pct < 70 ? '#ff8c42' : '#ff4d4d';
-    const lbl = rData.risk_label || (pct < 30 ? 'RIESGO BAJO' : pct < 50 ? 'MODERADO' : pct < 70 ? 'ELEVADO' : 'ALTO RIESGO');
-    const csm = document.getElementById('comp-score-main');
-    const clm = document.getElementById('comp-label-main');
-    const cb  = document.getElementById('composite-banner');
-    if (csm) { csm.textContent = pct + '/100'; csm.style.color = c; }
-    if (clm) { clm.textContent = lbl; clm.style.color = c; }
-    if (cb)  { cb.style.display = 'flex'; }
-    const is = document.getElementById('ind-comp-score');
-    const il = document.getElementById('ind-comp-label');
-    const ib = document.getElementById('ind-comp-bar');
-    if (is) { is.textContent = pct + '/100'; is.style.color = c; }
-    if (il) { il.textContent = lbl + ' (actualización pendiente)'; il.style.color = c; }
-    if (ib) { ib.style.width = pct + '%'; ib.style.background = c; }
-  }
-
-  // ── MACRO INDICATORS ──
-  // Show pending notice in Indicadores tab if macro_indicators.json not available
-  if (!mData) {
-    const notice = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#6b7280;">
-      <div style="font-size:32px;margin-bottom:12px;">⏳</div>
-      <div style="font-size:14px;font-weight:600;color:#ffd93d;margin-bottom:8px;">macro_indicators.json pendiente de generación</div>
-      <div style="font-size:12px;">Dispara el workflow manualmente en <strong>GitHub → Actions → "Update Recession Monitor" → Run workflow</strong></div>
-      <div style="font-size:11px;margin-top:12px;color:#4d4d6b;">Los JSON actuales (data.json, harnett_data.json, credit_data.json) siguen activos en el resto de tabs.</div>
-    </div>`;
-    const el = document.getElementById('tab-indicadores');
-    if (el) {
-      const grid = el.querySelector('[id="score-breakdown"]');
-      if (grid) grid.closest('.card').insertAdjacentHTML('beforebegin', '<div style="display:grid">' + notice + '</div>');
-    }
-  }
-
-  if (mData) {
-    renderComposite(mData.composite);
-    renderSahm(mData.labor_market);
-    renderNBER(mData.nber_coincident);
-    renderYieldCurve(mData.yield_curve);
-    renderIndTable('ind-market',   mData.market_signals);
-    renderIndTable('ind-labor',    mData.labor_market);
-    renderIndTable('ind-consumer', mData.consumer_signals);
-    renderHartnettLive(mData.hartnett_live);
-
-    // Update r-score to show composite if data.json composite missing
-    if (!rData && mData.composite) {
-      document.getElementById('r-score').textContent = mData.composite.score + '/100';
-      document.getElementById('r-score').style.color = mData.composite.color;
-      document.getElementById('r-label').textContent = mData.composite.label;
-      document.getElementById('r-label').style.color = mData.composite.color;
-    }
-
-    // Date display
-    if (!rData && mData.timestamp) {
-      const ts = new Date(mData.timestamp);
-      document.getElementById('date-display').textContent = ts.toLocaleDateString('es-ES') + ' ' + ts.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
-    }
-  }
-
-
-  // ── HARNETT TAB ──
-  if (hData) {
-    // Pain levels
-    let painHtml = '';
-    for (const [key, p] of Object.entries(hData.pain_levels || {})) {
-      const active = p.active;
-      const color = active ? '#ff4d4d' : '#00d68f';
-      painHtml += '<div class="pain-card '+(active?'active':'inactive')+'"><div class="pain-label" style="color:#e0e0e0">'+p.label+'</div><div class="pain-value" style="color:'+color+'">'+(p.value != null ? p.value.toFixed(1) : '--')+'</div><div class="pain-threshold">Threshold: '+p.threshold+'</div><div class="pain-status" style="color:'+color+'">'+(active?'ACTIVE':'INACTIVE')+'</div></div>';
-    }
-    document.getElementById('h-pain').innerHTML = painHtml;
-
-    // Danger score
-    const danger = hData.harnett_danger || 0;
-    const dColor = danger < 0.3 ? '#00d68f' : danger < 0.5 ? '#ffd93d' : danger < 0.75 ? '#ff8c42' : '#ff4d4d';
-    document.getElementById('h-danger-score').textContent = Math.round(danger * 100) + '%';
-    document.getElementById('h-danger-score').style.color = dColor;
-    document.getElementById('h-danger-label').textContent = hData.harnett_label || '--';
-    document.getElementById('h-danger-label').style.color = dColor;
-
-    // Credit bar
-    const cc = hData.credit_composite || 0;
-    const ccColor = cc < 25 ? '#00d68f' : cc < 50 ? '#ffd93d' : cc < 75 ? '#ff8c42' : '#ff4d4d';
-    document.getElementById('h-credit-val').textContent = cc.toFixed(0) + '/100 (' + (hData.credit_label||'--') + ')';
-    document.getElementById('h-credit-val').style.color = ccColor;
-    document.getElementById('h-credit-bar').style.width = cc + '%';
-    document.getElementById('h-credit-bar').style.background = ccColor;
-
-    // 2008 parallel
-    const m = hData.metrics || {};
-    const is2008 = cc > 40 && (m.oil||0) > 90;
-    document.getElementById('h-2008').textContent = is2008 ? 'WARNING - Oil may be masking credit stress' : 'Not triggered';
-    document.getElementById('h-2008').style.color = is2008 ? '#ff4d4d' : '#00d68f';
-
-    // Contrarian
-    const cBuy = hData.contrarian_buy;
-    const cBox = document.getElementById('h-contrarian-box');
-    cBox.style.background = cBuy ? '#00d68f22' : '#1e1e2f';
-    document.getElementById('h-contrarian').textContent = cBuy ? 'ACTIVE - Deploy capital at pain levels' : 'Not yet triggered (need 3+ pain levels + credit stress)';
-    document.getElementById('h-contrarian').style.color = cBuy ? '#00d68f' : '#6b7280';
-
-    // Trades
-    const tradeData = [
-      { name: 'SELL SOX / AI Semis', detail: '62% sobre MM200 — burbuja Mississippi/1989', active: true, color: '#ff4d4d', type: 'sell' },
-      { name: 'SELL Oil (>100)', detail: 'above 100 (now: '+(m.oil||0).toFixed(0)+')', active: (m.oil||0) > 100, color: '#ff4d4d', type: 'sell' },
-      { name: 'BUY Curve Steepeners', detail: 'C1 — bono 30Y umbral 5%', active: (m.bond_30y||0) > 4.5, color: '#00d68f', type: 'buy' },
-      { name: 'BUY China (FXI)', detail: 'C2 — deflation exit play, barata', active: true, color: '#4da8ff', type: 'buy' },
-      { name: 'BUY Consumo Cíclico', detail: 'C3 — Trump consumer + bajan gasolina', active: true, color: '#4da8ff', type: 'buy' },
-      { name: 'BUY Chips Industriales', detail: 'C4 — "cuello azul", no IA (autos, defensa)', active: true, color: '#4da8ff', type: 'buy' },
-      { name: 'BUY Commodities + Materiales', detail: 'C5 — 2% S&P (30Y min), militar + vivienda', active: true, color: '#9b8afb', type: 'buy' },
-      { name: 'AVOID Mag 7 Tech', detail: 'Bull&Bear 7.6/8 — capitulación alcista', active: true, color: '#ffd93d', type: 'avoid' },
-      { name: 'AVOID Bank Loans', detail: 'leveraged loan risk', active: true, color: '#ffd93d', type: 'avoid' },
-    ];
-    let th = '';
-    for (const t of tradeData) {
-      const bgMap = { sell: '#ff4d4d', buy: '#00d68f', avoid: '#ffd93d' };
-      th += '<div class="trade-row"><div><div class="trade-name" style="color:'+t.color+'">'+t.name+'</div><div class="trade-detail">'+t.detail+'</div></div><span class="trade-badge" style="background:'+bgMap[t.type]+'22;color:'+bgMap[t.type]+'">'+t.type.toUpperCase()+'</span></div>';
-    }
-    document.getElementById('h-trades').innerHTML = th;
-
-    // Credit details
-    const cr = hData.credit || {};
-    const creditMetrics = [
-      ['HY Spread Z', cr.hy_spread_zscore != null ? cr.hy_spread_zscore.toFixed(2) : '--', '', cr.hy_spread_status === 'STRESS' ? 'red' : cr.hy_spread_status === 'ELEVATED' ? 'yellow' : 'green'],
-      ['Banks 3M', cr.banks_3m != null ? cr.banks_3m.toFixed(1) : '--', '%', cr.banks_status === 'ALERT' ? 'red' : cr.banks_status === 'WEAK' ? 'yellow' : 'green'],
-      ['Bank Loans 1M', cr.bank_loans_1m != null ? cr.bank_loans_1m.toFixed(1) : '--', '%', cr.bank_loans_status === 'STRESS' ? 'red' : cr.bank_loans_status === 'WEAK' ? 'yellow' : 'green'],
-      ['Yield Curve', cr.yield_curve != null ? cr.yield_curve.toFixed(2) : '--', '%', cr.yield_curve_status === 'INVERTED' ? 'red' : cr.yield_curve_status === 'FLAT' ? 'yellow' : 'green'],
-    ];
-    document.getElementById('h-credit-details').innerHTML = creditMetrics.map(([l,v,s,st]) => renderMetric(l,v,s,st)).join('');
-  }
-
-  // ── CREDIT TAB ──
-  try {
-    const cData = await (await fetch('credit_data.json?' + Date.now())).json();
-    if (cData) {
-      const cs = cData.credit_stress_score || 0;
-      const csColor = cs < 25 ? '#00d68f' : cs < 50 ? '#ffd93d' : cs < 75 ? '#ff8c42' : '#ff4d4d';
-      document.getElementById('c-score').textContent = cs.toFixed(0) + '/100';
-      document.getElementById('c-score').style.color = csColor;
-      document.getElementById('c-label').textContent = cData.credit_stress_label || '--';
-      document.getElementById('c-label').style.color = csColor;
-      document.getElementById('c-counts').innerHTML = '<span style="color:#ff4d4d">' + (cData.n_danger||0) + ' DANGER</span> / <span style="color:#ffd93d">' + (cData.n_warning||0) + ' WARNING</span> / <span style="color:#00d68f">' + (cData.n_ok||0) + ' OK</span>';
-      document.getElementById('c-2008').textContent = cData.parallel_2008 ? 'ACTIVE - Oil masking credit stress (2008 pattern)' : 'Not triggered';
-      document.getElementById('c-2008').style.color = cData.parallel_2008 ? '#ff4d4d' : '#00d68f';
-
-      var sigHtml = '';
-      var sigNames = {
-        'hy_divergence': 'HY Bond Divergence',
-        'cds_proxy': 'Credit Spreads (CDS proxy)',
-        'bank_loans': 'Bank Loans (BKLN)',
-        'oil_trigger': 'Oil Recession Trigger',
-        'financials': 'Financial Sector Health',
-        'tech_debt': 'Tech Debt / Refi Wall',
-      };
-      var sigs = cData.signals || {};
-      for (var sk in sigNames) {
-        var sig = sigs[sk] || {};
-        var st = sig.status || 'OK';
-        var stColor = st === 'DANGER' ? '#ff4d4d' : st === 'WARNING' ? '#ffd93d' : '#00d68f';
-        sigHtml += '<div class="checklist-item"><div class="checklist-dot" style="background:' + stColor + '22;border:2px solid ' + stColor + ';color:' + stColor + ';font-size:9px;">' + (st === 'DANGER' ? '!' : st === 'WARNING' ? '~' : 'OK') + '</div><span style="font-size:12px;color:' + stColor + ';">' + sigNames[sk] + ' — <strong>' + st + '</strong></span></div>';
-      }
-      document.getElementById('c-signals').innerHTML = sigHtml;
-
-      var detHtml = '';
-      if (sigs.hy_divergence) {
-        var hd = sigs.hy_divergence;
-        detHtml += '<div class="card" style="margin:0"><h4 style="font-size:12px;color:#ff8c42;margin-bottom:8px;">HY Bond Divergence</h4><div style="font-size:12px;color:#8892a4;line-height:1.8;">S&P 1M: <strong style="color:#e0e0e0">' + (hd.sp500_1m||0).toFixed(1) + '%</strong> vs HYG 1M: <strong style="color:#e0e0e0">' + (hd.hyg_1m||0).toFixed(1) + '%</strong><br>Divergence: <strong style="color:' + (hd.diverging ? '#ff4d4d' : '#00d68f') + '">' + (hd.diverging ? 'HY NOT following equities' : 'Normal') + '</strong></div></div>';
-      }
-      if (sigs.oil_trigger) {
-        var ot = sigs.oil_trigger;
-        detHtml += '<div class="card" style="margin:0"><h4 style="font-size:12px;color:#ff8c42;margin-bottom:8px;">Oil Recession Trigger</h4><div style="font-size:12px;color:#8892a4;line-height:1.8;">Price: <strong style="color:#e0e0e0">' + (ot.price||0).toFixed(1) + '</strong><br>Rise from 52W low: <strong style="color:' + (ot.rise_from_low > 90 ? '#ff4d4d' : ot.rise_from_low > 50 ? '#ffd93d' : '#00d68f') + '">' + (ot.rise_from_low||0).toFixed(0) + '%</strong> (90%+ = recession)<br>Above 100: <strong style="color:' + (ot.above_100 ? '#ff4d4d' : '#00d68f') + '">' + (ot.above_100 ? 'YES' : 'No') + '</strong></div></div>';
-      }
-      if (sigs.bank_loans) {
-        var bl = sigs.bank_loans;
-        detHtml += '<div class="card" style="margin:0"><h4 style="font-size:12px;color:#ff8c42;margin-bottom:8px;">Leveraged Loans (BKLN)</h4><div style="font-size:12px;color:#8892a4;line-height:1.8;">1M: <strong style="color:#e0e0e0">' + (bl.bkln_1m||0).toFixed(1) + '%</strong> | 3M: <strong style="color:#e0e0e0">' + (bl.bkln_3m||0).toFixed(1) + '%</strong><br>Drawdown: <strong style="color:#e0e0e0">' + (bl.bkln_drawdown||0).toFixed(1) + '%</strong></div></div>';
-      }
-      if (sigs.financials) {
-        var fn = sigs.financials;
-        detHtml += '<div class="card" style="margin:0"><h4 style="font-size:12px;color:#ff8c42;margin-bottom:8px;">Banks & Insurance</h4><div style="font-size:12px;color:#8892a4;line-height:1.8;">KRE Banks 3M: <strong style="color:' + (fn.kre_3m < -10 ? '#ff4d4d' : '#e0e0e0') + '">' + (fn.kre_3m||0).toFixed(1) + '%</strong><br>XLF Financials 3M: <strong style="color:#e0e0e0">' + (fn.xlf_3m||0).toFixed(1) + '%</strong><br>Insurance 1M: <strong style="color:#e0e0e0">' + (fn.insurance_1m||0).toFixed(1) + '%</strong></div></div>';
-      }
-      document.getElementById('c-details').innerHTML = detHtml;
-    }
-  } catch(e) { console.warn('credit_data.json failed', e); }
-  
-  // ── SCENARIOS ──
-  let scHtml = '';
-  for (const s of SCENARIOS) {
-    const rows = [['Timeline',s.timeline],['Oil',s.oil],['Tipos',s.rates],['S&P 500',s.sp500]];
-    scHtml += '<div class="card" style="border-color:'+s.color+'33"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><span style="font-size:24px;font-weight:800;font-family:JetBrains Mono,monospace;color:'+s.color+'">ESC. '+s.id+'</span><span style="padding:4px 10px;border-radius:20px;font-size:13px;font-weight:700;background:'+s.color+'22;color:'+s.color+'">'+s.prob+'</span></div><h3 style="font-size:16px;font-weight:700;margin-bottom:14px;">'+s.title+'</h3>'+rows.map(([l,v]) => '<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;"><span style="color:#6b7280">'+l+'</span><span style="font-weight:600">'+v+'</span></div>').join('')+'<div style="margin-top:14px;padding:10px 12px;border-radius:8px;background:'+s.color+'11;border:1px solid '+s.color+'33"><div style="font-size:11px;color:'+s.color+';font-weight:700;margin-bottom:4px;">ACCION:</div><div style="font-size:12px;">'+s.action+'</div></div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;">'+s.sectors.map(sec => '<span style="font-size:10px;padding:2px 8px;border-radius:12px;background:#1e1e2f;color:'+s.color+'">'+sec+'</span>').join('')+'</div></div>';
-  }
-  document.getElementById('scenarios-grid').innerHTML = scHtml;
+    $('#claims').innerHTML = claims.map(([c, v, n]) => `<div class="claim"><div class="c">${c}</div>${v}<div class="n">${n}</div></div>`).join('');
+    $('#oilNow').textContent = fmt(I.oil_price?.value, 1, ' $');
+  };
+  window.__render = () => { try { render(); } catch (e) { console.error(e); } };
+  document.querySelectorAll('#secSeg button').forEach(b => b.onclick = () => {
+    document.querySelectorAll('#secSeg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    divBars($('#secChart'), D.sectors, b.dataset.p);
+  });
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(window.__render, 150); });
+  const initial = (location.hash || '#resumen').slice(1);
+  showTab(document.querySelector(`nav button[data-tab="${initial}"]`) ? initial : 'resumen');
 }
-
-loadData();
+main();
 </script>
 </body>
 </html>
