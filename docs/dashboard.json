@@ -1,5 +1,5 @@
 {
- "timestamp": "2026-10-03T17:42:33Z",
+ "timestamp": "2026-10-03T17:48:41Z",
  "version": 4,
  "fred_enabled": true,
  "composite": {
@@ -336,7 +336,7 @@
    "note": "<58 = zona de recesión",
    "source": "U. Michigan vía FRED",
    "as_of": "2026-08-01",
-   "stale": true
+   "stale": false
   },
   {
    "key": "oil_price",
