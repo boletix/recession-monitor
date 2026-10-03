@@ -509,7 +509,7 @@ def main():
         ('claims_4w', 'Peticiones de paro (media 4 sem.)', 'Empleo', '', 0, '3–6M', '>300K = deterioro', 14),
         ('quits_rate', 'Tasa de abandonos (JOLTS)', 'Empleo', '%', 1, '3–12M', '<2% = trabajadores sin confianza', 100),
         ('savings', 'Tasa de ahorro personal', 'Consumidor', '%', 1, '3–9M', '<3% = colchón agotado', 100),
-        ('umich', 'Confianza del consumidor (UMich)', 'Consumidor', '', 1, '3–9M', '<58 = zona de recesión', 60),
+        ('umich', 'Confianza del consumidor (UMich)', 'Consumidor', '', 1, '3–9M', '<58 = zona de recesión', 75),
         ('oil_price', 'Petróleo WTI', 'Consumidor', ' $', 1, '3–9M', '>100 $ = freno al consumo', 5),
         ('oil_rise', 'Petróleo vs mínimo 52 sem.', 'Consumidor', '%', 0, '6–12M', '>90% = antesala de recesión', 5),
     ]
