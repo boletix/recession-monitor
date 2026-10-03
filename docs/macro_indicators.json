@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-02T01:17:11.548541Z",
+  "timestamp": "2026-10-03T00:56:06.634926Z",
   "composite": {
-    "score": 40.5,
+    "score": 41.8,
     "label": "ELEVADO",
     "color": "#ffd93d",
     "components": {
@@ -38,7 +38,7 @@
         "weight": 0.08
       },
       "payrolls": {
-        "score": 10,
+        "score": 25,
         "weight": 0.08
       },
       "oil_rise": {
@@ -63,13 +63,13 @@
     "sox_vs_200dma": NaN,
     "sox_price": NaN,
     "sox_200dma": NaN,
-    "bond_30y": 5.61,
+    "bond_30y": 5.63,
     "bond_30y_triggered": true,
-    "oil_price": 92.8,
-    "oil_rise_pct": 68.0,
+    "oil_price": 91.3,
+    "oil_rise_pct": 65.1,
     "oil_trigger_90": false,
-    "vix": 16.4,
-    "dxy": 102.1,
+    "vix": 15.3,
+    "dxy": 101.9,
     "bull_bear_last": 7.6,
     "bull_bear_date": "2026-05-16",
     "bull_bear_triggered": false
@@ -77,8 +77,8 @@
   "market_signals": {
     "vix": {
       "label": "VIX",
-      "value": 16.389999389648438,
-      "value_str": "16.4",
+      "value": 15.3100004196167,
+      "value_str": "15.3",
       "score": 15,
       "status": "OK",
       "color": "#00d68f",
@@ -113,8 +113,8 @@
     },
     "bond_30y": {
       "label": "Bono 30Y (%)",
-      "value": 5.61,
-      "value_str": "5.61%",
+      "value": 5.63,
+      "value_str": "5.63%",
       "score": 90,
       "status": "DANGER",
       "color": "#ff4d4d",
@@ -122,8 +122,8 @@
     },
     "dxy": {
       "label": "DXY (d\u00f3lar)",
-      "value": 102.10099792480469,
-      "value_str": "102.1",
+      "value": 101.92400360107422,
+      "value_str": "101.9",
       "score": 25,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -149,12 +149,12 @@
     }
   },
   "yield_curve": {
-    "y3m": 4.17,
-    "y2y": 4.78,
-    "y10y": 5.24,
-    "y30y": 5.61,
-    "spread_10y2y": 0.46,
-    "spread_10y3m": 1.07,
+    "y3m": 4.19,
+    "y2y": 4.83,
+    "y10y": 5.28,
+    "y30y": 5.63,
+    "spread_10y2y": 0.45,
+    "spread_10y3m": 1.09,
     "score_10y3m": 5,
     "score_10y2y": 25,
     "inverted_10y3m": false,
@@ -163,8 +163,8 @@
   "labor_market": {
     "sahm_rule": {
       "label": "Sahm Rule",
-      "value": -0.07,
-      "value_str": "-0.07",
+      "value": 0.0,
+      "value_str": "0.00",
       "score": 5,
       "status": "OK",
       "color": "#00d68f",
@@ -173,8 +173,8 @@
     "sahm_triggered": false,
     "unemployment": {
       "label": "Tasa desempleo (%)",
-      "value": 4.1,
-      "value_str": "4.1%",
+      "value": 4.2,
+      "value_str": "4.2%",
       "score": 25,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -182,11 +182,11 @@
     },
     "payrolls_mom": {
       "label": "N\u00f3minas MoM (miles)",
-      "value": 162.0,
-      "value_str": "+162K",
-      "score": 10,
-      "status": "OK",
-      "color": "#00d68f",
+      "value": 29.0,
+      "value_str": "+29K",
+      "score": 25,
+      "status": "WATCH",
+      "color": "#ffd93d",
       "note": "BLS nonfarm payrolls"
     },
     "initial_claims": {
@@ -200,17 +200,17 @@
     },
     "quits_raw": {
       "label": "JOLTS renuncias (miles)",
-      "value": 914.0,
-      "value_str": "914K",
-      "score": 10,
-      "status": "OK",
-      "color": "#00d68f",
+      "value": 741.0,
+      "value_str": "741K",
+      "score": 50,
+      "status": "WARNING",
+      "color": "#ff8c42",
       "note": "Bajo = trabajadores sin confianza"
     },
     "temp_employment": {
       "label": "Temp employment YoY (%)",
-      "value": 1.4577376877541903,
-      "value_str": "1.5%",
+      "value": 0.6149862437287767,
+      "value_str": "0.6%",
       "score": 15,
       "status": "OK",
       "color": "#00d68f",
@@ -238,8 +238,8 @@
     },
     "oil_rise": {
       "label": "Petr\u00f3leo vs m\u00ednimo 52S (%)",
-      "value": 67.97538550562751,
-      "value_str": "+68%",
+      "value": 65.11670233469549,
+      "value_str": "+65%",
       "score": 55,
       "status": "WARNING",
       "color": "#ff8c42",
@@ -247,8 +247,8 @@
     },
     "oil_price": {
       "label": "Petr\u00f3leo WTI ($)",
-      "value": 92.83999633789062,
-      "value_str": "92.8$",
+      "value": 91.26000213623047,
+      "value_str": "91.3$",
       "score": 35,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -258,11 +258,11 @@
   "nber_coincident": {
     "payrolls_mom": {
       "label": "N\u00f3minas MoM (miles)",
-      "value": 162.0,
-      "value_str": "+162K",
-      "score": 10,
-      "status": "OK",
-      "color": "#00d68f",
+      "value": 29.0,
+      "value_str": "+29K",
+      "score": 25,
+      "status": "WATCH",
+      "color": "#ffd93d",
       "note": "NBER indicator #1"
     },
     "indpro_mom": {
@@ -276,8 +276,8 @@
     },
     "sahm_rule": {
       "label": "Sahm Rule",
-      "value": -0.07,
-      "value_str": "-0.07",
+      "value": 0.0,
+      "value_str": "0.00",
       "score": 5,
       "status": "OK",
       "color": "#00d68f",
@@ -285,8 +285,8 @@
     },
     "unemployment_lvl": {
       "label": "Desempleo (%)",
-      "value": 4.1,
-      "value_str": "4.1%",
+      "value": 4.2,
+      "value_str": "4.2%",
       "score": 25,
       "status": "WATCH",
       "color": "#ffd93d",
@@ -296,9 +296,9 @@
     "nber_note": "El NBER tarda de media 11 meses en declarar recesi\u00f3n. La Sahm Rule es la se\u00f1al m\u00e1s r\u00e1pida disponible en tiempo real."
   },
   "oil_breakdown": {
-    "price": 92.8,
+    "price": 91.3,
     "52w_low": 55.3,
-    "rise_from_low_pct": 68.0,
+    "rise_from_low_pct": 65.1,
     "recession_trigger_90pct": false,
     "above_100": false
   }
