@@ -1,5 +1,5 @@
 {
- "timestamp": "2026-10-07T00:41:13Z",
+ "timestamp": "2026-10-08T00:59:32Z",
  "version": 4,
  "fred_enabled": true,
  "composite": {
@@ -56,14 +56,14 @@
    "group": "Mercados",
    "unit": "",
    "decimals": 1,
-   "value": 15.01,
+   "value": 15.08,
    "score": 15,
    "status": "OK",
    "weight": 0.08,
    "lead": "0–3M",
    "note": ">35 = pánico",
    "source": "CBOE ^VIX",
-   "as_of": "2026-10-06",
+   "as_of": "2026-10-07",
    "stale": false
   },
   {
@@ -104,14 +104,14 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 2,
-   "value": 5.64,
+   "value": 5.67,
    "score": 90,
    "status": "PELIGRO",
    "weight": 0.08,
    "lead": "3–12M",
    "note": "≥5% = «bubble killer»",
    "source": "Treasury.gov",
-   "as_of": "2026-10-06",
+   "as_of": "2026-10-07",
    "stale": false
   },
   {
@@ -120,14 +120,14 @@
    "group": "Mercados",
    "unit": "",
    "decimals": 1,
-   "value": 101.948,
+   "value": 102.217,
    "score": 25,
    "status": "VIGILAR",
    "weight": 0.04,
    "lead": "3–9M",
    "note": ">105 = estrés en emergentes",
    "source": "ICE DXY",
-   "as_of": "2026-10-06",
+   "as_of": "2026-10-07",
    "stale": false
   },
   {
@@ -136,14 +136,14 @@
    "group": "Crédito",
    "unit": "%",
    "decimals": 2,
-   "value": 3.12,
+   "value": 3.03,
    "score": 15,
    "status": "OK",
    "weight": 0.08,
    "lead": "0–6M",
    "note": ">5% = estrés; >8% = crisis",
    "source": "ICE BofA HY OAS (FRED)",
-   "as_of": "2026-10-05",
+   "as_of": "2026-10-06",
    "stale": false
   },
   {
@@ -152,15 +152,15 @@
    "group": "Crédito",
    "unit": "",
    "decimals": 2,
-   "value": -0.548,
-   "score": 5,
+   "value": -0.494,
+   "score": 15,
    "status": "OK",
    "weight": 0,
    "lead": "0–6M",
    "note": ">0 = más tensas que la media",
    "source": "Chicago Fed NFCI",
-   "as_of": "2026-09-25",
-   "stale": true
+   "as_of": "2026-10-02",
+   "stale": false
   },
   {
    "key": "kre_3m",
@@ -207,7 +207,7 @@
    "lead": "6–18M",
    "note": "<0 = invertida",
    "source": "Treasury.gov",
-   "as_of": "2026-10-06",
+   "as_of": "2026-10-07",
    "stale": false
   },
   {
@@ -216,14 +216,14 @@
    "group": "Economía",
    "unit": " pp",
    "decimals": 2,
-   "value": 0.48,
-   "score": 25,
-   "status": "VIGILAR",
+   "value": 0.51,
+   "score": 10,
+   "status": "OK",
    "weight": 0,
    "lead": "6–24M",
    "note": "<0 = invertida",
    "source": "Treasury.gov",
-   "as_of": "2026-10-06",
+   "as_of": "2026-10-07",
    "stale": false
   },
   {
@@ -344,14 +344,14 @@
    "group": "Consumidor",
    "unit": " $",
    "decimals": 1,
-   "value": 90.23,
+   "value": 89.2,
    "score": 35,
    "status": "VIGILAR",
    "weight": 0,
    "lead": "3–9M",
    "note": ">100 $ = freno al consumo",
    "source": "WTI CL=F",
-   "as_of": "2026-10-06",
+   "as_of": "2026-10-07",
    "stale": false
   },
   {
@@ -360,14 +360,14 @@
    "group": "Consumidor",
    "unit": "%",
    "decimals": 0,
-   "value": 63.2531,
+   "value": 61.3895,
    "score": 55,
    "status": "ALERTA",
    "weight": 0.05,
    "lead": "6–12M",
    "note": ">90% = antesala de recesión",
    "source": "WTI vs mín. 52 sem.",
-   "as_of": "2026-10-06",
+   "as_of": "2026-10-07",
    "stale": false
   }
  ],
@@ -376,7 +376,7 @@
    {
     "key": "vix",
     "label": "VIX en pánico",
-    "value": 15.01,
+    "value": 15.08,
     "threshold": 35,
     "op": ">",
     "unit": "",
@@ -403,7 +403,7 @@
    {
     "key": "bond_30y",
     "label": "Bono 30A por encima del 5%",
-    "value": 5.64,
+    "value": 5.67,
     "threshold": 5.0,
     "op": ">=",
     "unit": "%",
@@ -421,7 +421,7 @@
    {
     "key": "hy",
     "label": "Crédito HY en estrés",
-    "value": 3.12,
+    "value": 3.03,
     "threshold": 5.0,
     "op": ">",
     "unit": "%",
@@ -430,7 +430,7 @@
    {
     "key": "oil_price",
     "label": "Petróleo por encima de 100 $",
-    "value": 90.23,
+    "value": 89.2,
     "threshold": 100,
     "op": ">=",
     "unit": " $",
@@ -439,7 +439,7 @@
    {
     "key": "oil_rise",
     "label": "Petróleo +90% desde mínimos",
-    "value": 63.25,
+    "value": 61.39,
     "threshold": 90,
     "op": ">=",
     "unit": "%",
@@ -451,19 +451,19 @@
   "action": "MANTENER liquidez — sin capitulación"
  },
  "curve": {
-  "date": "2026-10-06",
+  "date": "2026-10-07",
   "points": {
-   "1M": 4.06,
-   "3M": 4.21,
+   "1M": 4.07,
+   "3M": 4.22,
    "6M": 4.28,
-   "1Y": 4.46,
-   "2Y": 4.79,
-   "3Y": 4.88,
+   "1Y": 4.42,
+   "2Y": 4.77,
+   "3Y": 4.87,
    "5Y": 5.03,
    "7Y": 5.15,
-   "10Y": 5.27,
-   "20Y": 5.68,
-   "30Y": 5.64
+   "10Y": 5.28,
+   "20Y": 5.71,
+   "30Y": 5.67
   }
  },
  "sectors": [
@@ -472,77 +472,77 @@
    "ticker": "XLK",
    "1M": 8.0,
    "3M": 11.5,
-   "12M": 42.1
+   "12M": 39.7
   },
   {
    "name": "Financieras",
    "ticker": "XLF",
    "1M": -6.7,
    "3M": -1.4,
-   "12M": 2.0
+   "12M": 2.5
   },
   {
    "name": "Energía",
    "ticker": "XLE",
    "1M": 0.1,
    "3M": 15.3,
-   "12M": 46.5
+   "12M": 47.4
   },
   {
    "name": "Materiales",
    "ticker": "XLB",
    "1M": -4.7,
    "3M": -0.4,
-   "12M": 13.2
+   "12M": 12.6
   },
   {
    "name": "Salud",
    "ticker": "XLV",
    "1M": -2.2,
    "3M": 3.3,
-   "12M": 17.8
+   "12M": 17.6
   },
   {
    "name": "Utilities",
    "ticker": "XLU",
    "1M": -3.8,
    "3M": -8.6,
-   "12M": -6.1
+   "12M": -6.8
   },
   {
    "name": "Industriales",
    "ticker": "XLI",
    "1M": -1.8,
    "3M": -4.6,
-   "12M": 12.5
+   "12M": 11.5
   },
   {
    "name": "Consumo disc.",
    "ticker": "XLY",
    "1M": -2.6,
    "3M": -2.9,
-   "12M": -4.4
+   "12M": -4.7
   },
   {
    "name": "Consumo básico",
    "ticker": "XLP",
    "1M": -2.7,
    "3M": -2.4,
-   "12M": 7.5
+   "12M": 8.0
   },
   {
    "name": "Comunicación",
    "ticker": "XLC",
-   "1M": -1.2,
-   "3M": 0.9,
-   "12M": -2.6
+   "1M": -0.0,
+   "3M": 2.3,
+   "12M": -2.2
   },
   {
    "name": "Inmobiliario",
    "ticker": "XLRE",
-   "1M": -7.3,
-   "3M": -8.6,
-   "12M": 1.4
+   "1M": -5.7,
+   "3M": -6.1,
+   "12M": 3.0
   }
  ],
  "charts": {
@@ -2632,10 +2632,6 @@
   ],
   "vix": [
    [
-    "2025-09-26",
-    15.3
-   ],
-   [
     "2025-09-29",
     16.1
    ],
@@ -3670,13 +3666,13 @@
    [
     "2026-10-06",
     15.0
+   ],
+   [
+    "2026-10-07",
+    15.1
    ]
   ],
   "bond_30y": [
-   [
-    "2025-09-24",
-    4.76
-   ],
    [
     "2025-09-25",
     4.75
@@ -4712,13 +4708,13 @@
    [
     "2026-10-06",
     5.64
+   ],
+   [
+    "2026-10-07",
+    5.66
    ]
   ],
   "curve_10y3m": [
-   [
-    "2025-09-23",
-    0.12
-   ],
    [
     "2025-09-24",
     0.14
@@ -5754,13 +5750,13 @@
    [
     "2026-10-06",
     1.06
+   ],
+   [
+    "2026-10-07",
+    1.06
    ]
   ],
   "hy": [
-   [
-    "2025-10-09",
-    2.95
-   ],
    [
     "2025-10-10",
     3.18
@@ -6796,13 +6792,13 @@
    [
     "2026-10-05",
     3.12
+   ],
+   [
+    "2026-10-06",
+    3.03
    ]
   ],
   "oil_price": [
-   [
-    "2025-09-24",
-    65.0
-   ],
    [
     "2025-09-25",
     65.0
@@ -7837,7 +7833,11 @@
    ],
    [
     "2026-10-06",
-    90.2
+    89.4
+   ],
+   [
+    "2026-10-07",
+    89.2
    ]
   ],
   "unrate": [
