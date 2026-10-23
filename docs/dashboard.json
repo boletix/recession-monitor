@@ -1,7 +1,7 @@
 {
- "timestamp": "2026-10-23T18:37:31Z",
+ "timestamp": "2026-10-23T18:38:39Z",
  "version": 5,
- "fred_enabled": false,
+ "fred_enabled": true,
  "composite": {
   "score": 14.3,
   "label": "RIESGO BAJO",
@@ -326,7 +326,7 @@
    "group": "Economía adelantada",
    "unit": "%",
    "decimals": 0,
-   "value": 89.8483,
+   "value": 89.8593,
    "score": 80,
    "status": "PELIGRO",
    "weight": 0.06,
@@ -462,7 +462,7 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 1,
-   "value": -2.3979,
+   "value": -2.4217,
    "score": 5,
    "status": "OK",
    "weight": 0.04,
@@ -496,7 +496,7 @@
    "group": "Mercados",
    "unit": "",
    "decimals": 1,
-   "value": 16.6294,
+   "value": 16.63,
    "score": 20,
    "status": "OK",
    "weight": 0.02,
@@ -649,7 +649,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 1,
-   "value": 11.0594,
+   "value": 11.0589,
    "score": 5,
    "status": "OK",
    "weight": 0.15,
@@ -666,7 +666,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 1,
-   "value": 26.9102,
+   "value": 26.9098,
    "score": 5,
    "status": "OK",
    "weight": 0.1,
@@ -683,7 +683,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 0,
-   "value": 89.8483,
+   "value": 89.8593,
    "score": 80,
    "status": "PELIGRO",
    "weight": 0.2,
@@ -700,7 +700,7 @@
    "group": "Global",
    "unit": "",
    "decimals": 1,
-   "value": 102.0395,
+   "value": 102.0396,
    "score": 40,
    "status": "VIGILAR",
    "weight": 0.1,
@@ -771,7 +771,7 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 1,
-   "value": 1.8027,
+   "value": 1.7972,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -789,7 +789,7 @@
    "group": "Mercados",
    "unit": " $",
    "decimals": 1,
-   "value": 103.2,
+   "value": 103.29,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -807,7 +807,7 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 0,
-   "value": 86.7197,
+   "value": 86.8826,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -825,7 +825,7 @@
    "group": "Mercados",
    "unit": " $",
    "decimals": 1,
-   "value": 111.61,
+   "value": 111.73,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -897,7 +897,7 @@
    {
     "key": "vix",
     "label": "VIX en pánico",
-    "value": 19.88,
+    "value": 19.89,
     "threshold": 35,
     "op": ">",
     "unit": "",
@@ -906,7 +906,7 @@
    {
     "key": "spx_dd",
     "label": "S&P cae más de un 15%",
-    "value": -2.4,
+    "value": -2.42,
     "threshold": -15,
     "op": "<",
     "unit": "%",
@@ -951,7 +951,7 @@
    {
     "key": "oil_price",
     "label": "Petróleo por encima de 100 $",
-    "value": 103.2,
+    "value": 103.29,
     "threshold": 100,
     "op": ">=",
     "unit": " $",
@@ -960,7 +960,7 @@
    {
     "key": "oil_rise",
     "label": "Petróleo +90% desde mínimos",
-    "value": 86.72,
+    "value": 86.88,
     "threshold": 90,
     "op": ">=",
     "unit": "%",
@@ -998,8 +998,8 @@
   {
    "name": "Financieras",
    "ticker": "XLF",
-   "1M": 2.7,
-   "3M": -1.2,
+   "1M": 2.6,
+   "3M": -1.3,
    "12M": 8.2
   },
   {
@@ -1007,7 +1007,7 @@
    "ticker": "XLE",
    "1M": 10.4,
    "3M": 19.1,
-   "12M": 59.8
+   "12M": 59.7
   },
   {
    "name": "Materiales",
@@ -1040,7 +1040,7 @@
   {
    "name": "Consumo disc.",
    "ticker": "XLY",
-   "1M": 2.6,
+   "1M": 2.5,
    "3M": 2.3,
    "12M": -4.3
   },
@@ -1054,8 +1054,8 @@
   {
    "name": "Comunicación",
    "ticker": "XLC",
-   "1M": -6.9,
-   "3M": -1.1,
+   "1M": -7.0,
+   "3M": -1.2,
    "12M": -6.8
   },
   {
@@ -9728,7 +9728,7 @@
    ],
    [
     "2026-10-01",
-    89.85
+    89.86
    ]
   ],
   "profits": [
@@ -15504,7 +15504,7 @@
    ],
    [
     "2026-10-01",
-    -2.4
+    -2.42
    ]
   ],
   "hy": [
@@ -24034,7 +24034,7 @@
    ],
    [
     "2026-10-01",
-    89.85
+    89.86
    ]
   ],
   "dxy": [
@@ -25809,7 +25809,7 @@
   ]
  ],
  "extra": {
-  "spy": 7631.44,
+  "spy": 7629.58,
   "oil_low52": 55.3,
   "hy_kind": "oas",
   "gas_storage": {
