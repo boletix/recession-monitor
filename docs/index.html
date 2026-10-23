@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Recession Monitor</title>
-<meta name="description" content="Riesgo de recesión en EE. UU.: score compuesto de mercados, crédito, empleo y consumo, actualizado cada día hábil.">
+<meta name="description" content="Riesgo de recesión con indicadores adelantados: EE. UU., zona euro y mundo. Score compuesto, modelos publicados y backtest desde 1988.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -14,6 +14,7 @@
   --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
   --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
   --series: #3987e5; --series-soft: rgba(57,135,229,0.16);
+  --rec: rgba(255,255,255,0.07);
   --neg: #e66767;
   --good: #0ca30c; --warning: #fab219; --serious: #ec835a; --critical: #d03b3b;
   --mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -25,6 +26,7 @@
     --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
     --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10);
     --series: #2a78d6; --series-soft: rgba(42,120,214,0.12);
+    --rec: rgba(11,11,11,0.07);
     --neg: #e34948;
   }
 }
@@ -34,6 +36,7 @@
   --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
   --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10);
   --series: #2a78d6; --series-soft: rgba(42,120,214,0.12);
+  --rec: rgba(11,11,11,0.07);
   --neg: #e34948;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,7 +59,7 @@ section[hidden] { display: none; }
 .card h2 { font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .card h2 .hint { font-weight: 400; color: var(--muted); font-size: 12px; }
 .grid { display: grid; gap: 16px; }
-.g-hero { grid-template-columns: minmax(260px, 340px) 1fr; }
+.g-hero { grid-template-columns: minmax(280px, 380px) 1fr; }
 .g-2 { grid-template-columns: 1fr 1fr; }
 .g-3 { grid-template-columns: repeat(3, 1fr); }
 .mt { margin-top: 16px; }
@@ -67,6 +70,7 @@ section[hidden] { display: none; }
 .banner b { font-weight: 700; }
 .banner.warn { border-color: color-mix(in srgb, var(--warning) 50%, transparent); background: color-mix(in srgb, var(--warning) 10%, transparent); }
 .banner.bad { border-color: color-mix(in srgb, var(--critical) 50%, transparent); background: color-mix(in srgb, var(--critical) 10%, transparent); }
+.banner.info { border-color: var(--border); background: var(--surface-2); }
 
 .hero-num { font: 700 64px/1 var(--mono); letter-spacing: -0.03em; }
 .hero-num small { font-size: 20px; color: var(--muted); font-weight: 500; }
@@ -77,12 +81,19 @@ section[hidden] { display: none; }
 .scale-lbl { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
 .deltas { display: flex; gap: 16px; margin-top: 14px; font-size: 12px; color: var(--ink-2); flex-wrap: wrap; }
 .deltas b { font-family: var(--mono); color: var(--ink); }
-.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+.pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 16px; }
 .pillar { background: var(--surface-2); border-radius: 8px; padding: 8px 10px; }
 .pillar .k { font-size: 11px; color: var(--muted); }
 .pillar .v { font: 700 20px var(--mono); }
 .pillar .w { font-size: 10px; color: var(--muted); }
 .cov { font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+.zones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.zone { background: var(--surface-2); border-radius: 10px; padding: 10px 12px; }
+.zone .k { font-size: 12px; color: var(--muted); }
+.zone .v { font: 700 28px/1.2 var(--mono); }
+.zone .l { font-size: 11px; font-weight: 700; }
+@media (max-width: 600px) { .zones { grid-template-columns: 1fr; } }
 
 .status { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
 .status i { font-style: normal; width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 10px; color: #0b0b0b; }
@@ -93,6 +104,8 @@ section[hidden] { display: none; }
 .row .name { flex: 1; min-width: 0; }
 .row .name small { display: block; color: var(--muted); font-size: 11px; }
 .row .val { font: 600 13px var(--mono); text-align: right; white-space: nowrap; }
+.pbar { width: 90px; height: 8px; border-radius: 4px; background: var(--surface-2); overflow: hidden; flex-shrink: 0; }
+.pbar span { display: block; height: 100%; border-radius: 4px; }
 .check { width: 20px; height: 20px; border-radius: 6px; display: grid; place-items: center; font-size: 12px; font-weight: 700; flex-shrink: 0; border: 1.5px solid var(--axis); color: var(--muted); }
 .check.on { border-color: var(--good); background: color-mix(in srgb, var(--good) 18%, transparent); color: var(--good); }
 .action { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: var(--surface-2); font-weight: 600; font-size: 13px; }
@@ -102,7 +115,7 @@ th { text-align: left; font-size: 11px; font-weight: 600; color: var(--muted); p
 td { padding: 9px 8px; border-bottom: 1px solid var(--grid); vertical-align: middle; }
 td.num, th.num { text-align: right; font-family: var(--mono); white-space: nowrap; }
 tr.group td { font-size: 11px; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; padding-top: 18px; border-bottom: 1px solid var(--axis); }
-td .sub { display: block; font-size: 11px; color: var(--muted); }
+td .sub { display: block; font-size: 11px; color: var(--muted); max-width: 520px; }
 .sbar { width: 70px; height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 6px; }
 .sbar span { display: block; height: 100%; border-radius: 3px; }
 .stale { color: var(--warning); font-weight: 600; }
@@ -122,6 +135,8 @@ td .sub { display: block; font-size: 11px; color: var(--muted); }
 .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 .seg button { background: none; border: 0; padding: 4px 10px; font: inherit; font-size: 12px; color: var(--muted); cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--surface-2); color: var(--ink); font-weight: 600; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11px; color: var(--muted); margin-top: 8px; }
+.legend i { display: inline-block; width: 12px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 5px; }
 
 .thesis { display: grid; gap: 10px; }
 .claim { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 12px; border-radius: 10px; background: var(--surface-2); }
@@ -130,9 +145,12 @@ td .sub { display: block; font-size: 11px; color: var(--muted); }
 .prose { font-size: 13px; color: var(--ink-2); line-height: 1.7; }
 .prose li { margin-left: 18px; }
 .prose b { color: var(--ink); }
+.prose p + p { margin-top: 8px; }
 .tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: var(--surface); border: 1px solid var(--border); color: var(--ink-2); }
+.lit td { vertical-align: top; font-size: 12.5px; }
+.lit td:first-child { font-weight: 600; white-space: nowrap; }
 footer { font-size: 12px; color: var(--muted); padding: 20px 0 30px; border-top: 1px solid var(--border); }
-footer a { color: var(--series); }
+footer a, .prose a { color: var(--series); }
 .loading { padding: 80px 0; text-align: center; color: var(--muted); }
 </style>
 </head>
@@ -140,17 +158,19 @@ footer a { color: var(--series); }
 <header>
   <div class="wrap">
     <div class="head">
-      <div class="brand">Recession Monitor<small>EE. UU. · mercados, crédito, empleo y consumo</small></div>
+      <div class="brand">Recession Monitor<small>Indicadores adelantados · EE. UU., zona euro y mundo</small></div>
       <div class="fresh" id="fresh"></div>
       <button class="theme" id="themeBtn" type="button" aria-label="Cambiar tema">◐ Tema</button>
     </div>
     <nav role="tablist" id="tabs">
       <button role="tab" data-tab="resumen" aria-selected="true">Resumen</button>
-      <button role="tab" data-tab="indicadores" aria-selected="false">Indicadores</button>
+      <button role="tab" data-tab="eeuu" aria-selected="false">EE. UU.</button>
+      <button role="tab" data-tab="europa" aria-selected="false">Europa y mundo</button>
+      <button role="tab" data-tab="historia" aria-selected="false">Historia</button>
       <button role="tab" data-tab="graficos" aria-selected="false">Gráficos</button>
-      <button role="tab" data-tab="curva" aria-selected="false">Curva y sectores</button>
+      <button role="tab" data-tab="mercado" aria-selected="false">Mercado</button>
       <button role="tab" data-tab="tesis" aria-selected="false">Tesis Hartnett</button>
-      <button role="tab" data-tab="metodo" aria-selected="false">Método</button>
+      <button role="tab" data-tab="metodo" aria-selected="false">Método y estudios</button>
     </nav>
   </div>
 </header>
@@ -163,19 +183,31 @@ footer a { color: var(--series); }
   <section id="tab-resumen" hidden>
     <div class="grid g-hero">
       <div class="card">
-        <h2>Score de riesgo de recesión <span class="hint">0 = calma · 100 = crisis</span></h2>
+        <h2>Riesgo de recesión en EE. UU. <span class="hint">próximos 12 meses · 0 = calma · 100 = recesión</span></h2>
         <div class="hero-num" id="heroNum">–</div>
         <div class="hero-label" id="heroLabel"></div>
         <div class="scale" id="scale"></div>
-        <div class="scale-lbl"><span>0</span><span>20</span><span>40</span><span>55</span><span>70</span><span>85</span><span>100</span></div>
+        <div class="scale-lbl"><span>0</span><span>20</span><span>35</span><span>50</span><span>65</span><span>100</span></div>
         <div class="deltas" id="deltas"></div>
         <div class="pillars" id="pillars"></div>
         <div class="cov" id="coverage"></div>
       </div>
-      <div class="card">
-        <h2>Evolución del score <span class="hint" id="histHint"></span></h2>
-        <div class="chart" id="histChart"></div>
+      <div class="grid">
+        <div class="card">
+          <h2>Por zonas <span class="hint">mismo método, otros indicadores</span></h2>
+          <div class="zones" id="zones"></div>
+        </div>
+        <div class="card">
+          <h2>Lo que dicen los modelos publicados <span class="hint">probabilidades, no puntuaciones</span></h2>
+          <div class="list" id="models"></div>
+        </div>
       </div>
+    </div>
+
+    <div class="card mt">
+      <h2>El score desde 1988 <span class="hint" id="btHint"></span></h2>
+      <div class="chart" id="btChart"></div>
+      <div class="legend"><span><i style="background:var(--rec)"></i>Recesión (NBER)</span><span><i style="background:var(--serious)"></i>Umbral de alerta: 35</span></div>
     </div>
 
     <div class="grid g-2 mt">
@@ -183,19 +215,62 @@ footer a { color: var(--series); }
         <h2>Qué empuja el score <span class="hint">indicadores en alerta o peligro</span></h2>
         <div class="list" id="drivers"></div>
       </div>
-      <div class="card">
-        <h2>Umbrales de capitulación <span class="hint" id="painHint"></span></h2>
-        <div class="list" id="pain"></div>
-        <div class="action" id="action"></div>
+      <div class="card prose">
+        <h2>Cómo leerlo</h2>
+        <p>Una recesión es un hecho de la <b>economía</b>: cae el empleo, la renta y la producción. La bolsa suele anticiparla, pero también se equivoca a menudo. Por eso el score mira primero la economía y deja el mercado con un 10% del peso.</p>
+        <p>Los pilares van en el orden en que suelen torcerse las cosas:</p>
+        <ol>
+          <li><b>Crédito y tipos</b>: curva, prima de riesgo de los bonos, bancos que cierran el grifo. Avisan con 6 a 18 meses.</li>
+          <li><b>Economía adelantada</b>: peticiones de paro, vivienda, pedidos, petróleo. Avisan con 3 a 12 meses.</li>
+          <li><b>Confirmación</b>: paro, vacantes, renta, producción. Dicen si ya ha empezado.</li>
+        </ol>
+        <p>Un pilar en rojo es una advertencia. <b>Dos o más a la vez</b> es lo que ha precedido a las recesiones de verdad.</p>
       </div>
     </div>
   </section>
 
-  <!-- ═══ INDICADORES ═══ -->
-  <section id="tab-indicadores" hidden>
+  <!-- ═══ EE. UU. ═══ -->
+  <section id="tab-eeuu" hidden>
     <div class="card">
-      <h2>Todos los indicadores <span class="hint">«Peso» = cuánto cuenta en el score; sin peso = solo informativo</span></h2>
-      <div class="tscroll"><table id="indTable"></table></div>
+      <h2>Indicadores de EE. UU. <span class="hint">«Peso» = cuánto cuenta en el score · pasa el ratón por el nombre para ver de qué estudio sale</span></h2>
+      <div class="tscroll"><table id="usTable"></table></div>
+    </div>
+  </section>
+
+  <!-- ═══ EUROPA Y MUNDO ═══ -->
+  <section id="tab-europa" hidden>
+    <div class="grid">
+      <div class="card">
+        <h2>Zona euro <span class="hint" id="euHint"></span></h2>
+        <div class="tscroll"><table id="euTable"></table></div>
+        <div class="cov" id="gasNote"></div>
+      </div>
+      <div class="card">
+        <h2>Global <span class="hint" id="glHint"></span></h2>
+        <div class="tscroll"><table id="glTable"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ HISTORIA ═══ -->
+  <section id="tab-historia" hidden>
+    <div class="card">
+      <h2>Score de EE. UU. y sus pilares desde 1988
+        <span class="seg" id="btSeg"><button data-k="score" aria-pressed="true">Score</button><button data-k="Crédito y tipos" aria-pressed="false">Crédito</button><button data-k="Economía adelantada" aria-pressed="false">Economía</button><button data-k="Confirmación" aria-pressed="false">Confirmación</button><button data-k="Mercados" aria-pressed="false">Mercados</button></span>
+      </h2>
+      <div class="chart" id="btChart2"></div>
+      <div class="legend"><span><i style="background:var(--rec)"></i>Recesión (NBER)</span></div>
+    </div>
+    <div class="grid g-2 mt">
+      <div class="card">
+        <h2>¿Avisó antes de cada recesión? <span class="hint">score en los meses previos al inicio</span></h2>
+        <div class="tscroll"><table id="recTable"></table></div>
+      </div>
+      <div class="card">
+        <h2>Falsas alarmas <span class="hint">≥35 durante 3+ meses sin recesión en los 18 siguientes</span></h2>
+        <div class="list" id="falseList"></div>
+        <p class="small-sub mt" id="btNote"></p>
+      </div>
     </div>
   </section>
 
@@ -204,20 +279,26 @@ footer a { color: var(--series); }
     <div class="grid g-3" id="smalls"></div>
   </section>
 
-  <!-- ═══ CURVA Y SECTORES ═══ -->
-  <section id="tab-curva" hidden>
+  <!-- ═══ MERCADO ═══ -->
+  <section id="tab-mercado" hidden>
+    <div class="banner info"><span>ℹ</span><div>Esta pestaña mide <b>dolor de mercado</b>, no riesgo de recesión. La bolsa puede caer un 20% sin recesión (2022) y subir con la economía ya frenando.</div></div>
     <div class="grid g-2">
+      <div class="card">
+        <h2>Umbrales de capitulación <span class="hint" id="painHint"></span></h2>
+        <div class="list" id="pain"></div>
+        <div class="action" id="action"></div>
+      </div>
       <div class="card">
         <h2>Curva del Tesoro <span class="hint" id="curveHint"></span></h2>
         <div class="chart" id="curveChart"></div>
         <div class="deltas" id="curveSpreads"></div>
       </div>
-      <div class="card">
-        <h2>Sectores del S&amp;P 500
-          <span class="seg" id="secSeg"><button data-p="1M" aria-pressed="false">1M</button><button data-p="3M" aria-pressed="true">3M</button><button data-p="12M" aria-pressed="false">12M</button></span>
-        </h2>
-        <div class="chart" id="secChart"></div>
-      </div>
+    </div>
+    <div class="card mt">
+      <h2>Sectores del S&amp;P 500
+        <span class="seg" id="secSeg"><button data-p="1M" aria-pressed="false">1M</button><button data-p="3M" aria-pressed="true">3M</button><button data-p="12M" aria-pressed="false">12M</button></span>
+      </h2>
+      <div class="chart" id="secChart"></div>
     </div>
   </section>
 
@@ -243,39 +324,104 @@ footer a { color: var(--series); }
         </div>
         <h2 class="mt">Escenarios de marzo–abril 2026 <span class="tag">OBSOLETOS</span></h2>
         <div class="prose">
-          <p>Los tres escenarios (resolución rápida 25%, estanflación 50%, crisis 25%) situaban el S&amp;P entre 4.800 y 6.000 y el petróleo entre 65 y 150 $. Con el S&amp;P cerca de máximos y el WTI en <span id="oilNow">–</span>, ninguno describe el mercado actual: conviene reescribirlos antes de usarlos para decidir.</p>
+          <p>Los tres escenarios (resolución rápida 25%, estanflación 50%, crisis 25%) situaban el S&amp;P entre 4.800 y 6.000 y el petróleo entre 65 y 150 $. Con el WTI en <span id="oilNow">–</span>, conviene reescribirlos antes de usarlos para decidir.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ MÉTODO ═══ -->
+  <!-- ═══ MÉTODO Y ESTUDIOS ═══ -->
   <section id="tab-metodo" hidden>
     <div class="grid g-2">
       <div class="card prose">
-        <h2>Cómo se calcula el score</h2>
-        <p>Cada indicador se traduce a una puntuación de 0 a 100 por tramos (la tabla de <b>Indicadores</b> muestra el umbral de cada uno). El score es la media ponderada de 13 indicadores en tres pilares: mercados, economía y consumidor.</p>
-        <p class="mt"><b>Un dato que falta no puntúa.</b> El score se recalcula con los pesos disponibles y la cobertura se muestra debajo del número. Si la cobertura baja del 60%, el proceso no publica y el panel conserva el último dato bueno.</p>
-        <p class="mt"><b>Etiquetas:</b> &lt;20 riesgo bajo · 20–40 moderado · 40–55 elevado · 55–70 alto riesgo · 70–85 crisis inminente · ≥85 crisis activa.</p>
-        <p class="mt"><b>Umbrales de capitulación</b> es otra cosa: no mide riesgo de recesión sino dolor de mercado (VIX, caída del S&amp;P, crédito…). Con 3 o más activos, la historia dice que suele ser momento de comprar por tramos.</p>
+        <h2>Cómo se calcula</h2>
+        <p>Cada indicador se traduce a una puntuación de 0 a 100 por tramos; la tabla de cada zona muestra el umbral de alerta. El score es la <b>media ponderada</b> de esas puntuaciones. No es una probabilidad: los modelos con probabilidad están aparte, en el resumen.</p>
+        <p><b>EE. UU.</b> (22 indicadores):</p>
+        <ul>
+          <li>crédito y tipos, 30%;</li>
+          <li>economía adelantada, 35%;</li>
+          <li>confirmación, 25%;</li>
+          <li>mercados, 10%.</li>
+        </ul>
+        <p><b>Zona euro</b> (6) y <b>global</b> (6) se calculan igual, con sus propios indicadores.</p>
+        <p>Los pesos siguen a los estudios. Más peso para lo que ha avisado de forma fiable (la curva, la prima de riesgo de los bonos, el paro y las vacantes, las peticiones de paro). Menos para lo que ha dado falsas alarmas en una economía de servicios (industria, vivienda, confianza).</p>
+        <p><b>Etiquetas:</b></p>
+        <ul>
+          <li>menos de 20: riesgo bajo;</li>
+          <li>20-35: moderado;</li>
+          <li>35-50: elevado;</li>
+          <li>50-65: alto riesgo;</li>
+          <li>65 o más: recesión probable.</li>
+        </ul>
+        <p><b>Un dato que falta no puntúa.</b> El score se recalcula con los pesos disponibles y publica su cobertura. Si la cobertura de EE. UU. baja del 60%, no se publica.</p>
+        <p><b>Backtest.</b> La pestaña Historia aplica el mismo cálculo mes a mes desde 1988. Usa datos revisados, no los que se conocían entonces, y los umbrales se eligieron sabiendo lo que pasó. Es una prueba de coherencia, no de capacidad de predicción.</p>
       </div>
       <div class="card prose">
-        <h2>Fuentes</h2>
+        <h2>Qué ha cambiado en el mundo de hoy</h2>
         <ul>
-          <li><b>Precios</b> (VIX, SPY, SOXX, KRE, BKLN, WTI, DXY, sectores): Yahoo Finance.</li>
-          <li><b>Curva</b>: Treasury.gov, curva oficial diaria.</li>
-          <li><b>Empleo y consumo</b>: FRED (Sahm en tiempo real, paro, nóminas, peticiones, JOLTS, ahorro, UMich, NFCI); BLS como respaldo.</li>
-          <li><b>Crédito HY</b>: diferencial ICE BofA (FRED). Sin clave de FRED se usa un proxy, LQD−HYG a 3 meses, y se indica.</li>
-          <li><b>Manual</b>: Bull &amp; Bear de BofA en <code>docs/manual.json</code>.</li>
+          <li><b>Economía de servicios.</b> La industria es ~10% del PIB de EE. UU. El ISM bajo 50 en 2015-16 y en 2022-24 no trajo recesión, y el LEI de la Conference Board avisó durante más de 15 meses seguidos en 2022-23 sin acertar. Por eso la industria y la confianza pesan poco, y el empleo y el crédito pesan más.</li>
+          <li><b>Inmigración y oferta de trabajo.</b> El paro puede subir sin despidos: la regla de Sahm saltó en 2024 por eso. Se combina con las vacantes (Michaillat-Saez) y con datos administrativos (paro asegurado y peticiones semanales).</li>
+          <li><b>La curva es menos limpia.</b> Con la prima por plazo baja tras años de compras de bonos, la curva estuvo invertida de 2022 a 2024 sin recesión. Pesa, pero acompañada de la prima de riesgo de los bonos y del diferencial a plazo cercano.</li>
+          <li><b>Choques de oferta y globalización.</b> Petróleo, gas, China y el dólar entran por fuera: de ahí el bloque global y el de la zona euro. Hamilton: casi todas las recesiones de EE. UU. desde la guerra vinieron tras una subida fuerte del petróleo.</li>
+          <li><b>Deuda a tipo fijo largo.</b> Familias y empresas refinanciaron barato, así que las subidas de tipos tardan más en morder. El crédito bancario (SLOOS, BLS) y la prima de riesgo de los bonos dicen si ya muerden.</li>
         </ul>
-        <p class="mt">Se actualiza de lunes a viernes tras el cierre de Nueva York con GitHub Actions. El histórico anterior al 3-oct-2026 se reconstruyó desde el historial de git con la puntuación actual.</p>
+      </div>
+    </div>
+
+    <div class="card mt">
+      <h2>Los estudios detrás de cada indicador</h2>
+      <div class="tscroll">
+        <table class="lit">
+          <thead><tr><th>Estudio</th><th>Qué encontró</th><th>Cómo se usa aquí</th><th>Fiabilidad hoy</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://www.newyorkfed.org/research/capital_markets/ycfaq" target="_blank" rel="noopener">Estrella y Mishkin (1996-98)</a></td><td>La curva 10A−3M es el mejor predictor de recesión a 2-6 trimestres. La Fed de NY publica su probit.</td><td>Probabilidad del probit; peso 8%.</td><td>Media: invertida de oct-2022 a dic-2024 sin recesión.</td></tr>
+            <tr><td><a href="https://www.federalreserve.gov/econres/feds/the-near-term-forward-yield-spread-as-a-leading-indicator-a-less-distorted-mirror.htm" target="_blank" rel="noopener">Engstrom y Sharpe (2019)</a></td><td>El diferencial a plazo cercano domina a la curva larga: mide si el mercado espera recortes.</td><td>Aproximación con tipos a 1 y 2 años; peso 6%.</td><td>Alta para el giro de la política monetaria.</td></tr>
+            <tr><td><a href="https://www.federalreserve.gov/econres/notes/feds-notes/updating-the-recession-risk-and-the-excess-bond-premium-20161006.htm" target="_blank" rel="noopener">Gilchrist y Zakrajšek (2012); Favara et al. (2016)</a></td><td>La prima de riesgo de los bonos, lo que no es riesgo de impago, predice actividad y recesiones.</td><td>Probabilidad que publica la Fed; peso 8%.</td><td>Alta. No dio falsa alarma en 2022-24.</td></tr>
+            <tr><td><a href="https://www.newyorkfed.org/research/epr/00v06n2/0007lown.pdf" target="_blank" rel="noopener">Lown, Morgan y Rohatgi (2000)</a></td><td>Que los bancos endurezcan el crédito predice menos préstamos y menos producción.</td><td>SLOOS, empresas; peso 5%. BLS del BCE en la zona euro.</td><td>Media: endurecimiento fuerte en 2023 (SVB) sin recesión.</td></tr>
+            <tr><td><a href="https://www.nber.org/papers/w13428" target="_blank" rel="noopener">Leamer (2007)</a></td><td>«Housing IS the business cycle»: la vivienda cae antes de 8 de 10 recesiones.</td><td>Permisos de construcción; peso 5%.</td><td>Baja-media: cayó un 25% en 2022-23 sin recesión.</td></tr>
+            <tr><td>Hamilton (2003, 2009)</td><td>Casi todas las recesiones de posguerra vinieron tras una subida fuerte del petróleo, que empuja a una economía ya frágil.</td><td>Brent interanual; peso 6%, también en el bloque global.</td><td>Alta como agravante; no basta sola.</td></tr>
+            <tr><td>Sahm (2019)</td><td>Paro (media 3M) 0,5 pp sobre su mínimo de 12 meses = recesión ya empezada.</td><td>Peso 6%.</td><td>Media: saltó en 2024 por la inmigración.</td></tr>
+            <tr><td><a href="https://eml.berkeley.edu/~saez/michaillat-saezOBES25.pdf" target="_blank" rel="noopener">Michaillat y Saez (2025)</a></td><td>El mínimo de la señal de paro y la de vacantes: 0,29 pp detecta las 15 recesiones desde 1929 sin falsos positivos, con 1,2 meses de retraso medio.</td><td>Peso 6% y probabilidad en el resumen.</td><td>Alta (mide la caída de la demanda de trabajo, no de la oferta).</td></tr>
+            <tr><td><a href="https://richmondfed.org/research/national_economy/sos_recession_indicator" target="_blank" rel="noopener">Scavette y O'Trakoun (Fed de Richmond)</a></td><td>La regla de Sahm con paro asegurado semanal: umbral 0,2 pp, avisa de las 7 recesiones desde los 70.</td><td>Peso 4%.</td><td>Alta: datos administrativos, no encuestas.</td></tr>
+            <tr><td><a href="https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr691.pdf" target="_blank" rel="noopener">Liu y Moench (2016)</a></td><td>Entre decenas de indicadores, la curva domina a 4-6 trimestres.</td><td>Justifica que la curva siga siendo la pieza central del pilar de crédito.</td><td>—</td></tr>
+            <tr><td><a href="https://www.kansascityfed.org/documents/7708/rwp13-05.pdf" target="_blank" rel="noopener">Berge (2015)</a></td><td>Combinar indicadores bate a cualquiera por separado, también fuera de muestra.</td><td>Es la razón de un score compuesto y no de una sola señal.</td><td>—</td></tr>
+            <tr><td><a href="https://ideas.repec.org/a/wly/jforec/v40y2021i1p80-93.html" target="_blank" rel="noopener">Camacho y Palmieri (2021)</a></td><td>Los indicadores compuestos de la OCDE rinden peor que los diferenciales y el crédito.</td><td>Los indicadores adelantados de la OCDE pesan poco (4-25% según la zona).</td><td>Media.</td></tr>
+            <tr><td><a href="https://www.ecb.europa.eu/pub/economic-bulletin/focus/2023/html/ecb.ebbox202307_02~78906aa989.en.html" target="_blank" rel="noopener">BCE, Boletín 7/2023</a></td><td>La curva euro predice recesiones; añadir petróleo y estrés financiero bajó la probabilidad del ~50% al ~25%.</td><td>Curva euro + BLS + gas en el bloque de la zona euro.</td><td>No leer la curva sola.</td></tr>
+            <tr><td>Kose, Sugawara y Terrones (Banco Mundial, 2020)</td><td>Las recesiones globales (1975, 1982, 1991, 2009, 2020) son sincronizadas.</td><td>Bloque global: indicadores de la OCDE de China y el G7, cobre, petróleo, dólar.</td><td>Media.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid g-2 mt">
+      <div class="card prose">
+        <h2>Fuentes de datos</h2>
+        <ul>
+          <li><b>FRED</b>: curva, tipos, SLOOS, ANFCI, peticiones y paro asegurado, permisos, pedidos, empleo temporal, OCDE, confianza, Brent, beneficios, paro, vacantes, nóminas, renta, producción, high yield, recesiones NBER, Chauvet-Piger.</li>
+          <li><b>Fed</b>: prima de riesgo de los bonos y su probabilidad (CSV mensual).</li>
+          <li><b>Eurostat</b>: sentimiento económico (ESI) y paro de la zona euro.</li>
+          <li><b>BCE</b>: curva AAA y encuesta de préstamos bancarios (BLS).</li>
+          <li><b>Yahoo Finance</b>: S&amp;P 500, VIX, cobre, oro, TTF, Brent, WTI, dólar, sectores.</li>
+          <li><b>Treasury.gov</b>: curva oficial diaria.</li>
+          <li><b>Manual</b> (<code>docs/manual.json</code>): almacén de gas de la UE (la API de AGSI pide clave) y el Bull &amp; Bear de BofA.</li>
+        </ul>
+      </div>
+      <div class="card prose">
+        <h2>Límites</h2>
+        <ul>
+          <li>Ningún indicador acierta siempre: la tabla de estudios lo dice uno a uno.</li>
+          <li>Los datos mensuales llegan con 1-5 semanas de retraso, y los beneficios con hasta 5 meses.</li>
+          <li>El diferencial a plazo cercano es una aproximación con los tipos a 1 y 2 años, no las curvas a plazo de la Fed.</li>
+          <li>La regla de Michaillat-Saez usa la tasa de vacantes de JOLTS, que no es exactamente la del artículo.</li>
+          <li>Versión 5 (oct-2026). El score de la v4 mezclaba el humor del mercado con la economía; su histórico está en <code>history_v4.json</code>.</li>
+        </ul>
       </div>
     </div>
   </section>
 </main>
 
 <div class="wrap"><footer>
-  Recession Monitor v4 · <a href="https://github.com/boletix/recession-monitor">código</a> · No es una recomendación de inversión.
+  Recession Monitor v5 · <a href="https://github.com/boletix/recession-monitor">código</a> · No es una recomendación de inversión.
 </footer></div>
 
 <script>
@@ -288,7 +434,9 @@ const fmt = (v, d = 1, unit = '', sign = false) => {
   return (sign && v > 0 ? '+' : '') + s + unit;
 };
 const esDate = iso => iso ? new Date(iso + (iso.length === 10 ? 'T12:00:00Z' : '')).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : '–';
+const esMonth = iso => iso ? new Date(iso + 'T12:00:00Z').toLocaleDateString('es-ES', { month: 'short', year: 'numeric' }) : '–';
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const STATUS = {
   'OK':       { c: '--good',     i: '✓', t: 'OK' },
   'VIGILAR':  { c: '--warning',  i: '!', t: 'VIGILAR' },
@@ -296,15 +444,15 @@ const STATUS = {
   'PELIGRO':  { c: '--critical', i: '✕', t: 'PELIGRO' },
   'SIN DATO': { c: '--muted',    i: '?', t: 'SIN DATO' },
 };
-const statusOfScore = s => s == null ? 'SIN DATO' : s < 25 ? 'OK' : s < 50 ? 'VIGILAR' : s < 75 ? 'ALERTA' : 'PELIGRO';
 const badge = st => { const m = STATUS[st] || STATUS['SIN DATO']; return `<span class="status" style="color:var(${m.c})"><i style="background:var(${m.c})">${m.i}</i>${m.t}</span>`; };
-const LABELS = [[20, 'RIESGO BAJO', '--good'], [40, 'MODERADO', '--warning'], [55, 'ELEVADO', '--serious'], [70, 'ALTO RIESGO', '--critical'], [85, 'CRISIS INMINENTE', '--critical'], [101, 'CRISIS ACTIVA', '--critical']];
-const labelColor = s => (LABELS.find(([t]) => s < t) || LABELS[5])[2];
+const LABELS = [[20, 'RIESGO BAJO', '--good'], [35, 'MODERADO', '--warning'], [50, 'ELEVADO', '--serious'], [65, 'ALTO RIESGO', '--critical'], [101, 'RECESIÓN PROBABLE', '--critical']];
+const labelColor = s => s == null ? '--muted' : (LABELS.find(([t]) => s < t) || LABELS.at(-1))[2];
+const probColor = p => p == null ? '--muted' : p < 20 ? '--good' : p < 35 ? '--warning' : p < 50 ? '--serious' : '--critical';
+const SIGNED = new Set(['ntfs', 'permits', 'neworders', 'temphelp', 'umich_chg', 'oil_yoy', 'oil_yoy_g', 'profits', 'income6', 'ip6', 'ea_curve', 'copper6', 'cu_au6', 'curve_10y3m', 'curve_10y2y', 'sox_bubble', 'claims_rise']);
 
 async function getJSON(path) {
   const r = await fetch(path + '?t=' + Date.now());
   if (!r.ok) throw new Error(path + ': HTTP ' + r.status);
-  // Tolera NaN de versiones antiguas del generador
   return JSON.parse((await r.text()).replace(/\bNaN\b/g, 'null'));
 }
 
@@ -322,18 +470,21 @@ async function getJSON(path) {
   };
 })();
 
-// ── pestañas ───────────────────────────────────────────────────────────────
+// ── pestañas (con alias de la v4 para enlaces viejos) ──────────────────────
+const ALIAS = { indicadores: 'eeuu', curva: 'mercado' };
 function showTab(id) {
+  id = ALIAS[id] || id;
   document.querySelectorAll('nav button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === id));
   document.querySelectorAll('main section').forEach(s => s.hidden = s.id !== 'tab-' + id);
   try { history.replaceState(null, '', '#' + id); } catch (e) {}
   if (window.__render) window.__render();
 }
 document.querySelectorAll('nav button').forEach(b => b.onclick = () => showTab(b.dataset.tab));
-addEventListener('hashchange', () => { const t = location.hash.slice(1); if (document.querySelector(`nav button[data-tab="${t}"]`)) showTab(t); });
+addEventListener('hashchange', () => { const t = ALIAS[location.hash.slice(1)] || location.hash.slice(1); if (document.querySelector(`nav button[data-tab="${t}"]`)) showTab(t); });
 
-// ── gráfico de línea con tooltip ───────────────────────────────────────────
+// ── gráfico de línea con tooltip y recesiones sombreadas ───────────────────
 function lineChart(el, pts, o = {}) {
+  if (!el || el.offsetParent === null && !o.force) { if (el) el.dataset.pending = '1'; }
   el.innerHTML = '';
   pts = (pts || []).filter(p => p && p[1] != null);
   if (pts.length < 2) { el.innerHTML = '<div class="small-sub" style="padding:30px 0;text-align:center">Sin datos suficientes</div>'; return; }
@@ -343,41 +494,59 @@ function lineChart(el, pts, o = {}) {
   let y0 = o.yMin ?? Math.min(...ys, ...refs), y1 = o.yMax ?? Math.max(...ys, ...refs);
   const pad = (y1 - y0) * 0.08 || 1; if (o.yMin == null) y0 -= pad; if (o.yMax == null) y1 += pad;
   const X = t => m.l + (t - xs[0]) / (xs.at(-1) - xs[0]) * (W - m.l - m.r);
-  const Y = v => m.t + (1 - (v - y0) / (y1 - y0)) * (H - m.t - m.b);
-  // ticks Y
+  const Y = v => m.t + (1 - (Math.min(Math.max(v, y0), y1) - y0) / (y1 - y0)) * (H - m.t - m.b);
   const step = niceStep((y1 - y0) / 4), ticks = [];
   for (let v = Math.ceil(y0 / step) * step; v <= y1 + 1e-9; v += step) ticks.push(+v.toFixed(6));
   const dec = step < 1 ? (step < 0.1 ? 2 : 1) : 0;
-  let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${o.label || ''}">`;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(o.label || '')}">`;
+  // recesiones
+  (o.shade || []).forEach(([a, b]) => {
+    const ta = new Date(a + 'T00:00:00Z').getTime(), tb = new Date(b + 'T00:00:00Z').getTime() + 30 * 864e5;
+    if (tb < xs[0] || ta > xs.at(-1)) return;
+    const xa = X(Math.max(ta, xs[0])), xb = X(Math.min(tb, xs.at(-1)));
+    s += `<rect x="${xa}" y="${m.t}" width="${Math.max(xb - xa, 2)}" height="${H - m.t - m.b}" fill="${css('--rec')}"/>`;
+  });
   (o.bands || []).forEach(b => {
     const a = Y(Math.min(b.to, y1)), z = Y(Math.max(b.from, y0));
     if (z > a) s += `<rect x="${m.l}" y="${a}" width="${W - m.l - m.r}" height="${z - a}" fill="${css(b.color)}" opacity="0.07"/>`;
   });
   ticks.forEach(v => s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="${css('--grid')}" stroke-width="1"/><text x="${m.l - 6}" y="${Y(v) + 3}" text-anchor="end">${NF(dec).format(v)}</text>`);
-  // ticks X: comienzo de cada mes (o trimestre si hay muchos)
-  const months = []; let last = '';
-  pts.forEach((p, i) => { const k = p[0].slice(0, 7); if (k !== last) { months.push(i); last = k; } });
-  const every = Math.ceil(months.length / Math.max(2, Math.floor((W - m.l) / 70)));
-  months.filter((_, j) => j % every === 0).forEach(i => {
-    const d = new Date(pts[i][0] + 'T12:00:00Z');
-    if (X(xs[i]) < m.l + 4) return;
-    s += `<text x="${X(xs[i])}" y="${H - 6}" text-anchor="middle">${d.toLocaleDateString('es-ES', { month: 'short' }).replace('.', '')}${d.getUTCMonth() === 0 ? ' ' + String(d.getUTCFullYear()).slice(2) : ''}</text>`;
-  });
+  // eje X: meses si el rango es corto, años si es largo
+  const spanY = (xs.at(-1) - xs[0]) / (365.25 * 864e5);
+  if (spanY > 3) {
+    const y0y = new Date(xs[0]).getUTCFullYear(), y1y = new Date(xs.at(-1)).getUTCFullYear();
+    const every = Math.max(1, Math.ceil((y1y - y0y) / Math.max(2, Math.floor((W - m.l) / 46))));
+    for (let y = y0y + 1; y <= y1y; y++) {
+      if ((y - y0y) % every) continue;
+      const t = Date.UTC(y, 0, 1); if (t < xs[0]) continue;
+      s += `<text x="${X(t)}" y="${H - 6}" text-anchor="middle">${y}</text>`;
+    }
+  } else {
+    const months = []; let last = '';
+    pts.forEach((p, i) => { const k = p[0].slice(0, 7); if (k !== last) { months.push(i); last = k; } });
+    const every = Math.ceil(months.length / Math.max(2, Math.floor((W - m.l) / 70)));
+    months.filter((_, j) => j % every === 0).forEach(i => {
+      const d = new Date(pts[i][0] + 'T12:00:00Z');
+      if (X(xs[i]) < m.l + 4) return;
+      s += `<text x="${X(xs[i])}" y="${H - 6}" text-anchor="middle">${d.toLocaleDateString('es-ES', { month: 'short' }).replace('.', '')}${d.getUTCMonth() === 0 ? ' ' + String(d.getUTCFullYear()).slice(2) : ''}</text>`;
+    });
+  }
   (o.refs || []).forEach(r => {
     if (r.y < y0 || r.y > y1) return;
     s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(r.y)}" y2="${Y(r.y)}" stroke="${css(r.color || '--critical')}" stroke-width="1.5" stroke-dasharray="4 3"/>`;
-    s += `<text x="${m.l + 4}" y="${Y(r.y) - 4}" class="lbl" style="fill:${css(r.color || '--critical')}">${r.label}</text>`;
+    s += `<text x="${m.l + 4}" y="${Y(r.y) - 4}" class="lbl" style="fill:${css(r.color || '--critical')}">${esc(r.label)}</text>`;
   });
   s += `<line x1="${m.l}" x2="${W - m.r}" y1="${H - m.b}" y2="${H - m.b}" stroke="${css('--axis')}"/>`;
   const d = pts.map((p, i) => (i ? 'L' : 'M') + X(xs[i]).toFixed(1) + ',' + Y(p[1]).toFixed(1)).join('');
   if (o.area) s += `<path d="${d}L${X(xs.at(-1))},${H - m.b}L${X(xs[0])},${H - m.b}Z" fill="${css('--series-soft')}"/>`;
-  s += `<path d="${d}" fill="none" stroke="${css('--series')}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  s += `<path d="${d}" fill="none" stroke="${css('--series')}" stroke-width="${o.thin ? 1.5 : 2}" stroke-linejoin="round" stroke-linecap="round"/>`;
   const lx = X(xs.at(-1)), ly = Y(ys.at(-1));
   s += `<circle cx="${lx}" cy="${ly}" r="4" fill="${css('--series')}" stroke="${css('--surface')}" stroke-width="2"/>`;
-  s += `<line id="xh" x1="0" x2="0" y1="${m.t}" y2="${H - m.b}" stroke="${css('--muted')}" stroke-width="1" opacity="0"/><circle id="xd" r="4" fill="${css('--series')}" stroke="${css('--surface')}" stroke-width="2" opacity="0"/>`;
-  s += `<rect x="${m.l}" y="0" width="${W - m.l - m.r}" height="${H}" fill="transparent" id="hit"/></svg><div class="tip"></div>`;
+  s += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${H - m.b}" stroke="${css('--muted')}" stroke-width="1" opacity="0"/><circle class="xd" r="4" fill="${css('--series')}" stroke="${css('--surface')}" stroke-width="2" opacity="0"/>`;
+  s += `<rect x="${m.l}" y="0" width="${W - m.l - m.r}" height="${H}" fill="transparent" class="hit"/></svg><div class="tip"></div>`;
   el.innerHTML = s;
-  const svg = el.querySelector('svg'), tip = el.querySelector('.tip'), xh = svg.querySelector('#xh'), xd = svg.querySelector('#xd');
+  const svg = el.querySelector('svg'), tip = el.querySelector('.tip'), xh = svg.querySelector('.xh'), xd = svg.querySelector('.xd');
+  const dfmt = o.monthly ? esMonth : esDate;
   const move = ev => {
     const r = svg.getBoundingClientRect(), px = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
     const t = xs[0] + (px * W / r.width - m.l) / (W - m.l - m.r) * (xs.at(-1) - xs[0]);
@@ -385,14 +554,14 @@ function lineChart(el, pts, o = {}) {
     const cx = X(xs[i]), cy = Y(ys[i]);
     xh.setAttribute('x1', cx); xh.setAttribute('x2', cx); xh.setAttribute('opacity', .6);
     xd.setAttribute('cx', cx); xd.setAttribute('cy', cy); xd.setAttribute('opacity', 1);
-    tip.innerHTML = `<div class="d">${esDate(pts[i][0])}</div><b>${(o.fmt || (v => fmt(v, o.dec ?? 1, o.unit || '')))(ys[i])}</b>${o.extra ? o.extra(pts[i], i) : ''}`;
+    tip.innerHTML = `<div class="d">${dfmt(pts[i][0])}</div><b>${(o.fmt || (v => fmt(v, o.dec ?? 1, o.unit || '')))(ys[i])}</b>${o.extra ? o.extra(pts[i], i) : ''}`;
     const sx = r.width / W, tx = cx * sx;
     tip.style.left = Math.min(Math.max(tx - tip.offsetWidth / 2, 0), r.width - tip.offsetWidth) + 'px';
     tip.style.top = Math.max(cy * sx - tip.offsetHeight - 12, 0) + 'px';
     tip.style.opacity = 1;
   };
   const leave = () => { tip.style.opacity = 0; xh.setAttribute('opacity', 0); xd.setAttribute('opacity', 0); };
-  const hit = svg.querySelector('#hit');
+  const hit = svg.querySelector('.hit');
   hit.addEventListener('mousemove', move); hit.addEventListener('touchmove', move, { passive: true });
   hit.addEventListener('mouseleave', leave); hit.addEventListener('touchend', leave);
 }
@@ -426,7 +595,7 @@ function curveChart(el, pts) {
   const P = order.filter(k => pts[k] != null).map(k => [k, pts[k]]);
   if (P.length < 3) { el.innerHTML = '<div class="small-sub">Sin datos</div>'; return; }
   const W = el.clientWidth || 500, H = 220, m = { l: 38, r: 14, t: 18, b: 24 };
-  const sx = y => Math.sqrt(y);              // raíz: separa los plazos cortos sin aplastar los largos
+  const sx = y => Math.sqrt(y);
   const X = k => m.l + (sx(yrs[k]) - sx(yrs[P[0][0]])) / (sx(30) - sx(yrs[P[0][0]])) * (W - m.l - m.r);
   const vs = P.map(p => p[1]); let y0 = Math.floor((Math.min(...vs) - .2) * 2) / 2, y1 = Math.ceil((Math.max(...vs) + .2) * 2) / 2;
   const Y = v => m.t + (1 - (v - y0) / (y1 - y0)) * (H - m.t - m.b);
@@ -441,107 +610,147 @@ function curveChart(el, pts) {
   el.innerHTML = s + '</svg>';
 }
 
+// ── tabla de indicadores ───────────────────────────────────────────────────
+function indTable(el, rows, totW, groups) {
+  let t = '<thead><tr><th>Indicador</th><th class="num">Valor</th><th>Puntuación</th><th>Estado</th><th class="num hide-sm">Peso</th><th class="hide-sm">Adelanto</th><th class="hide-sm">Umbral</th><th class="hide-sm">Dato a</th></tr></thead><tbody>';
+  let g = '';
+  rows.forEach(i => {
+    if (groups && i.group !== g) { g = i.group; t += `<tr class="group"><td colspan="8">${esc(g)}</td></tr>`; }
+    const sc = i.score, c = STATUS[i.status]?.c || '--muted';
+    t += `<tr><td title="${esc(i.source)}">${esc(i.label)}<span class="sub">${esc(i.why || '')}</span></td>
+      <td class="num">${fmt(i.value, i.decimals, i.unit, SIGNED.has(i.key))}</td>
+      <td style="white-space:nowrap"><span class="sbar"><span style="width:${sc ?? 0}%;background:var(${c})"></span></span><span style="font-family:var(--mono);font-size:12px">${sc ?? '–'}</span></td>
+      <td>${badge(i.status)}</td>
+      <td class="num hide-sm">${i.weight ? Math.round(i.weight / totW * 100) + '%' : '–'}</td>
+      <td class="hide-sm">${esc(i.lead)}</td>
+      <td class="hide-sm" style="font-size:12px;color:var(--ink-2)">${esc(i.note)}</td>
+      <td class="hide-sm ${i.stale ? 'stale' : ''}">${esDate(i.as_of)}${i.stale ? ' ⚠' : ''}</td></tr>`;
+  });
+  el.innerHTML = t + '</tbody>';
+}
+
 // ── render principal ───────────────────────────────────────────────────────
 async function main() {
-  let D, H = [], M = {};
+  let D, H = [], B = null, M = {};
   const errs = [];
   try { D = await getJSON('dashboard.json'); } catch (e) { errs.push(e.message); }
   try { H = await getJSON('history.json'); } catch (e) { errs.push(e.message); }
+  try { B = await getJSON('backtest.json'); } catch (e) { errs.push(e.message); }
   try { M = await getJSON('manual.json'); } catch (e) {}
   $('#loading').remove();
   if (!D) {
-    $('#banners').innerHTML = `<div class="banner bad"><span>✕</span><div><b>No se han podido cargar los datos.</b> ${errs.join(' · ')}</div></div>`;
+    $('#banners').innerHTML = `<div class="banner bad"><span>✕</span><div><b>No se han podido cargar los datos.</b> ${esc(errs.join(' · '))}</div></div>`;
     return;
   }
   const I = Object.fromEntries(D.indicators.map(i => [i.key, i]));
   const C = D.composite;
+  const REC = B ? B.recessions : (D.recessions || []);
 
   // Frescura
-  const run = new Date(D.timestamp), mkt = I.vix?.as_of || I.spy_drawdown?.as_of;
-  const ageH = (Date.now() - run) / 36e5;
+  const run = new Date(D.timestamp), mkt = I.spx_dd?.as_of || I.vix?.as_of;
   const bizDays = (() => { let n = 0, d = new Date(run); const now = new Date(); while (d < now) { d.setUTCDate(d.getUTCDate() + 1); if (d < now && d.getUTCDay() % 6) n++; } return n; })();
   const freshCol = bizDays <= 1 ? '--good' : bizDays <= 3 ? '--warning' : '--critical';
   $('#fresh').innerHTML = `<span class="pill"><span class="dot" style="background:var(${freshCol})"></span>Cierre ${esDate(mkt)}</span><span class="pill">Generado ${run.toLocaleString('es-ES', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>`;
   const banners = [];
   if (bizDays > 1) banners.push(['warn', '⚠', `<b>Datos de hace ${bizDays} días hábiles.</b> La actualización automática no ha publicado desde entonces; revisa GitHub Actions.`]);
-  if (C.coverage < 0.9) banners.push(['warn', '⚠', `<b>Cobertura del ${Math.round(C.coverage * 100)}%.</b> Faltan: ${C.missing.map(k => I[k]?.label || k).join(', ')}. El score se calcula sin ellos.`]);
-  const stale = D.indicators.filter(i => i.stale);
-  if (stale.length) banners.push(['warn', '⚠', `<b>Datos atrasados:</b> ${stale.map(i => `${i.label} (${esDate(i.as_of)})`).join(', ')}.`]);
+  if (C.coverage < 0.9) banners.push(['warn', '⚠', `<b>Cobertura del ${Math.round(C.coverage * 100)}%.</b> Faltan: ${C.missing.map(k => esc(I[k]?.label || k)).join(', ')}. El score se calcula sin ellos.`]);
+  const stale = D.indicators.filter(i => i.stale && i.weight);
+  if (stale.length) banners.push(['warn', '⚠', `<b>Datos atrasados:</b> ${stale.map(i => `${esc(i.label)} (${esDate(i.as_of)})`).join(', ')}.`]);
   $('#banners').innerHTML = banners.map(([k, ic, t]) => `<div class="banner ${k}"><span>${ic}</span><div>${t}</div></div>`).join('');
+
+  const usRows = D.indicators.filter(i => !i.info && ['Crédito y tipos', 'Economía adelantada', 'Confirmación', 'Mercados'].includes(i.group));
+  const euRows = D.indicators.filter(i => !i.info && i.group === 'Zona euro');
+  const glRows = D.indicators.filter(i => !i.info && i.group === 'Global');
+  const sum = o => Object.values(o).reduce((a, b) => a + b, 0);
 
   const render = () => {
     // ── Hero
     const col = labelColor(C.score);
     $('#heroNum').innerHTML = `${fmt(C.score, 1)}<small> /100</small>`;
-    $('#heroLabel').innerHTML = `<span class="dot" style="background:var(${col})"></span>${C.label}`;
-    const segs = [[0, 20, '--good'], [20, 40, '--warning'], [40, 55, '--serious'], [55, 70, '--critical'], [70, 85, '--critical'], [85, 100, '--critical']];
+    $('#heroLabel').innerHTML = `<span class="dot" style="background:var(${col})"></span>${esc(C.label)}`;
+    const segs = [[0, 20, '--good'], [20, 35, '--warning'], [35, 50, '--serious'], [50, 65, '--critical'], [65, 100, '--critical']];
     $('#scale').innerHTML = segs.map(([a, b, c], i) => `<span style="flex:${b - a};background:var(${c});opacity:${i > 3 ? 1 : .8}"></span>`).join('') + `<div class="needle" style="left:${C.score}%"></div>`;
-    // deltas contra el histórico
-    const back = n => { const h = H.filter(r => r.date < (mkt || '9999')); return h.length >= n ? h[h.length - n] : null; };
-    const dl = (r, t) => r ? `${t} <b style="color:var(${C.score - r.score > 0.5 ? '--serious' : C.score - r.score < -0.5 ? '--good' : '--ink'})">${fmt(C.score - r.score, 1, '', true)}</b>` : '';
-    $('#deltas').innerHTML = [dl(back(5), 'vs hace 1 semana'), dl(back(21), 'vs hace 1 mes')].filter(Boolean).join('') || '<span>Histórico insuficiente para comparar</span>';
-    const totW = Object.values(C.weights).reduce((a, b) => a + b, 0);
+    const hv = H.filter(r => r.v === 5 && r.date < (mkt || '9999'));
+    const back = n => hv.length >= n ? hv[hv.length - n] : null;
+    const bt = B ? B.score.filter(x => x != null) : [];
+    const btBack = n => bt.length > n ? bt[bt.length - 1 - n] : null;
+    const dl = (ref, t) => ref != null ? `${t} <b style="color:var(${C.score - ref > 0.5 ? '--serious' : C.score - ref < -0.5 ? '--good' : '--ink'})">${fmt(C.score - ref, 1, '', true)}</b>` : '';
+    $('#deltas').innerHTML = [dl(back(5)?.score, 'vs hace 1 semana'), dl(btBack(3), 'vs hace 3 meses'), dl(btBack(12), 'vs hace 1 año')].filter(Boolean).join('') || '<span>Histórico insuficiente para comparar</span>';
+    const totW = sum(C.weights);
     $('#pillars').innerHTML = Object.entries(C.pillars).map(([k, v]) => {
       const w = C.pillar_keys[k].reduce((a, kk) => a + C.weights[kk], 0) / totW;
-      return `<div class="pillar"><div class="k">${k}</div><div class="v" style="color:var(${v == null ? '--muted' : labelColor(v)})">${fmt(v, 0)}</div><div class="w">peso ${Math.round(w * 100)}%</div></div>`;
+      return `<div class="pillar"><div class="k">${esc(k)}</div><div class="v" style="color:var(${labelColor(v)})">${fmt(v, 0)}</div><div class="w">peso ${Math.round(w * 100)}%</div></div>`;
     }).join('');
-    $('#coverage').textContent = `Cobertura ${Math.round(C.coverage * 100)}% de los pesos · crédito HY: ${D.extra.hy_kind === 'oas' ? 'diferencial ICE BofA' : 'proxy LQD−HYG'}`;
+    $('#coverage').textContent = `Cobertura ${Math.round(C.coverage * 100)}% de los pesos · ${usRows.length} indicadores`;
 
-    // ── Histórico
-    const hp = H.map(r => [r.date, r.score]);
-    $('#histHint').textContent = H.length ? `${esDate(H[0].date)} – ${esDate(H.at(-1).date)} · ${H.length} días` : '';
-    lineChart($('#histChart'), hp, {
-      h: 260, yMin: 0, yMax: Math.max(60, ...hp.map(p => p[1] + 5)), dec: 1, area: true, label: 'Evolución del score',
-      bands: [{ from: 0, to: 20, color: '--good' }, { from: 20, to: 40, color: '--warning' }, { from: 40, to: 55, color: '--serious' }, { from: 55, to: 100, color: '--critical' }],
-      refs: [{ y: 40, label: 'Elevado ≥40', color: '--serious' }],
-      extra: (p, i) => { const r = H[i]; return `<div class="d">${Math.round(r.coverage * 100)}% cobertura${r.bf ? ' · reconstruido' : ''}</div>`; },
-    });
+    // ── Zonas
+    const zone = (name, z) => `<div class="zone"><div class="k">${name}</div><div class="v" style="color:var(${labelColor(z?.score)})">${fmt(z?.score, 1)}</div><div class="l" style="color:var(${labelColor(z?.score)})">${esc(z?.label || '')}</div><div class="small-sub" style="margin:2px 0 0">cobertura ${Math.round((z?.coverage || 0) * 100)}%</div></div>`;
+    $('#zones').innerHTML = zone('EE. UU.', C) + zone('Zona euro', D.euro) + zone('Global', D.global);
 
-    // ── Drivers
-    const drv = D.indicators.filter(i => i.score != null && i.score >= 50).sort((a, b) => (b.score * (b.weight || .01)) - (a.score * (a.weight || .01)));
-    $('#drivers').innerHTML = drv.length ? drv.map(i => `<div class="row"><div class="name">${i.label}<small>${i.note}</small></div><div class="val">${fmt(i.value, i.decimals, i.unit, ['sox_bubble', 'curve_10y3m', 'curve_10y2y'].includes(i.key) || (i.key === 'hy' && D.extra.hy_kind !== 'oas'))}</div>${badge(i.status)}</div>`).join('')
+    // ── Modelos
+    $('#models').innerHTML = (D.models || []).map(m => `<div class="row"><div class="name">${esc(m.label)}<small>${esc(m.horizon)} · ${esDate(m.as_of)}</small></div><div class="pbar" title="${esc(m.note)}"><span style="width:${Math.min(100, m.prob ?? 0)}%;background:var(${probColor(m.prob)})"></span></div><div class="val" style="min-width:52px">${fmt(m.prob, 0, '%')}</div></div>`).join('');
+
+    // ── Backtest (resumen)
+    if (B) {
+      const bp = B.dates.map((d, i) => [d, B.score[i]]);
+      const hits = B.rec_stats.filter(r => r.max12 != null && r.max12 >= B.threshold).length;
+      $('#btHint').textContent = `mensual · avisó (≥${B.threshold}) en los 12 meses previos a ${hits} de ${B.rec_stats.length} recesiones · ${B.false_alarms.length} falsas alarmas`;
+      lineChart($('#btChart'), bp, {
+        h: 240, yMin: 0, yMax: Math.max(70, ...bp.map(p => (p[1] ?? 0) + 5)), dec: 0, area: true, monthly: true, label: 'Score desde 1988',
+        shade: REC, refs: [{ y: B.threshold, label: 'Alerta 35', color: '--serious' }],
+        extra: (p, i) => { const r = B.recessions.find(([a, b]) => p[0] >= a && p[0] <= b); return r ? '<div class="d">en recesión</div>' : ''; },
+      });
+    }
+
+    // ── Drivers (todas las zonas)
+    const drv = D.indicators.filter(i => !i.info && i.key !== 'oil_yoy_g' && i.score != null && i.score >= 50).sort((a, b) => (b.score * (b.weight || .01)) - (a.score * (a.weight || .01)));
+    $('#drivers').innerHTML = drv.length ? drv.map(i => `<div class="row"><div class="name">${esc(i.label)}<small>${esc(i.group)} · ${esc(i.note)}</small></div><div class="val">${fmt(i.value, i.decimals, i.unit, SIGNED.has(i.key))}</div>${badge(i.status)}</div>`).join('')
       : '<div class="row"><div class="name">Ningún indicador en alerta.</div></div>';
 
-    // ── Umbrales de capitulación
+    // ── Tablas
+    indTable($('#usTable'), usRows, totW, true);
+    indTable($('#euTable'), euRows, sum(D.euro.weights), false);
+    indTable($('#glTable'), glRows, sum(D.global.weights), false);
+    $('#euHint').textContent = `score ${fmt(D.euro.score, 1)} · ${D.euro.label}`;
+    $('#glHint').textContent = `score ${fmt(D.global.score, 1)} · ${D.global.label}`;
+    const gas = D.extra.gas_storage || M.eu_gas_storage || {};
+    const gasAge = gas.date ? Math.round((Date.now() - new Date(gas.date)) / 864e5) : null;
+    $('#gasNote').innerHTML = gas.value != null ? `Almacén de gas de la UE: <b>${fmt(gas.value, 0, '%')}</b> (${esDate(gas.date)}${gasAge > 21 ? ', <span class="stale">dato de hace ' + gasAge + ' días</span>' : ''}). Se actualiza a mano en <code>docs/manual.json</code>: por debajo del 50% en enero sería una señal de alarma.` : '';
+
+    // ── Historia
+    if (B) {
+      const k = document.querySelector('#btSeg [aria-pressed="true"]').dataset.k;
+      const ser = k === 'score' ? B.score : B.pillars[k];
+      lineChart($('#btChart2'), B.dates.map((d, i) => [d, ser[i]]), { h: 300, yMin: 0, yMax: 100, dec: 0, monthly: true, shade: REC, refs: [{ y: B.threshold, label: 'Alerta 35', color: '--serious' }], label: 'Backtest' });
+      let t = '<thead><tr><th>Inicio</th><th class="num">−12M</th><th class="num">−6M</th><th class="num">−3M</th><th class="num">Inicio</th><th class="num" title="Máximo de los 12 meses previos">Máx.</th></tr></thead><tbody>';
+      B.rec_stats.forEach(r => {
+        const c = v => `<td class="num" style="color:var(${labelColor(v)})">${fmt(v, 0)}</td>`;
+        t += `<tr><td>${esMonth(r.start)}</td>${c(r.m12)}${c(r.m6)}${c(r.m3)}${c(r.m0)}${c(r.max12)}</tr>`;
+      });
+      $('#recTable').innerHTML = t + '</tbody>';
+      $('#falseList').innerHTML = B.false_alarms.length ? B.false_alarms.map(f => `<div class="row"><div class="name">${esMonth(f.from)} – ${esMonth(f.to)}<small>${f.open ? 'aún dentro de la ventana de 18 meses: puede no ser falsa' : 'no hubo recesión'}</small></div><div class="val">máx. ${fmt(f.max, 0)}</div></div>`).join('')
+        : '<div class="row"><div class="name">Ninguna.</div></div>';
+      $('#btNote').textContent = B.note + ' Cobertura variable: varios indicadores empiezan más tarde (crédito bancario en 1990, VIX en 1990, pedidos en 1992, vacantes en 2001, high yield solo los últimos 3 años).';
+    }
+
+    // ── Pequeños múltiplos (15 años, mensuales)
+    // [clave, referencias, rango del eje]: el rango recorta los picos de 2020 para que se vea el resto
+    const SM = [
+      ['curve_prob', [{ y: 30, label: '30%' }]], ['ntfs', [{ y: 0, label: '0' }]], ['ebp_prob', [{ y: 35, label: '35%' }]],
+      ['sloos', [{ y: 20, label: '20%' }]], ['claims_rise', [{ y: 16, label: '16%' }], [0, 60]], ['permits', [{ y: -12, label: '−12%' }]],
+      ['neworders', [{ y: -3, label: '−3%' }], [-40, 40]], ['oil_yoy', [{ y: 45, label: '45%' }], [-70, 160]], ['profits', [{ y: 0, label: '0' }], [-30, 40]],
+      ['sahm', [{ y: 0.5, label: '0,50' }], [-0.5, 2]], ['ms', [{ y: 0.29, label: '0,29' }], [-0.5, 2]], ['sos', [{ y: 0.2, label: '0,20' }], [-0.5, 1.5]],
+      ['payrolls_3m', [{ y: 0, label: '0' }], [-400, 800]], ['esi', [{ y: 100, label: 'media' }]], ['ea_curve', [{ y: 0, label: '0' }]],
+      ['bls', [{ y: 20, label: '20%' }]], ['ttf', [{ y: 60, label: '60 €' }]], ['cli_china', [{ y: 100, label: 'tendencia' }]],
+    ].filter(([k]) => (D.charts[k] || []).length > 1);
+    $('#smalls').innerHTML = SM.map(([k]) => `<div class="card"><div class="small-title"><span>${esc(I[k]?.label || k)}</span><span class="now">${fmt(I[k]?.value, I[k]?.decimals ?? 1, I[k]?.unit ?? '', SIGNED.has(k))}</span></div><div class="small-sub">${esc(I[k]?.group)} · ${esc(I[k]?.note)}</div><div class="chart" id="sm-${k}"></div></div>`).join('');
+    SM.forEach(([k, refs, rng]) => lineChart($('#sm-' + k), D.charts[k], { unit: I[k]?.unit || '', dec: I[k]?.decimals ?? 1, refs, h: 160, monthly: true, thin: true, shade: REC, label: I[k]?.label, yMin: rng?.[0], yMax: rng?.[1] }));
+
+    // ── Mercado
     const P = D.pain;
     $('#painHint').textContent = `${P.active} de ${P.known} activos`;
-    $('#pain').innerHTML = P.levels.map(p => `<div class="row"><div class="check ${p.active ? 'on' : ''}">${p.active ? '✓' : p.active === null ? '?' : ''}</div><div class="name">${p.label}<small>umbral ${p.op === '<' ? '<' : p.op === '>' ? '>' : '≥'} ${fmt(p.threshold, p.threshold % 1 ? 1 : 0, p.unit)}</small></div><div class="val">${fmt(p.value, Math.abs(p.value) >= 100 ? 0 : 2, p.unit)}</div></div>`).join('');
-    $('#action').innerHTML = P.action + '<div class="small-sub" style="margin:4px 0 0;font-weight:400">3 o más activos a la vez = comprar por tramos; 5 o más = desplegar.</div>';
-
-    // ── Tabla
-    let t = '<thead><tr><th>Indicador</th><th class="num">Valor</th><th>Puntuación</th><th>Estado</th><th class="num hide-sm">Peso</th><th class="hide-sm">Adelanto</th><th class="hide-sm">Dato a</th></tr></thead><tbody>';
-    let g = '';
-    D.indicators.forEach(i => {
-      if (i.group !== g) { g = i.group; t += `<tr class="group"><td colspan="7">${g}</td></tr>`; }
-      const sc = i.score, c = STATUS[i.status]?.c || '--muted';
-      t += `<tr><td>${i.label}<span class="sub">${i.note || ''}${i.note ? ' · ' : ''}${i.source || ''}</span></td>
-        <td class="num">${fmt(i.value, i.decimals, i.unit)}</td>
-        <td style="white-space:nowrap"><span class="sbar"><span style="width:${sc ?? 0}%;background:var(${c})"></span></span><span style="font-family:var(--mono);font-size:12px">${sc ?? '–'}</span></td>
-        <td>${badge(i.status)}</td>
-        <td class="num hide-sm">${i.weight ? Math.round(i.weight / totW * 100) + '%' : '–'}</td>
-        <td class="hide-sm">${i.lead}</td>
-        <td class="hide-sm ${i.stale ? 'stale' : ''}">${esDate(i.as_of)}${i.stale ? ' ⚠' : ''}</td></tr>`;
-    });
-    $('#indTable').innerHTML = t + '</tbody>';
-
-    // ── Pequeños múltiplos
-    const hyO = D.extra.hy_kind === 'oas';
-    const SM = [
-      ['spy_drawdown', 'S&P 500: caída desde máximo', '%', 1, [{ y: -15, label: '−15%' }], 'Corrección seria por debajo de −15%'],
-      ['sox_bubble', 'Semis sobre su MM200', '%', 1, [{ y: 30, label: 'Burbuja 30%' }], 'Hartnett: >30% es zona de burbuja'],
-      ['vix', 'VIX', '', 1, [{ y: 35, label: 'Pánico 35' }], 'Volatilidad implícita del S&P 500'],
-      ['bond_30y', 'Bono a 30 años', '%', 2, [{ y: 5, label: '5%' }], '«Bubble killer» por encima del 5%'],
-      ['curve_10y3m', 'Curva 10A − 3M', ' pp', 2, [{ y: 0, label: 'Inversión' }], 'Invertida (<0) anticipa recesión a 6–18M'],
-      hyO ? ['hy', 'Diferencial high yield', '%', 2, [{ y: 5, label: 'Estrés 5%' }], 'ICE BofA US HY OAS'] : null,
-      ['oil_price', 'Petróleo WTI', ' $', 1, [{ y: 100, label: '100 $' }], 'Por encima de 100 $ frena el consumo'],
-      ['unrate', 'Tasa de paro', '%', 1, [], 'Mensual, BLS'],
-      ['sahm', 'Regla de Sahm', '', 2, [{ y: 0.5, label: 'Recesión 0,50' }], 'Media 3M del paro menos su mínimo de 12M'],
-      ['claims_4w', 'Peticiones de paro semanales', '', 0, [{ y: 300000, label: '300K' }], 'FRED ICSA'],
-    ].filter(Boolean).filter(([k]) => (D.charts[k] || []).length > 1);
-    $('#smalls').innerHTML = SM.map(([k, t, , , , sub]) => `<div class="card"><div class="small-title"><span>${t}</span><span class="now">${fmt(I[k]?.value, I[k]?.decimals ?? 1, I[k]?.unit ?? '')}</span></div><div class="small-sub">${sub}</div><div class="chart" id="sm-${k}"></div></div>`).join('');
-    SM.forEach(([k, t, u, d, refs]) => lineChart($('#sm-' + k), D.charts[k], { unit: u, dec: d, refs, h: 160, label: t }));
-
-    // ── Curva
+    $('#pain').innerHTML = P.levels.map(p => `<div class="row"><div class="check ${p.active ? 'on' : ''}">${p.active ? '✓' : p.active === null ? '?' : ''}</div><div class="name">${esc(p.label)}<small>umbral ${p.op === '<' ? '<' : p.op === '>' ? '>' : '≥'} ${fmt(p.threshold, p.threshold % 1 ? 1 : 0, p.unit)}</small></div><div class="val">${fmt(p.value, Math.abs(p.value) >= 100 ? 0 : 2, p.unit)}</div></div>`).join('');
+    $('#action').innerHTML = esc(P.action) + '<div class="small-sub" style="margin:4px 0 0;font-weight:400">3 o más activos a la vez = comprar por tramos; 5 o más = desplegar.</div>';
     $('#curveHint').textContent = 'Treasury.gov · ' + esDate(D.curve.date);
     curveChart($('#curveChart'), D.curve.points);
     const sp = (k, l) => `${l} <b style="color:var(${I[k]?.value < 0 ? '--critical' : '--ink'})">${fmt(I[k]?.value, 2, ' pp', true)}</b>`;
@@ -551,16 +760,16 @@ async function main() {
 
     // ── Tesis
     const bb = M.bull_bear || {}, bbAge = bb.date ? Math.round((Date.now() - new Date(bb.date)) / 864e5) : null;
-    const sox = I.sox_bubble?.value, dd = I.spy_drawdown?.value, b30 = I.bond_30y?.value;
+    const sox = I.sox_bubble?.value, dd = I.spx_dd?.value, b30 = I.bond_30y?.value;
     const verdict = (ok, txt) => `<span class="status" style="color:var(${ok === null ? '--muted' : ok ? '--good' : '--serious'})"><i style="background:var(${ok === null ? '--muted' : ok ? '--good' : '--serious'})">${ok === null ? '?' : ok ? '✓' : '✕'}</i>${txt}</span>`;
     const claims = [
       ['SOX un 62% por encima de su media de 200 sesiones', verdict(sox == null ? null : sox > 50, sox == null ? 'sin dato' : sox > 50 ? 'sigue' : 'ya no'), (() => { const c = (D.charts.sox_bubble || []).reduce((a, p) => p[1] > (a?.[1] ?? -Infinity) ? p : a, null); return `Hoy: ${fmt(sox, 1, '%', true)}` + (c ? `; máximo del último año ${fmt(c[1], 1, '%', true)} el ${esDate(c[0])}.` : '.'); })()],
       ['Techo del mercado en junio de 2026', verdict(dd == null ? null : dd < -10, dd == null ? 'sin dato' : dd < -10 ? 'se cumple' : 'no se cumplió'), `El S&P está a ${fmt(dd, 1, '%')} de su máximo de 52 semanas.`],
-      ['El 30 años al 5% pincha la burbuja', verdict(b30 == null ? null : b30 >= 5 && dd < -10, b30 >= 5 ? (dd < -10 ? 'confirmado' : 'umbral roto, sin pinchazo') : 'umbral no alcanzado'), `30 años en ${fmt(b30, 2, '%')}; el S&P a ${fmt(dd, 1, '%')} del máximo. El umbral se cruzó y la bolsa no ha caído: de momento, la tesis no se confirma.`],
+      ['El 30 años al 5% pincha la burbuja', verdict(b30 == null ? null : b30 >= 5 && dd < -10, b30 >= 5 ? (dd < -10 ? 'confirmado' : 'umbral roto, sin pinchazo') : 'umbral no alcanzado'), `30 años en ${fmt(b30, 2, '%')}; el S&P a ${fmt(dd, 1, '%')} del máximo.`],
       ['Bull & Bear de BofA en 7,6 (venta en 8)', verdict(null, bbAge > 45 ? `dato de hace ${bbAge} días` : 'vigente'), `Último dato manual: ${fmt(bb.value, 1)} el ${esDate(bb.date)}. Actualízalo en docs/manual.json.`],
       ['Petróleo: subida >90% desde mínimos = recesión', verdict(I.oil_rise?.value == null ? null : I.oil_rise.value >= 90, I.oil_rise?.value >= 90 ? 'activado' : 'no activado'), `WTI ${fmt(I.oil_price?.value, 1, ' $')}, ${fmt(I.oil_rise?.value, 0, '%', true)} sobre su mínimo de 52 semanas (${fmt(D.extra.oil_low52, 1, ' $')}).`],
     ];
-    $('#claims').innerHTML = claims.map(([c, v, n]) => `<div class="claim"><div class="c">${c}</div>${v}<div class="n">${n}</div></div>`).join('');
+    $('#claims').innerHTML = claims.map(([c, v, n]) => `<div class="claim"><div class="c">${esc(c)}</div>${v}<div class="n">${esc(n)}</div></div>`).join('');
     $('#oilNow').textContent = fmt(I.oil_price?.value, 1, ' $');
   };
   window.__render = () => { try { render(); } catch (e) { console.error(e); } };
@@ -568,8 +777,12 @@ async function main() {
     document.querySelectorAll('#secSeg button').forEach(x => x.setAttribute('aria-pressed', x === b));
     divBars($('#secChart'), D.sectors, b.dataset.p);
   });
+  document.querySelectorAll('#btSeg button').forEach(b => b.onclick = () => {
+    document.querySelectorAll('#btSeg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    window.__render();
+  });
   let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(window.__render, 150); });
-  const initial = (location.hash || '#resumen').slice(1);
+  const initial = ALIAS[(location.hash || '#resumen').slice(1)] || (location.hash || '#resumen').slice(1);
   showTab(document.querySelector(`nav button[data-tab="${initial}"]`) ? initial : 'resumen');
 }
 main();

@@ -1,5 +1,20 @@
 {
-  "_nota": "Datos que no se pueden descargar y se actualizan a mano. Cambia el valor y la fecha; el panel avisa cuando un dato tiene más de 45 días.",
-  "bull_bear": { "value": 7.6, "date": "2026-05-16", "sell_signal": 8.0, "source": "BofA Global Research (Hartnett)" },
-  "materials_weight_sp500": { "value": 2.0, "date": "2026-05-09", "source": "Hartnett, «Living in a Material World»" }
+ "_nota": "Datos que no se pueden descargar y se actualizan a mano. Cambia el valor y la fecha; el panel avisa cuando un dato es viejo (gas: más de 21 días; Bull & Bear: más de 45).",
+ "bull_bear": {
+  "value": 7.6,
+  "date": "2026-05-16",
+  "sell_signal": 8.0,
+  "source": "BofA Global Research (Hartnett)"
+ },
+ "materials_weight_sp500": {
+  "value": 2.0,
+  "date": "2026-05-09",
+  "source": "Hartnett, «Living in a Material World»"
+ },
+ "eu_gas_storage": {
+  "value": 68,
+  "date": "2026-10-23",
+  "source": "AGSI+ (GIE), % de capacidad de la UE. La API pide clave: dato copiado a mano del informe del 23-oct-2026",
+  "alarm": "<50% en enero"
+ }
 }
