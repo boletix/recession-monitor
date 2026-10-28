@@ -1,5 +1,5 @@
 {
- "timestamp": "2026-10-27T00:25:05Z",
+ "timestamp": "2026-10-28T00:31:33Z",
  "version": 5,
  "fred_enabled": true,
  "composite": {
@@ -102,9 +102,9 @@
   {
    "key": "nyfed",
    "label": "Curva de tipos (probit de la Fed de NY)",
-   "prob": 13.1,
+   "prob": 13.2,
    "horizon": "recesión en los próximos 12 meses",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "note": "Estrella y Mishkin; P = Φ(−0,5333 − 0,6330 × diferencial 10A−3M)."
   },
   {
@@ -139,7 +139,7 @@
    "group": "Crédito y tipos",
    "unit": "%",
    "decimals": 0,
-   "value": 13.1171,
+   "value": 13.2359,
    "score": 20,
    "status": "OK",
    "weight": 0.08,
@@ -147,7 +147,7 @@
    "note": ">30% = alerta",
    "why": "Probit de Estrella y Mishkin (Fed de NY): el mejor predictor a 4-6 trimestres. Falló en 2022-24.",
    "source": "FRED T10Y3M, media del mes",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false
   },
   {
@@ -156,7 +156,7 @@
    "group": "Crédito y tipos",
    "unit": " pp",
    "decimals": 2,
-   "value": 0.844,
+   "value": 0.8338,
    "score": 5,
    "status": "OK",
    "weight": 0.06,
@@ -164,7 +164,7 @@
    "note": "<0 = el mercado espera recortes",
    "why": "Engstrom y Sharpe (Fed, 2019): el tipo a 3M esperado dentro de 1-2 años menos el actual. Domina a la curva 10A-2A.",
    "source": "FRED DGS1, DGS2, DGS3MO",
-   "as_of": "2026-10-23",
+   "as_of": "2026-10-26",
    "stale": false
   },
   {
@@ -241,7 +241,7 @@
    "group": "Economía adelantada",
    "unit": "%",
    "decimals": 1,
-   "value": 1.0737,
+   "value": 1.026,
    "score": 5,
    "status": "OK",
    "weight": 0.05,
@@ -258,7 +258,7 @@
    "group": "Economía adelantada",
    "unit": "%",
    "decimals": 1,
-   "value": 18.5735,
+   "value": 16.6795,
    "score": 5,
    "status": "OK",
    "weight": 0.04,
@@ -266,7 +266,7 @@
    "note": "<−3% = alerta",
    "why": "Bienes de equipo sin defensa ni aviones: lo que las empresas planean invertir. Sustituye al ISM, que es de pago.",
    "source": "Census (FRED NEWORDER), media 3M",
-   "as_of": "2026-08-01",
+   "as_of": "2026-09-01",
    "stale": false
   },
   {
@@ -326,7 +326,7 @@
    "group": "Economía adelantada",
    "unit": "%",
    "decimals": 0,
-   "value": 89.2153,
+   "value": 88.6896,
    "score": 80,
    "status": "PELIGRO",
    "weight": 0.06,
@@ -334,7 +334,7 @@
    "note": ">45% = choque",
    "why": "Hamilton: nueve de las diez últimas recesiones vinieron tras una subida fuerte del petróleo. Empuja a una economía ya frágil.",
    "source": "FRED DCOILBRENTEU + BZ=F",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false
   },
   {
@@ -462,7 +462,7 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 1,
-   "value": -1.8182,
+   "value": -1.232,
    "score": 5,
    "status": "OK",
    "weight": 0.04,
@@ -470,7 +470,7 @@
    "note": "<−15% = corrección seria",
    "why": "La bolsa anticipa, pero «ha predicho nueve de las cinco últimas recesiones» (Samuelson).",
    "source": "Yahoo ^GSPC",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false
   },
   {
@@ -479,7 +479,7 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 2,
-   "value": 3.21,
+   "value": 3.215,
    "score": 5,
    "status": "OK",
    "weight": 0.04,
@@ -487,7 +487,7 @@
    "note": ">5,5% = estrés",
    "why": "El crédito arriesgado suele moverse antes que la volatilidad.",
    "source": "ICE BofA (FRED BAMLH0A0HYM2)",
-   "as_of": "2026-10-23",
+   "as_of": "2026-10-26",
    "stale": false
   },
   {
@@ -496,7 +496,7 @@
    "group": "Mercados",
    "unit": "",
    "decimals": 1,
-   "value": 16.7033,
+   "value": 16.7463,
    "score": 20,
    "status": "OK",
    "weight": 0.02,
@@ -504,7 +504,7 @@
    "note": ">30 = pánico",
    "why": "Volatilidad implícita del S&P 500.",
    "source": "CBOE ^VIX",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false
   },
   {
@@ -530,7 +530,7 @@
    "group": "Zona euro",
    "unit": " pp",
    "decimals": 2,
-   "value": 0.9198,
+   "value": 0.9135,
    "score": 5,
    "status": "OK",
    "weight": 0.2,
@@ -538,7 +538,7 @@
    "note": "<0 = invertida",
    "why": "El BCE (2023) confirma su poder predictivo; un tramo negativo pesa mucho más que uno bajo y positivo.",
    "source": "BCE, curva AAA",
-   "as_of": "2026-10-23",
+   "as_of": "2026-10-26",
    "stale": false
   },
   {
@@ -547,7 +547,7 @@
    "group": "Zona euro",
    "unit": "%",
    "decimals": 1,
-   "value": 7.2947,
+   "value": 7.2949,
    "score": 20,
    "status": "OK",
    "weight": 0.2,
@@ -555,7 +555,7 @@
    "note": ">20% = alerta",
    "why": "Encuesta de préstamos bancarios del BCE: el equivalente europeo del SLOOS.",
    "source": "BCE BLS (WFNET)",
-   "as_of": "2026-07-01",
+   "as_of": "2026-10-01",
    "stale": false
   },
   {
@@ -598,7 +598,7 @@
    "group": "Zona euro",
    "unit": " €",
    "decimals": 1,
-   "value": 83.8592,
+   "value": 84.4598,
    "score": 80,
    "status": "PELIGRO",
    "weight": 0.1,
@@ -606,7 +606,7 @@
    "note": ">60 € = choque",
    "why": "El choque de energía es el canal por el que Europa entró en estancamiento en 2022-23.",
    "source": "Yahoo TTF=F, media del mes",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false
   },
   {
@@ -649,7 +649,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 1,
-   "value": 11.042,
+   "value": 11.0782,
    "score": 5,
    "status": "OK",
    "weight": 0.15,
@@ -657,7 +657,7 @@
    "note": "<−8% = alerta",
    "why": "«Doctor Cobre»: demanda industrial y de construcción en tiempo real. Tiene ruido.",
    "source": "Yahoo HG=F",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false
   },
   {
@@ -666,7 +666,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 1,
-   "value": 27.1148,
+   "value": 27.2483,
    "score": 5,
    "status": "OK",
    "weight": 0.1,
@@ -674,7 +674,7 @@
    "note": "<−8% = alerta",
    "why": "Crecimiento frente a refugio: cae cuando el mercado teme por la economía mundial.",
    "source": "Yahoo HG=F / GC=F",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false
   },
   {
@@ -683,7 +683,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 0,
-   "value": 89.2153,
+   "value": 88.6896,
    "score": 80,
    "status": "PELIGRO",
    "weight": 0.2,
@@ -691,7 +691,7 @@
    "note": ">45% = choque",
    "why": "El mismo dato que en EE. UU.: un choque de oferta golpea a todos los importadores.",
    "source": "FRED DCOILBRENTEU + BZ=F",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false
   },
   {
@@ -700,7 +700,7 @@
    "group": "Global",
    "unit": "",
    "decimals": 1,
-   "value": 102.0374,
+   "value": 102.0514,
    "score": 40,
    "status": "VIGILAR",
    "weight": 0.1,
@@ -708,7 +708,7 @@
    "note": ">104 = estrés en emergentes",
    "why": "Un dólar fuerte encarece la deuda en dólares de medio mundo.",
    "source": "ICE DXY",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false
   },
   {
@@ -717,7 +717,7 @@
    "group": "Mercados",
    "unit": " pp",
    "decimals": 2,
-   "value": 0.78,
+   "value": 0.77,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -725,7 +725,7 @@
    "note": "",
    "why": "",
    "source": "",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false,
    "info": true
   },
@@ -735,7 +735,7 @@
    "group": "Mercados",
    "unit": " pp",
    "decimals": 2,
-   "value": 0.32,
+   "value": 0.29,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -743,7 +743,7 @@
    "note": "",
    "why": "",
    "source": "",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false,
    "info": true
   },
@@ -753,7 +753,7 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 2,
-   "value": 5.31,
+   "value": 5.3,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -761,7 +761,7 @@
    "note": "",
    "why": "",
    "source": "",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false,
    "info": true
   },
@@ -771,7 +771,7 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 1,
-   "value": 1.3943,
+   "value": 4.0936,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -779,7 +779,7 @@
    "note": "",
    "why": "",
    "source": "",
-   "as_of": "2026-10-23",
+   "as_of": "2026-10-26",
    "stale": false,
    "info": true
   },
@@ -789,7 +789,7 @@
    "group": "Mercados",
    "unit": " $",
    "decimals": 1,
-   "value": 101.2,
+   "value": 100.46,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -797,7 +797,7 @@
    "note": "",
    "why": "",
    "source": "",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false,
    "info": true
   },
@@ -807,7 +807,7 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 0,
-   "value": 83.1011,
+   "value": 81.7623,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -815,7 +815,7 @@
    "note": "",
    "why": "",
    "source": "",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false,
    "info": true
   },
@@ -825,7 +825,7 @@
    "group": "Mercados",
    "unit": " $",
    "decimals": 1,
-   "value": 110.07,
+   "value": 109.94,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -833,7 +833,7 @@
    "note": "",
    "why": "",
    "source": "",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "stale": false,
    "info": true
   },
@@ -897,7 +897,7 @@
    {
     "key": "vix",
     "label": "VIX en pánico",
-    "value": 18.39,
+    "value": 17.52,
     "threshold": 35,
     "op": ">",
     "unit": "",
@@ -906,7 +906,7 @@
    {
     "key": "spx_dd",
     "label": "S&P cae más de un 15%",
-    "value": -1.82,
+    "value": -1.23,
     "threshold": -15,
     "op": "<",
     "unit": "%",
@@ -915,7 +915,7 @@
    {
     "key": "curve_10y3m",
     "label": "Curva 10A−3M invertida",
-    "value": 0.78,
+    "value": 0.77,
     "threshold": 0,
     "op": "<",
     "unit": " pp",
@@ -924,7 +924,7 @@
    {
     "key": "bond_30y",
     "label": "Bono 30A por encima del 5%",
-    "value": 5.31,
+    "value": 5.3,
     "threshold": 5.0,
     "op": ">=",
     "unit": "%",
@@ -942,7 +942,7 @@
    {
     "key": "hy",
     "label": "Crédito HY en estrés",
-    "value": 3.38,
+    "value": 3.3,
     "threshold": 5.0,
     "op": ">",
     "unit": "%",
@@ -951,7 +951,7 @@
    {
     "key": "oil_price",
     "label": "Petróleo por encima de 100 $",
-    "value": 101.2,
+    "value": 100.46,
     "threshold": 100,
     "op": ">=",
     "unit": " $",
@@ -960,7 +960,7 @@
    {
     "key": "oil_rise",
     "label": "Petróleo +90% desde mínimos",
-    "value": 83.1,
+    "value": 81.76,
     "threshold": 90,
     "op": ">=",
     "unit": "%",
@@ -972,98 +972,98 @@
   "action": "MANTENER liquidez — sin capitulación"
  },
  "curve": {
-  "date": "2026-10-26",
+  "date": "2026-10-27",
   "points": {
-   "1M": 4.11,
+   "1M": 4.1,
    "3M": 4.22,
-   "6M": 4.35,
-   "1Y": 4.47,
-   "2Y": 4.68,
-   "3Y": 4.79,
-   "5Y": 4.84,
+   "6M": 4.34,
+   "1Y": 4.5,
+   "2Y": 4.7,
+   "3Y": 4.8,
+   "5Y": 4.82,
    "7Y": 4.91,
-   "10Y": 5.0,
-   "20Y": 5.35,
-   "30Y": 5.31
+   "10Y": 4.99,
+   "20Y": 5.34,
+   "30Y": 5.3
   }
  },
  "sectors": [
   {
    "name": "Tecnología",
    "ticker": "XLK",
-   "1M": -5.9,
-   "3M": 5.2,
-   "12M": 23.2
+   "1M": -5.1,
+   "3M": 9.0,
+   "12M": 24.0
   },
   {
    "name": "Financieras",
    "ticker": "XLF",
-   "1M": 2.5,
-   "3M": -1.4,
-   "12M": 6.5
+   "1M": 2.2,
+   "3M": -2.4,
+   "12M": 7.4
   },
   {
    "name": "Energía",
    "ticker": "XLE",
-   "1M": 10.8,
-   "3M": 19.5,
-   "12M": 61.5
+   "1M": 12.3,
+   "3M": 21.7,
+   "12M": 64.0
   },
   {
    "name": "Materiales",
    "ticker": "XLB",
-   "1M": 3.3,
-   "3M": 0.3,
+   "1M": 3.2,
+   "3M": -1.4,
    "12M": 17.4
   },
   {
    "name": "Salud",
    "ticker": "XLV",
-   "1M": 5.5,
-   "3M": 10.1,
-   "12M": 24.5
+   "1M": 5.0,
+   "3M": 7.6,
+   "12M": 25.3
   },
   {
    "name": "Utilities",
    "ticker": "XLU",
-   "1M": 8.1,
-   "3M": -6.1,
-   "12M": -4.5
+   "1M": 7.7,
+   "3M": -5.8,
+   "12M": -2.9
   },
   {
    "name": "Industriales",
    "ticker": "XLI",
-   "1M": -2.5,
-   "3M": -9.9,
-   "12M": 6.9
+   "1M": -2.0,
+   "3M": -8.3,
+   "12M": 9.2
   },
   {
    "name": "Consumo disc.",
    "ticker": "XLY",
-   "1M": 2.5,
-   "3M": 2.3,
-   "12M": -5.4
+   "1M": 3.3,
+   "3M": 1.8,
+   "12M": -4.5
   },
   {
    "name": "Consumo básico",
    "ticker": "XLP",
-   "1M": 8.0,
-   "3M": 4.1,
-   "12M": 14.5
+   "1M": 7.2,
+   "3M": 1.7,
+   "12M": 15.2
   },
   {
    "name": "Comunicación",
    "ticker": "XLC",
-   "1M": -7.4,
-   "3M": -1.7,
-   "12M": -8.8
+   "1M": -8.1,
+   "3M": -5.0,
+   "12M": -9.8
   },
   {
    "name": "Inmobiliario",
    "ticker": "XLRE",
-   "1M": 2.2,
+   "1M": 3.0,
    "3M": -6.2,
-   "12M": 3.1
+   "12M": 6.0
   }
  ],
  "charts": {
@@ -1786,7 +1786,7 @@
    ],
    [
     "2026-10-01",
-    13.12
+    13.24
    ]
   ],
   "ntfs": [
@@ -2508,7 +2508,7 @@
    ],
    [
     "2026-10-01",
-    0.84
+    0.83
    ]
   ],
   "ebp_prob": [
@@ -6118,14 +6118,10 @@
    ],
    [
     "2026-09-01",
-    1.07
+    1.03
    ]
   ],
   "neworders": [
-   [
-    "2011-09-01",
-    13.89
-   ],
    [
     "2011-10-01",
     16.27
@@ -6841,6 +6837,10 @@
    [
     "2026-08-01",
     18.57
+   ],
+   [
+    "2026-09-01",
+    16.68
    ]
   ],
   "temphelp": [
@@ -9728,7 +9728,7 @@
    ],
    [
     "2026-10-01",
-    89.22
+    88.69
    ]
   ],
   "profits": [
@@ -15504,13 +15504,13 @@
    ],
    [
     "2026-10-01",
-    -1.82
+    -1.23
    ]
   ],
   "hy": [
    [
     "2023-10-01",
-    4.48
+    4.46
    ],
    [
     "2023-11-01",
@@ -16376,7 +16376,7 @@
    ],
    [
     "2026-10-01",
-    16.7
+    16.75
    ]
   ],
   "esi": [
@@ -17820,7 +17820,7 @@
    ],
    [
     "2026-10-01",
-    0.92
+    0.91
    ]
   ],
   "bls": [
@@ -20424,7 +20424,7 @@
    ],
    [
     "2026-10-01",
-    83.86
+    84.46
    ]
   ],
   "cli_china": [
@@ -22590,7 +22590,7 @@
    ],
    [
     "2026-10-01",
-    11.04
+    11.08
    ]
   ],
   "cu_au6": [
@@ -23312,7 +23312,7 @@
    ],
    [
     "2026-10-01",
-    27.11
+    27.25
    ]
   ],
   "oil_yoy_g": [
@@ -24034,7 +24034,7 @@
    ],
    [
     "2026-10-01",
-    89.22
+    88.69
    ]
   ],
   "dxy": [
@@ -24756,14 +24756,10 @@
    ],
    [
     "2026-10-01",
-    102.04
+    102.05
    ]
   ],
   "sox_bubble": [
-   [
-    "2025-10-13",
-    27.5
-   ],
    [
     "2025-10-14",
     24.7
@@ -25799,6 +25795,10 @@
    [
     "2026-10-23",
     1.4
+   ],
+   [
+    "2026-10-26",
+    4.1
    ]
   ]
  },
@@ -25809,7 +25809,7 @@
   ]
  ],
  "extra": {
-  "spy": 7676.77,
+  "spy": 7722.6,
   "oil_low52": 55.3,
   "hy_kind": "oas",
   "gas_storage": {
