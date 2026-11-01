@@ -145,7 +145,13 @@ def yf_close(ticker, period='2y'):
         if len(s) < 5:
             raise ValueError(f'solo {len(s)} filas válidas')
         return s
-    return retry(get, f'yfinance {ticker}')
+    s = retry(get, f'yfinance {ticker}')
+    # Con period='max' Yahoo a veces devuelve una sola fila (le pasó a TTF=F en
+    # GitHub Actions el 1-nov-2026): se reintenta con un plazo fijo.
+    if s is None and period == 'max':
+        period = '10y'
+        s = retry(get, f'yfinance {ticker} (10y)')
+    return s
 
 
 def eurostat(dataset, since='1990-01', **params):
