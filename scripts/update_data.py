@@ -131,12 +131,7 @@ def fred(sid, start='1960-01-01'):
 
 def yf_close(ticker, period='2y'):
     """Serie de cierres sin filas vacías ni zona horaria, o None."""
-    def get():
-        import yfinance as yf
-        d = yf.download(ticker, period=period, progress=False, auto_adjust=True, threads=False)
-        if d is None or d.empty:
-            raise ValueError('vacío')
-        s = d['Close']
+    def tidy(s):
         if hasattr(s, 'columns'):          # MultiIndex de yfinance >= 0.2.48
             s = s.iloc[:, 0]
         s = s.astype(float).dropna()
@@ -145,13 +140,41 @@ def yf_close(ticker, period='2y'):
         if len(s) < 5:
             raise ValueError(f'solo {len(s)} filas válidas')
         return s
+
+    def get():
+        import yfinance as yf
+        d = yf.download(ticker, period=period, progress=False, auto_adjust=True, threads=False)
+        if d is None or d.empty:
+            raise ValueError('vacío')
+        return tidy(d['Close'])
+
+    def get_hist():
+        import yfinance as yf
+        return tidy(yf.Ticker(ticker).history(period='2y', auto_adjust=True)['Close'])
+
     s = retry(get, f'yfinance {ticker}')
-    # Con period='max' Yahoo a veces devuelve una sola fila (le pasó a TTF=F en
-    # GitHub Actions el 1-nov-2026): se reintenta con un plazo fijo.
+    # Desde GitHub Actions, Yahoo a veces devuelve una sola fila de un futuro
+    # (TTF=F, domingo 1-nov-2026), aunque desde casa funcione: se prueba con
+    # un plazo fijo y luego con Ticker.history.
     if s is None and period == 'max':
         period = '10y'
         s = retry(get, f'yfinance {ticker} (10y)')
+    if s is None:
+        s = retry(get_hist, f'yfinance {ticker} (history 2y)', tries=2)
     return s
+
+
+def previous_indicator(key):
+    """Último valor publicado de un indicador (dashboard.json anterior), para no
+    perderlo si una fuente falla un día. Devuelve (valor, fecha) o (None, None)."""
+    try:
+        with open(os.path.join(OUT, 'dashboard.json'), encoding='utf-8') as fh:
+            for i in json.load(fh).get('indicators', []):
+                if i.get('key') == key and i.get('value') is not None and i.get('as_of'):
+                    return i['value'], i['as_of']
+    except Exception:
+        pass
+    return None, None
 
 
 def eurostat(dataset, since='1990-01', **params):
@@ -677,6 +700,14 @@ def main():
     else:
         put('cli_ea', None)
     put('ttf', mon(P['ttf']), P['ttf'])
+    if M['ttf'] is None:
+        # Si Yahoo falla, se mantiene el último dato publicado con su fecha: el
+        # panel lo marca como atrasado a los 5 días en lugar de perder cobertura.
+        pv, pd_ = previous_indicator('ttf')
+        if pv is not None:
+            s_ = pd.Series([pv], index=pd.to_datetime([pd_]))
+            put('ttf', s_.resample('MS').last(), s_)
+            print(f'  ↺ TTF: se mantiene el último dato publicado ({pv} del {pd_})')
 
     # ── Global
     put('cli_china', F['CHNLOLITOAASTSAM'])
