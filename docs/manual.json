@@ -1,10 +1,30 @@
 {
- "_nota": "Datos que no se pueden descargar y se actualizan a mano. Cambia el valor y la fecha; el panel avisa cuando un dato es viejo (gas: más de 21 días; Bull & Bear: más de 45).",
+ "_nota": "Datos que no se pueden descargar y se actualizan a mano. Cambia el valor y la fecha; el panel avisa cuando un dato es viejo (gas: más de 21 días; Bull & Bear: más de 45). Las notas semanales van en market_notes, la más reciente primero.",
  "bull_bear": {
-  "value": 7.6,
-  "date": "2026-05-16",
+  "value": 7.1,
+  "date": "2026-10-30",
   "sell_signal": 8.0,
-  "source": "BofA Global Research (Hartnett)"
+  "buy_signal": 2.0,
+  "source": "BofA Global Research (Hartnett), Flow Show",
+  "history": [
+   {"date": "2026-05-16", "value": 7.6},
+   {"date": "2026-10-23", "value": 7.2},
+   {"date": "2026-10-30", "value": 7.1}
+  ]
+ },
+ "cb_hikes_6m": {
+  "value": 42,
+  "date": "2026-10-30",
+  "source": "Hartnett (BofA), Flow Show: subidas de tipos de bancos centrales del mundo en los últimos 6 meses"
+ },
+ "levels": {
+  "_nota": "Umbrales de los niveles que vigilan Hartnett y Cárpatos. Cámbialos aquí si ellos los mueven.",
+  "mags": 70,
+  "smh": 520,
+  "gold": 4000,
+  "brent": 100,
+  "bb_sell": 8,
+  "bb_buy": 2
  },
  "materials_weight_sp500": {
   "value": 2.0,
@@ -16,5 +36,49 @@
   "date": "2026-10-23",
   "source": "AGSI+ (GIE), % de capacidad de la UE. La API pide clave: dato copiado a mano del informe del 23-oct-2026",
   "alarm": "<50% en enero"
- }
+ },
+ "market_notes": [
+  {
+   "date": "2026-10-31",
+   "title": "«No pánico, gran rotación en bolsa, de momento»",
+   "source": "Vídeos de José Luis Cárpatos del 24 y el 31-oct, resumidos por Roger",
+   "checked": "Comprobado el 1-nov con los cierres del 30-oct (Yahoo Finance).",
+   "items": [
+    {"t": "De la advertencia a la factura. El 24-oct se avisaba del dilema del capex en IA; una semana después, tras los resultados, el mercado castigó a Alphabet y Amazon por su flujo de caja libre negativo.",
+     "v": "Alphabet −12,6% y Amazon −3,1% en la semana."},
+    {"t": "Intel se desplomó un 30%. El «viernes negro/gris» la cesta de centros de datos de Goldman cayó un 7,35% y los semiconductores un 8,25%.",
+     "v": "Intel −28,6% el viernes; SOXX −8,24% y SMH −7,0%."},
+    {"t": "Cuatro de las Siete Magníficas entraron en mercado bajista (más de −20% desde máximos).",
+     "v": "Con cierres y máximo de 52 semanas son dos: Alphabet −30% y Meta −21%. Tesla −18%, Amazon −15% y Nvidia −15%.", "warn": true},
+    {"t": "No hay pánico sino rotación: el viernes subieron energía (+1,91%), consumo básico (+1,38%) y utilities (+0,64%). El S&P 500 sin tecnología tuvo su mejor mes desde 2022 y el equiponderado (RSP) subió ~5% en octubre.",
+     "v": "XLE +1,91%, XLP +1,41%, XLU +0,67% el viernes; RSP +4,9% en octubre frente al −0,9% del SPY."},
+    {"t": "Matiz de Cárpatos: no generalizar con el equiponderado. Aguantó mejor en 2000, pero lo hizo peor en 2008 y en el COVID, y solo ganó al S&P en 10 de los últimos 22 años."},
+    {"t": "Nasdaq y semiconductores cerraron en soportes mayores: la media de 200 sesiones y la banda inferior de Mogalef. Si se perforan, los CTA venderán de forma forzada.",
+     "v": "QQQ +1,8% sobre su media de 200 sesiones; SMH +0,6%; SOXX ya −0,9% por debajo."},
+    {"t": "La correlación de Apple con el Nasdaq 100 pasó a ser negativa por primera vez desde 1981: Apple como cobertura «anti-IA».",
+     "v": "A 21 sesiones, −0,13; a 63 sesiones, +0,03. El «desde 1981» no se puede comprobar aquí."},
+    {"t": "Petróleo en máximos de la guerra (WTI 104,1 $, Brent 113,43 $) por la expectativa de una escalada de EE. UU. contra Irán tras las elecciones. Sigue empujando la inflación.",
+     "v": "WTI 104,12 $ y Brent 113,43 $."},
+    {"t": "El oro perforó los 4.000 $ y cerró en 3.899 $ por la competencia de los cupones altos de la deuda.",
+     "v": "3.898,90 $; −27% desde su máximo de 52 semanas."}
+   ]
+  },
+  {
+   "date": "2026-10-30",
+   "title": "Lo que ve distinto Michael Hartnett",
+   "source": "Flow Show de BofA (Michael Hartnett), según los vídeos de Cárpatos, resumidos por Roger",
+   "items": [
+    {"t": "Bull & Bear de 7,2 a 7,1: neutral, algo más lejos de la venta (8) y muy lejos de una señal de compra contraria (2)."},
+    {"t": "Flujos de la semana: +56.200 M$ a bolsa, +15.400 M$ a bonos y +3.400 M$ a liquidez. Salen 500 M$ de cripto y 17 M$ de oro, la primera salida neta de oro desde julio de 2026."},
+    {"t": "Su línea roja en las Siete Magníficas (MAGS por encima de 70) se rompió: 68,90. Los semis (SMH) aguantan por los pelos en 526 frente a 520. Solo si se sostienen habrá opción de rally de fin de año.",
+     "v": "Cierres del 30-oct: MAGS 68,48 y SMH 522,49."},
+    {"t": "Endurecimiento «doloroso pero no mortal»: 42 subidas de tipos de bancos centrales en 6 meses, con el dólar y las rentabilidades al alza. No será mortal mientras no se destruya empleo ni estalle un evento de crédito sistémico."},
+    {"t": "Fin de la era de las recompras en los gigantes tecnológicos: sin flujo de caja libre por el gasto en IA, los hiperescaladores recortan recompras y el mercado pierde uno de sus soportes."},
+    {"t": "Las cuatro tendencias de la década: ABB (todo menos bonos), ABC (todo menos China), ABD (todo menos el dólar: oro) y sobreponderar IA. El populismo impide la austeridad, así que los gestores seguirán lejos de los bonos salvo control de la curva (YCC) o nuevo QE."},
+    {"t": "Recomendación táctica: corto en petróleo para el primer semestre de 2027. La válvula de escape serían acuerdos de paz (Oriente Medio, Ucrania): crudo abajo, la Fed sin subir y los bonos más tranquilos."},
+    {"t": "Refugio: empresas con flujo de caja libre positivo, como el ETF VFLO, frente a la IA que quema caja.",
+     "v": "VFLO +6,4% en octubre frente al −0,9% del SPY."}
+   ]
+  }
+ ]
 }

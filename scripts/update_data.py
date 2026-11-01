@@ -458,7 +458,7 @@ META = {
              'FRED UNRATE (calculada)', 75),
     'ms': ('Regla de Michaillat-Saez (paro y vacantes)', 'Confirmación', ' pp', 2, '0–3M',
            '≥0,29 = recesión probable', 'Michaillat y Saez (2025): el mínimo de la señal de paro y la de vacantes. Detecta las 15 recesiones desde 1929 sin falsos positivos.',
-           'FRED UNRATE y JTSJOR', 90),
+           'FRED UNRATE y JTSJOR', 100),     # JOLTS sale ~5 semanas después del mes
     'sos': ('Paro asegurado (indicador SOS)', 'Confirmación', ' pp', 2, '0–3M',
             '≥0,20 = recesión', 'Fed de Richmond: la regla de Sahm con datos administrativos semanales. Avisa de las 7 recesiones desde los 70.',
             'FRED IURSA, media 26 sem.', 21),
@@ -569,6 +569,12 @@ def main():
                'Consumo básico': 'XLP', 'Comunicación': 'XLC',
                'Inmobiliario': 'XLRE'}
     sector_px = {n: yf_close(t, '1y') for n, t in sectors.items()}
+    # Lo que vigilan Hartnett y Cárpatos: las Siete Magníficas, semis, Nasdaq,
+    # equiponderado y empresas con caja libre (pestaña «Hartnett y Cárpatos»)
+    PULSE = {'mags': 'MAGS', 'smh': 'SMH', 'qqq': 'QQQ', 'rsp': 'RSP', 'spy': 'SPY', 'vflo': 'VFLO',
+             'aapl': 'AAPL', 'msft': 'MSFT', 'googl': 'GOOGL', 'amzn': 'AMZN', 'meta': 'META',
+             'nvda': 'NVDA', 'tsla': 'TSLA'}
+    Q = {k: yf_close(t, '2y') for k, t in PULSE.items()}
     print('Curva (Treasury.gov)…')
     tsy = treasury_curve()
     curve = tsy['curve']
@@ -866,6 +872,104 @@ def main():
                             '3M': rnd(pct(s, 63), 1),
                             '12M': rnd(pct(s, len(s) - 1) if s is not None else None, 1)})
 
+    # ══════════════════════════════════════════════════════════════════════════
+    # PULSO DEL MERCADO (Hartnett / Cárpatos): los niveles que vigilan, en vivo.
+    # No entra en ningún score: mide el humor del mercado, no la economía.
+    # Los umbrales se pueden cambiar en manual.json → "levels".
+    # ══════════════════════════════════════════════════════════════════════════
+    lv = {'mags': 70, 'smh': 520, 'gold': 4000, 'brent': 100, 'bb_sell': 8, 'bb_buy': 2,
+          **manual.get('levels', {})}
+
+    def lastd(s):
+        return (num(s.iloc[-1]), str(s.index[-1].date())) if s is not None and len(s) else (None, None)
+
+    def rel(a, b, n=21):
+        pa, pb = pct(a, n), pct(b, n)
+        return None if pa is None or pb is None else pa - pb
+
+    levels = []
+
+    def level(key, label, value, date, unit, dec, threshold, good, note, source):
+        """good = 'above' si estar por encima del umbral es lo bueno para la bolsa,
+        'below' si lo es estar por debajo, None si el nivel es solo una referencia."""
+        value = num(value)
+        above = None if value is None or threshold is None else value >= threshold
+        ok = None if above is None or good is None else (above if good == 'above' else not above)
+        levels.append({'key': key, 'label': label, 'value': rnd(value, 3), 'as_of': date,
+                       'unit': unit, 'decimals': dec, 'threshold': threshold, 'above': above,
+                       'ok': ok, 'note': note, 'source': source})
+
+    qma = None
+    if Q['qqq'] is not None and len(Q['qqq']) >= 200:
+        qma = ((Q['qqq'] / Q['qqq'].rolling(200).mean() - 1) * 100).dropna()
+    m7 = {'aapl': 'Apple', 'msft': 'Microsoft', 'googl': 'Alphabet', 'amzn': 'Amazon',
+          'meta': 'Meta', 'nvda': 'Nvidia', 'tsla': 'Tesla'}
+    mag7 = []
+    for k, name in m7.items():
+        s = Q.get(k)
+        if s is None or len(s) < 200:
+            continue
+        mag7.append({'ticker': PULSE[k], 'name': name,
+                     'dd52': rnd((s.iloc[-1] / s.tail(252).max() - 1) * 100, 1),
+                     'ma200': rnd((s.iloc[-1] / s.rolling(200).mean().iloc[-1] - 1) * 100, 1),
+                     'm1': rnd(pct(s, 21), 1)})
+    n_bear = sum(1 for x in mag7 if x['dd52'] is not None and x['dd52'] <= -20) if mag7 else None
+    corr = None
+    if Q['aapl'] is not None and Q['qqq'] is not None:
+        r_ = pd.concat([Q['aapl'], Q['qqq']], axis=1).dropna().pct_change().dropna()
+        corr = r_.iloc[:, 0].rolling(21).corr(r_.iloc[:, 1]).dropna()
+    sec1m = {r['ticker']: r['1M'] for r in sector_rows}
+    defs = [sec1m.get(t) for t in ('XLE', 'XLP', 'XLU')]
+    def_tech = (sum(defs) / 3 - sec1m['XLK']
+                if all(x is not None for x in defs) and sec1m.get('XLK') is not None else None)
+    bb = manual.get('bull_bear', {})
+    cbh = manual.get('cb_hikes_6m', {})
+    level('mags', 'Siete Magníficas (ETF MAGS)', *lastd(Q['mags']), ' $', 2, lv['mags'], 'above',
+          'Línea roja de Hartnett: si no la recupera, no hay rally de fin de año', 'Yahoo MAGS')
+    level('smh', 'Semiconductores (ETF SMH)', *lastd(Q['smh']), ' $', 2, lv['smh'], 'above',
+          'Soporte crítico de Hartnett', 'Yahoo SMH')
+    level('qqq_ma200', 'Nasdaq 100 (QQQ) sobre su media de 200 sesiones',
+          num(qma.iloc[-1]) if qma is not None else None, lastd(Q['qqq'])[1], '%', 1, 0, 'above',
+          'Cárpatos: si la pierde, ventas forzadas de los fondos CTA', 'Yahoo QQQ')
+    level('soxx_ma200', 'Semis (SOXX) sobre su media de 200 sesiones', *info['sox_bubble'], '%', 1, 0, 'above',
+          'El otro soporte que vigila Cárpatos', 'Yahoo SOXX')
+    level('mag7_bear', 'Siete Magníficas en mercado bajista', n_bear, lastd(Q['aapl'])[1], ' de 7', 0, 4, 'below',
+          'Más de un 20% por debajo de su máximo de 52 semanas, con cierres', 'Yahoo')
+    level('rsp_spy_1m', 'Equiponderado (RSP) frente al S&P 500, 1 mes', rel(Q['rsp'], Q['spy']),
+          lastd(Q['rsp'])[1], ' pp', 1, 0, None,
+          'Positivo = rotación fuera de los gigantes. Cárpatos: el equiponderado solo ganó 10 de los últimos 22 años',
+          'Yahoo RSP y SPY')
+    level('vflo_spy_1m', 'Empresas con caja libre (VFLO) frente al S&P 500, 1 mes', rel(Q['vflo'], Q['spy']),
+          lastd(Q['vflo'])[1], ' pp', 1, 0, None, 'Hartnett: el refugio frente a la IA que quema caja',
+          'Yahoo VFLO y SPY')
+    level('def_tech_1m', 'Defensivos frente a tecnología, 1 mes', def_tech, lastd(sector_px.get('Tecnología'))[1],
+          ' pp', 1, 0, None, 'Media de energía, consumo básico y utilities menos tecnología',
+          'Yahoo XLE, XLP, XLU y XLK')
+    level('aapl_corr', 'Correlación Apple–Nasdaq 100 (21 sesiones)',
+          num(corr.iloc[-1]) if corr is not None and len(corr) else None, lastd(Q['aapl'])[1], '', 2, 0, None,
+          'Negativa = Apple funciona como cobertura «anti-IA»', 'Yahoo AAPL y QQQ')
+    level('gold', 'Oro', *lastd(P['gold']), ' $', 0, lv['gold'], None,
+          'ABD («todo menos el dólar»): perdió los 4.000 $ por la competencia de los cupones altos', 'Yahoo GC=F')
+    level('brent', 'Petróleo Brent', *info['brent'], ' $', 1, lv['brent'], 'below',
+          'Hartnett: corto en petróleo para el 1S 2027 si llegan acuerdos de paz', 'FRED + Yahoo BZ=F')
+    level('bond_30y', 'Bono del Tesoro a 30 años', *info['bond_30y'], '%', 2, 5.0, 'below',
+          '«Bubble killer» por encima del 5%', 'Treasury.gov')
+    level('bull_bear', 'Bull & Bear de BofA', bb.get('value'), bb.get('date'), '', 1, lv['bb_sell'], 'below',
+          f"Venta en {lv['bb_sell']} o más, compra en {lv['bb_buy']} o menos (dato manual)", 'BofA, manual.json')
+    level('cb_hikes', 'Subidas de tipos de bancos centrales (6 meses)', cbh.get('value'), cbh.get('date'), '', 0,
+          None, None, 'Hartnett: «doloroso pero no mortal» mientras no se destruya empleo ni haya un evento de '
+          'crédito (dato manual)', 'BofA, manual.json')
+    rsp_spy = (Q['rsp'] / Q['spy']).dropna().tail(260) if Q['rsp'] is not None and Q['spy'] is not None else None
+    pulse = {
+        'levels': levels, 'mag7': mag7, 'mag7_bear': n_bear,
+        'charts': {'mags': pts(Q['mags'], 260), 'smh': pts(Q['smh'], 260), 'qqq_ma200': pts(qma, 260, 1),
+                   'gold': pts(P['gold'], 260, 0),
+                   'rsp_spy': pts(rsp_spy / rsp_spy.iloc[0] * 100, 260, 1)
+                              if rsp_spy is not None and len(rsp_spy) else [],
+                   'aapl_corr': pts(corr, 260, 2)},
+    }
+    print(f"  Pulso: MAGS {lastd(Q['mags'])[0]} · SMH {lastd(Q['smh'])[0]} · Mag7 en bajista {n_bear}")
+
     gas = manual.get('eu_gas_storage', {})
     dashboard = {
         'timestamp': TS,
@@ -887,6 +991,7 @@ def main():
         'recessions': [r for r in rec_spans if r[1] >= str((TODAY - dt.timedelta(days=16 * 365)))],
         'extra': {'spy': rnd(last_valid(P['spx'])[0], 2), 'oil_low52': oil_low52, 'hy_kind': 'oas',
                   'gas_storage': gas},
+        'pulse': pulse,
     }
 
     # ── Histórico: una fila por día (la última ejecución del día manda) ─────
