@@ -258,6 +258,43 @@ def treasury_curve():
     return {'date': None, 'curve': {}}
 
 
+def debt_limit():
+    """Deuda sujeta al techo legal y el techo, del Daily Treasury Statement (API
+    Fiscal Data del Tesoro, sin clave). Miles de millones de dólares. Incluye el
+    ritmo de los últimos 90 días y la fecha en la que, a ese ritmo, se llegaría
+    al techo (estimación lineal: los cobros de impuestos la mueven)."""
+    def get():
+        since = (TODAY - dt.timedelta(days=200)).isoformat()
+        url = ('https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/'
+               f'debt_subject_to_limit?filter=record_date:gte:{since}&page[size]=5000')
+        by = {}
+        for r in json.loads(http_get(url))['data']:
+            d = by.setdefault(r['record_date'], {'subject': 0.0, 'limit': None})
+            v, c = num(r.get('close_today_bal')), r.get('debt_catg')
+            if v is None:
+                continue
+            if c in ('Debt Held by the Public', 'Intragovernmental Holdings', 'Other Debt Subject to Limit'):
+                d['subject'] += v
+            elif c == 'Debt Not Subject to Limit':
+                d['subject'] -= v
+            elif c == 'Statutory Debt Limit':
+                d['limit'] = v
+        s = pd.Series({pd.Timestamp(k): v['subject'] for k, v in by.items()}).sort_index() / 1e3
+        if s.empty:
+            raise ValueError('vacía')
+        last = s.index[-1]
+        limit = num(by[str(last.date())]['limit'])
+        limit = limit / 1e3 if limit is not None else None
+        past = s[s.index <= last - pd.Timedelta(days=90)]
+        pace = num((s.iloc[-1] - past.iloc[-1]) / (last - past.index[-1]).days) if len(past) else None
+        head = limit - s.iloc[-1] if limit is not None else None
+        proj = (str((last + pd.Timedelta(days=head / pace)).date())
+                if head is not None and pace and pace > 0 and head > 0 else None)
+        return {'date': str(last.date()), 'subject_bn': rnd(s.iloc[-1], 0), 'limit_bn': rnd(limit, 0),
+                'headroom_bn': rnd(head, 0), 'pace_bn_day': rnd(pace, 2), 'projected': proj}
+    return retry(get, 'Tesoro: techo de deuda')
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # CÁLCULOS SOBRE SERIES
 # ══════════════════════════════════════════════════════════════════════════════
@@ -562,6 +599,26 @@ INFO_META = {
     'ea_unrate': ('Tasa de paro zona euro', 'Zona euro', '%', 1),
 }
 
+# Regla de amplitud global de BofA (Hartnett): compra contraria cuando el 88% de
+# las bolsas del MSCI ACWI cotiza a la vez por debajo de su media de 50 y de 200
+# sesiones. Se aproxima con los ETF de países MSCI, en dólares como el índice.
+# Portugal (PGAL) ya no cotiza en Yahoo.
+BREADTH = {
+    'EWA': 'Australia', 'EWO': 'Austria', 'EWK': 'Bélgica', 'EWC': 'Canadá', 'EDEN': 'Dinamarca',
+    'EFNL': 'Finlandia', 'EWQ': 'Francia', 'EWG': 'Alemania', 'EWH': 'Hong Kong', 'EIRL': 'Irlanda',
+    'EIS': 'Israel', 'EWI': 'Italia', 'EWJ': 'Japón', 'EWN': 'Países Bajos', 'ENZL': 'Nueva Zelanda',
+    'ENOR': 'Noruega', 'EWS': 'Singapur', 'EWP': 'España', 'EWD': 'Suecia', 'EWL': 'Suiza',
+    'EWU': 'Reino Unido', 'SPY': 'EE. UU.',
+    'EWZ': 'Brasil', 'ECH': 'Chile', 'MCHI': 'China', 'GREK': 'Grecia', 'INDA': 'India',
+    'EIDO': 'Indonesia', 'KWT': 'Kuwait', 'EWY': 'Corea', 'EWM': 'Malasia', 'EWW': 'México',
+    'EPU': 'Perú', 'EPHE': 'Filipinas', 'EPOL': 'Polonia', 'QAT': 'Catar', 'KSA': 'Arabia Saudí',
+    'EZA': 'Sudáfrica', 'EWT': 'Taiwán', 'THD': 'Tailandia', 'TUR': 'Turquía', 'UAE': 'Emiratos',
+}
+
+# Recesiones del NBER, por si FRED (USREC) falla el día de la ejecución
+NBER_SPANS = [['1990-07-01', '1991-03-01'], ['2001-03-01', '2001-11-01'],
+              ['2007-12-01', '2009-06-01'], ['2020-02-01', '2020-04-01']]
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # MAIN
@@ -578,7 +635,7 @@ def main():
         'DCOILBRENTEU', 'A446RC1Q027SBEA', 'UNRATE', 'JTSJOR', 'IURSA', 'PAYEMS',
         'W875RX1', 'INDPRO', 'BAMLH0A0HYM2', 'USREC', 'RECPROUSM156N',
         'CHNLOLITOAASTSAM', 'G7LOLITOAASTSAM', 'DEULOLITOAASTSAM', 'FRALOLITOAASTSAM',
-        'ITALOLITOAASTSAM', 'ESPLOLITOAASTSAM']}
+        'ITALOLITOAASTSAM', 'ESPLOLITOAASTSAM', 'DFEDTARU', 'DGS10']}
     print('Fed, Eurostat, BCE…')
     EBP = fed_ebp()
     ESI = eurostat('ei_bssi_m_r2', geo='EA21', indic='BS-ESI-I', s_adj='SA')
@@ -602,8 +659,15 @@ def main():
     # equiponderado y empresas con caja libre (pestaña «Hartnett y Cárpatos»)
     PULSE = {'mags': 'MAGS', 'smh': 'SMH', 'qqq': 'QQQ', 'rsp': 'RSP', 'spy': 'SPY', 'vflo': 'VFLO',
              'aapl': 'AAPL', 'msft': 'MSFT', 'googl': 'GOOGL', 'amzn': 'AMZN', 'meta': 'META',
-             'nvda': 'NVDA', 'tsla': 'TSLA'}
+             'nvda': 'NVDA', 'tsla': 'TSLA',
+             # canarios y termómetros de Hartnett; futuros para los niveles de los CTA (Cárpatos)
+             'tsm': 'TSM', 'ixg': 'IXG', 'mdy': 'MDY', 'jnk': 'JNK', 'es': 'ES=F', 'nq': 'NQ=F'}
     Q = {k: yf_close(t, '2y') for k, t in PULSE.items()}
+    print('Amplitud global (ETF de países MSCI), semis desde 1994 y techo de deuda…')
+    BR = {t: yf_close(t, 'max') for t in BREADTH}
+    acwi = yf_close('ACWI', 'max')
+    sox_long = yf_close('^SOX', 'max')
+    debt = debt_limit()
     print('Curva (Treasury.gov)…')
     tsy = treasury_curve()
     curve = tsy['curve']
@@ -914,8 +978,12 @@ def main():
     # No entra en ningún score: mide el humor del mercado, no la economía.
     # Los umbrales se pueden cambiar en manual.json → "levels".
     # ══════════════════════════════════════════════════════════════════════════
-    lv = {'mags': 70, 'smh': 520, 'gold': 4000, 'brent': 100, 'bb_sell': 8, 'bb_buy': 2,
-          **manual.get('levels', {})}
+    lv = {'mags': 70, 'smh': 520, 'gold': 4000, 'brent': 80, 'bb_sell': 8, 'bb_buy': 2,
+          'tsm': 400, 'nvda': 200, 'ixg': 125, 'mdy': 666, 'jnk': 92, 'hyper_spread': 200,
+          'es_cta_mid': 7606, 'es_cta_long': 7450, 'nq_res': 28580, 'spx_breadth': 7323,
+          'h_10y': 4.5, 'h_oil': 80, 'h_breadth': 88, 'h_semis': -20, 'h_semis_strong': -25,
+          **{k: v for k, v in manual.get('levels', {}).items() if not k.startswith('_')}}
+    hk = manual.get('hartnett', {})
 
     def lastd(s):
         return (num(s.iloc[-1]), str(s.index[-1].date())) if s is not None and len(s) else (None, None)
@@ -926,15 +994,25 @@ def main():
 
     levels = []
 
-    def level(key, label, value, date, unit, dec, threshold, good, note, source):
+    def ma_gap(s, n=200):
+        """(% sobre (+) o bajo (−) la media de n sesiones, la media)."""
+        if s is None or len(s) < n:
+            return None, None
+        m = s.rolling(n).mean().iloc[-1]
+        return num((s.iloc[-1] / m - 1) * 100), num(m)
+
+    def level(key, label, value, date, unit, dec, threshold, good, note, source, group='rot', s=None):
         """good = 'above' si estar por encima del umbral es lo bueno para la bolsa,
-        'below' si lo es estar por debajo, None si el nivel es solo una referencia."""
+        'below' si lo es estar por debajo, None si el nivel es solo una referencia.
+        group = bloque de la pestaña; s = serie de precios para enseñar su MM200."""
         value = num(value)
         above = None if value is None or threshold is None else value >= threshold
         ok = None if above is None or good is None else (above if good == 'above' else not above)
+        g, m = ma_gap(s)
         levels.append({'key': key, 'label': label, 'value': rnd(value, 3), 'as_of': date,
                        'unit': unit, 'decimals': dec, 'threshold': threshold, 'above': above,
-                       'ok': ok, 'note': note, 'source': source})
+                       'ok': ok, 'note': note, 'source': source, 'group': group,
+                       'ma200': rnd(m, 2), 'ma_gap': rnd(g, 1)})
 
     qma = None
     if Q['qqq'] is not None and len(Q['qqq']) >= 200:
@@ -961,17 +1039,51 @@ def main():
                 if all(x is not None for x in defs) and sec1m.get('XLK') is not None else None)
     bb = manual.get('bull_bear', {})
     cbh = manual.get('cb_hikes_6m', {})
+    hs = hk.get('hyperscaler_spread_bp', {})
+    # ── Canarios: tecnología y semis
     level('mags', 'Siete Magníficas (ETF MAGS)', *lastd(Q['mags']), ' $', 2, lv['mags'], 'above',
-          'Línea roja de Hartnett: si no la recupera, no hay rally de fin de año', 'Yahoo MAGS')
+          'Línea roja de Hartnett: pesan cerca del 40% del índice', 'Yahoo MAGS', 'tech', Q['mags'])
+    level('mags_ma200', 'MAGS sobre su media de 200 sesiones', ma_gap(Q['mags'])[0], lastd(Q['mags'])[1],
+          '%', 1, 0, 'above', 'Cárpatos: si la pierde, «se le echa la cruz al mercado» y arrastra al S&P 500',
+          'Yahoo MAGS', 'tech')
     level('smh', 'Semiconductores (ETF SMH)', *lastd(Q['smh']), ' $', 2, lv['smh'], 'above',
-          'Soporte crítico de Hartnett', 'Yahoo SMH')
+          'Nivel crítico de Hartnett', 'Yahoo SMH', 'tech', Q['smh'])
+    level('tsm', 'Taiwan Semiconductor (TSM)', *lastd(Q['tsm']), ' $', 2, lv['tsm'], 'above',
+          'Línea roja de Hartnett; perderla con la MM200 confirma el doble techo', 'Yahoo TSM', 'tech', Q['tsm'])
+    level('nvda', 'Nvidia', *lastd(Q['nvda']), ' $', 2, lv['nvda'], 'above',
+          'Alarma de Hartnett por debajo de 200 $', 'Yahoo NVDA', 'tech', Q['nvda'])
     level('qqq_ma200', 'Nasdaq 100 (QQQ) sobre su media de 200 sesiones',
           num(qma.iloc[-1]) if qma is not None else None, lastd(Q['qqq'])[1], '%', 1, 0, 'above',
-          'Cárpatos: si la pierde, ventas forzadas de los fondos CTA', 'Yahoo QQQ')
+          'Cárpatos: si la pierde, ventas forzadas de los fondos CTA', 'Yahoo QQQ', 'tech')
     level('soxx_ma200', 'Semis (SOXX) sobre su media de 200 sesiones', *info['sox_bubble'], '%', 1, 0, 'above',
-          'El otro soporte que vigila Cárpatos', 'Yahoo SOXX')
+          'El otro soporte que vigila Cárpatos', 'Yahoo SOXX', 'tech')
     level('mag7_bear', 'Siete Magníficas en mercado bajista', n_bear, lastd(Q['aapl'])[1], ' de 7', 0, 4, 'below',
-          'Más de un 20% por debajo de su máximo de 52 semanas, con cierres', 'Yahoo')
+          'Más de un 20% por debajo de su máximo de 52 semanas, con cierres', 'Yahoo', 'tech')
+    # ── Termómetros de la economía y del crédito
+    level('ixg', 'Bancos del mundo (ETF IXG)', *lastd(Q['ixg']), ' $', 2, lv['ixg'], 'above',
+          'Nivel crítico de Hartnett para el sector bancario', 'Yahoo IXG', 'credit', Q['ixg'])
+    level('mdy', 'Medianas de EE. UU. (ETF MDY)', *lastd(Q['mdy']), ' $', 2, lv['mdy'], 'above',
+          'Termómetro de la economía doméstica de Hartnett', 'Yahoo MDY', 'credit', Q['mdy'])
+    level('jnk', 'Bonos basura (ETF JNK)', *lastd(Q['jnk']), ' $', 2, lv['jnk'], 'above',
+          'Si pierde los 92 $, aviso de contagio de crédito', 'Yahoo JNK', 'credit', Q['jnk'])
+    level('hyper_spread', 'Diferencial de los bonos de los hiperescaladores', hs.get('value'), hs.get('date'),
+          ' pb', 0, lv['hyper_spread'], 'below',
+          'Pánico por encima de 200 pb: miedo a un evento de crédito corporativo (dato manual de BofA)',
+          'manual.json', 'credit')
+    # ── Fontanería: niveles de los CTA según Cárpatos (futuros)
+    spx_s = P['spx'].tail(520) if P['spx'] is not None else None
+    level('spx_ma200', 'S&P 500 sobre su media de 200 sesiones', ma_gap(spx_s)[0], lastd(spx_s)[1], '%', 1, 0,
+          'above', 'Coincide con la prueba de la MM200 del MAGS', 'Yahoo ^GSPC', 'flows')
+    level('spx_breadth', 'S&P 500 frente a 7.323', *lastd(spx_s), '', 0, lv['spx_breadth'], 'above',
+          'Hartnett: perderlo (con Europa y Reino Unido un 3-4% más abajo) llevaría la amplitud al 88%',
+          'Yahoo ^GSPC', 'flows', spx_s)
+    level('es_cta_mid', 'Futuro del S&P 500 frente a 7.606', *lastd(Q['es']), '', 0, lv['es_cta_mid'], 'above',
+          'Cárpatos: por debajo entran ventas medias de los CTA', 'Yahoo ES=F', 'flows', Q['es'])
+    level('es_cta_long', 'Futuro del S&P 500 frente a 7.450', *lastd(Q['es']), '', 0, lv['es_cta_long'], 'above',
+          'Cárpatos: por debajo se activan las ventas de largo plazo de los CTA', 'Yahoo ES=F', 'flows')
+    level('nq_res', 'Futuro del Nasdaq 100 frente a 28.580', *lastd(Q['nq']), '', 0, lv['nq_res'], 'above',
+          'Cárpatos: resistencia crítica tras perder la MM200', 'Yahoo NQ=F', 'flows', Q['nq'])
+    # ── Rotación y refugios
     level('rsp_spy_1m', 'Equiponderado (RSP) frente al S&P 500, 1 mes', rel(Q['rsp'], Q['spy']),
           lastd(Q['rsp'])[1], ' pp', 1, 0, None,
           'Positivo = rotación fuera de los gigantes. Cárpatos: el equiponderado solo ganó 10 de los últimos 22 años',
@@ -985,27 +1097,179 @@ def main():
     level('aapl_corr', 'Correlación Apple–Nasdaq 100 (21 sesiones)',
           num(corr.iloc[-1]) if corr is not None and len(corr) else None, lastd(Q['aapl'])[1], '', 2, 0, None,
           'Negativa = Apple funciona como cobertura «anti-IA»', 'Yahoo AAPL y QQQ')
+    # ── Macro, oro y sentimiento
     level('gold', 'Oro', *lastd(P['gold']), ' $', 0, lv['gold'], None,
-          'ABD («todo menos el dólar»): perdió los 4.000 $ por la competencia de los cupones altos', 'Yahoo GC=F')
+          'Hartnett: acumular oro antes del pulso por el techo de deuda (ABD, «todo menos el dólar»)',
+          'Yahoo GC=F', 'macro', P['gold'])
     level('brent', 'Petróleo Brent', *info['brent'], ' $', 1, lv['brent'], 'below',
-          'Hartnett: corto en petróleo para el 1S 2027 si llegan acuerdos de paz', 'FRED + Yahoo BZ=F')
+          'Hartnett: por debajo de 80 $ es su señal de calma; corto en petróleo para el 1S 2027',
+          'FRED + Yahoo BZ=F', 'macro')
     level('bond_30y', 'Bono del Tesoro a 30 años', *info['bond_30y'], '%', 2, 5.0, 'below',
-          '«Bubble killer» por encima del 5%', 'Treasury.gov')
+          '«Bubble killer» por encima del 5%', 'Treasury.gov', 'macro')
     level('bull_bear', 'Bull & Bear de BofA', bb.get('value'), bb.get('date'), '', 1, lv['bb_sell'], 'below',
-          f"Venta en {lv['bb_sell']} o más, compra en {lv['bb_buy']} o menos (dato manual)", 'BofA, manual.json')
+          f"Venta en {lv['bb_sell']} o más, compra en {lv['bb_buy']} o menos (dato manual)", 'BofA, manual.json',
+          'macro')
     level('cb_hikes', 'Subidas de tipos de bancos centrales (6 meses)', cbh.get('value'), cbh.get('date'), '', 0,
           None, None, 'Hartnett: «doloroso pero no mortal» mientras no se destruya empleo ni haya un evento de '
-          'crédito (dato manual)', 'BofA, manual.json')
+          'crédito (dato manual)', 'BofA, manual.json', 'macro')
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # SEÑALES DE COMPRA DE HARTNETT: tres condiciones financieras que tienen que
+    # destensarse y tres señales de capitulación (compra contraria).
+    # ══════════════════════════════════════════════════════════════════════════
+    nber = rec_spans or NBER_SPANS
+
+    def in_recession(d, before=6, after=12):
+        """¿Hubo recesión del NBER entre `before` meses antes y `after` después?"""
+        a, b = d - pd.DateOffset(months=before), d + pd.DateOffset(months=after)
+        return any(pd.Timestamp(s) <= b and pd.Timestamp(e) >= a for s, e in nber)
+
+    def fwd(s, d, months):
+        later = s[s.index >= d + pd.DateOffset(months=months)]
+        return rnd((later.iloc[0] / s[s.index >= d].iloc[0] - 1) * 100, 1) if s is not None and len(later) else None
+
+    # 1) Regla de amplitud global (aproximada con los ETF de países)
+    breadth = None
+    cols = {t: s for t, s in BR.items() if s is not None and len(s) > 260}
+    if len(cols) >= 30:
+        px = pd.concat(cols, axis=1).sort_index().ffill(limit=3)
+        m50, m200 = px.rolling(50).mean(), px.rolling(200).mean()
+        valid = px.notna() & m200.notna()
+        below = (px < m50) & (px < m200) & valid
+        nval = valid.sum(axis=1)
+        bpct = (below.sum(axis=1) / nval * 100)[nval >= 30]
+        last_i = bpct.index[-1]
+        n_now, b_now = int(nval[last_i]), int(below.loc[last_i].sum())
+        need_n = max(0, math.ceil(lv['h_breadth'] / 100 * n_now) - b_now)
+        closest = sorted(
+            [[BREADTH[t], rnd((min(m50[t].loc[last_i], m200[t].loc[last_i]) / px[t].loc[last_i] - 1) * 100, 1)]
+             for t in px.columns if valid[t].loc[last_i] and not below[t].loc[last_i]],
+            key=lambda x: -x[1] if x[1] is not None else 99)
+        sigs, last_hit = [], None
+        for i, (d, v) in enumerate(bpct.items()):
+            if v >= lv['h_breadth']:
+                if last_hit is None or i - last_hit > 60:
+                    sigs.append({'date': str(d.date()), 'acwi_3m': fwd(acwi, d, 3), 'acwi_12m': fwd(acwi, d, 12),
+                                 'peak': rnd(bpct.iloc[i:i + 60].max(), 0), 'recession': in_recession(d)})
+                last_hit = i
+        breadth = {'value': rnd(bpct.iloc[-1], 1), 'date': str(last_i.date()), 'n': n_now, 'below': b_now,
+                   'need': need_n, 'closest': closest,
+                   'below_names': sorted(BREADTH[t] for t in px.columns if below[t].loc[last_i]),
+                   'since': str(bpct.index[0].date()),
+                   'signals': sigs, 'chart': pts(bpct.resample('W-FRI').last(), 900, 0)}
+        print(f"  Amplitud global: {breadth['value']}% ({b_now} de {n_now}); faltan {need_n} países para el 88%")
+
+    # 2) Semiconductores: distancia a su media de 200 sesiones y señales desde 1996
+    semis = None
+    if sox_long is not None and len(sox_long) > 400:
+        sg = ((sox_long / sox_long.rolling(200).mean() - 1) * 100).dropna()
+        ma_now = num(sox_long.rolling(200).mean().iloc[-1])
+        sigs, last_hit = [], None
+        for i, (d, v) in enumerate(sg.items()):
+            if v <= lv['h_semis']:
+                if last_hit is None or i - last_hit > 126:
+                    sigs.append({'date': str(d.date()), 'gap': rnd(v, 1), 'sox_12m': fwd(sox_long, d, 12),
+                                 'recession': in_recession(d)})
+                last_hit = i
+        done = [s_ for s_ in sigs if s_['sox_12m'] is not None]
+        semis = {'value': rnd(sg.iloc[-1], 1), 'date': str(sg.index[-1].date()), 'price': rnd(sox_long.iloc[-1], 0),
+                 'ma200': rnd(ma_now, 0), 'min_1y': rnd(sg.tail(252).min(), 1),
+                 'min_1y_date': str(sg.tail(252).idxmin().date()),
+                 'need_pct': rnd(((1 + lv['h_semis'] / 100) * ma_now / sox_long.iloc[-1] - 1) * 100, 1),
+                 'signals': sigs,
+                 'stats': {'n': len(done), 'up': sum(1 for s_ in done if s_['sox_12m'] > 0),
+                           'n_rec': sum(1 for s_ in done if s_['recession']),
+                           'up_rec': sum(1 for s_ in done if s_['recession'] and s_['sox_12m'] > 0),
+                           'med_norec': rnd(np.median([s_['sox_12m'] for s_ in done if not s_['recession']]), 0)
+                           if any(not s_['recession'] for s_ in done) else None,
+                           'med_rec': rnd(np.median([s_['sox_12m'] for s_ in done if s_['recession']]), 0)
+                           if any(s_['recession'] for s_ in done) else None},
+                 'chart': pts(sg, 520, 1)}
+
+    # 3) Fed: último movimiento del tipo oficial (para la condición «fin de las subidas»)
+    fed = F.get('DFEDTARU')
+    fed_last = None
+    if fed is not None and len(fed) > 1:
+        chg = fed[fed.diff().fillna(0) != 0]
+        if len(chg):
+            d_ = chg.index[-1]
+            fed_last = {'date': str(d_.date()), 'from': num(fed[fed.index < d_].iloc[-1]), 'to': num(chg.iloc[-1])}
+        fed_last = {**(fed_last or {}), 'level': num(fed.iloc[-1]), 'as_of': str(fed.index[-1].date())}
+
+    def trig(key, label, value, date, unit, dec, threshold, op, note, source, met=None):
+        value = num(value)
+        if met is None and value is not None and threshold is not None:
+            met = value < threshold if op == '<' else value <= threshold if op == '<=' else value >= threshold
+        return {'key': key, 'label': label, 'value': rnd(value, 3), 'as_of': date, 'unit': unit,
+                'decimals': dec, 'threshold': threshold, 'op': op, 'met': met, 'note': note, 'source': source}
+
+    t10 = (curve.get('10Y'), tsy['date']) if curve.get('10Y') is not None else lastd(F.get('DGS10'))
+    wti_now = info['oil_price'][0]
+    macro_t = [
+        trig('t10y', 'Bono del Tesoro a 10 años por debajo del 4,5%', *t10, '%', 2, lv['h_10y'], '<',
+             'Que se destensen las condiciones financieras', 'Treasury.gov'),
+        trig('oil80', 'Petróleo por debajo de 80 $', *info['brent'], ' $', 1, lv['h_oil'], '<',
+             f"Brent; el WTI está en {wti_now:.1f} $. La pieza clave: alivia la inflación y frena las subidas"
+             .replace('.', ',', 1)
+             if wti_now is not None else 'Brent. La pieza clave: alivia la inflación y frena las subidas',
+             'FRED + Yahoo BZ=F'),
+        trig('rate_cycle', 'Fin del ciclo de subidas de tipos', cbh.get('value'), hk.get('rate_cycle_date') or cbh.get('date'),
+             ' subidas', 0, None, None,
+             hk.get('rate_cycle_note') or 'Lo decide Roger con el Flow Show (manual.json → hartnett.rate_cycle_over)',
+             'BofA (manual) + FRED DFEDTARU', met=hk.get('rate_cycle_over')),
+    ]
+    cap_t = [
+        trig('breadth', 'Regla de amplitud global en el 88%', breadth['value'] if breadth else None,
+             breadth['date'] if breadth else None, '%', 0, lv['h_breadth'], '>=',
+             (f"{breadth['below']} de {breadth['n']} bolsas por debajo de su MM50 y su MM200" if breadth else
+              'Sin datos de los ETF de países'), 'Yahoo, ETF de países MSCI'),
+        trig('semis', 'Semiconductores un 20% o más bajo su MM200', semis['value'] if semis else None,
+             semis['date'] if semis else None, '%', 1, lv['h_semis'], '<=',
+             'Desde 1996 las grandes compras en chips llegaron entre −20% y −25%', 'Yahoo ^SOX'),
+        trig('bb_buy', 'Bull & Bear de BofA en 2 o menos', bb.get('value'), bb.get('date'), '', 1, lv['bb_buy'],
+             '<=', 'Sentimiento extremo: compra contraria (dato manual)', 'BofA, manual.json'),
+    ]
+    n_macro = sum(1 for t in macro_t if t['met'])
+    cap_on = [t['key'] for t in cap_t if t['met']]
+    if 'breadth' in cap_on or 'bb_buy' in cap_on:
+        verdict = ['buy', 'COMPRA CONTRARIA ACTIVA', 'La regla de amplitud o el Bull & Bear marcan capitulación.']
+    elif n_macro == 3:
+        verdict = ['buy', 'CONDICIONES DESTENSADAS', 'Se cumplen las tres: Hartnett dejaría la postura defensiva.']
+    elif n_macro == 2:
+        verdict = ['watch', 'CERCA', 'Se cumplen dos de las tres condiciones financieras.']
+    elif 'semis' in cap_on:
+        verdict = ['watch', 'SOLO COMPRA TÁCTICA EN SEMIS', 'Los chips están un 20% o más bajo su MM200; '
+                   'las condiciones financieras siguen sin destensarse.']
+    else:
+        verdict = ['wait', 'SIN SEÑAL DE COMPRA', 'Hartnett sigue defensivo: no se cumple ninguna de las seis señales.'
+                   if n_macro == 0 else f'Hartnett sigue defensivo: {n_macro} de 3 condiciones y sin capitulación.']
+    gold_s = P['gold']
+    hartnett = {
+        'macro': macro_t, 'capitulation': cap_t, 'n_macro': n_macro, 'cap_on': cap_on, 'verdict': verdict,
+        'breadth': breadth, 'semis': semis, 'fed': fed_last,
+        'debt': {**(debt or {}), 'deadline': hk.get('debt_limit_date'), 'congress': hk.get('congress_date'),
+                 'gold': rnd(lastd(gold_s)[0], 0), 'gold_3m': rnd(pct(gold_s, 63), 1)},
+        'spx_to_7323': rnd((lv['spx_breadth'] / lastd(spx_s)[0] - 1) * 100, 1) if lastd(spx_s)[0] else None,
+    }
+
     rsp_spy = (Q['rsp'] / Q['spy']).dropna().tail(260) if Q['rsp'] is not None and Q['spy'] is not None else None
     pulse = {
-        'levels': levels, 'mag7': mag7, 'mag7_bear': n_bear,
+        'levels': levels, 'mag7': mag7, 'mag7_bear': n_bear, 'hartnett': hartnett,
         'charts': {'mags': pts(Q['mags'], 260), 'smh': pts(Q['smh'], 260), 'qqq_ma200': pts(qma, 260, 1),
                    'gold': pts(P['gold'], 260, 0),
                    'rsp_spy': pts(rsp_spy / rsp_spy.iloc[0] * 100, 260, 1)
                               if rsp_spy is not None and len(rsp_spy) else [],
-                   'aapl_corr': pts(corr, 260, 2)},
+                   'aapl_corr': pts(corr, 260, 2),
+                   'es': pts(Q['es'], 260, 0),
+                   'breadth': breadth['chart'] if breadth else [],
+                   'sox_ma200': semis['chart'] if semis else []},
     }
+    if breadth:
+        del breadth['chart']
+    if semis:
+        del semis['chart']
     print(f"  Pulso: MAGS {lastd(Q['mags'])[0]} · SMH {lastd(Q['smh'])[0]} · Mag7 en bajista {n_bear}")
+    print(f"  Hartnett: {verdict[1]} · condiciones {n_macro}/3 · capitulación {cap_on or 'ninguna'}")
 
     gas = manual.get('eu_gas_storage', {})
     dashboard = {

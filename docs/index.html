@@ -162,6 +162,15 @@ td .sub { display: block; font-size: 11px; color: var(--muted); max-width: 520px
 .note li::before { content: "•"; position: absolute; left: 0; color: var(--muted); }
 .note .chk { display: block; font-size: 12px; margin-top: 2px; color: var(--good); }
 .note .chk.warn { color: var(--serious); }
+.verdict { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 12px 14px; border-radius: 10px; background: var(--surface-2); border-left: 4px solid var(--muted); }
+.verdict .t { font-weight: 700; font-size: 15px; letter-spacing: .01em; }
+.verdict .d { font-size: 13px; color: var(--ink-2); }
+.verdict .n { margin-left: auto; text-align: right; font: 600 12px/1.5 var(--mono); color: var(--ink-2); white-space: nowrap; }
+.subh { font-size: 11px; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; padding-bottom: 6px; border-bottom: 1px solid var(--axis); }
+.subh small { display: block; text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--muted); font-size: 11px; margin-top: 2px; }
+.lgroup { font-size: 11px; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; padding: 16px 0 6px; border-bottom: 1px solid var(--axis); }
+.lgroup:first-child { padding-top: 0; }
+.row .val small { display: block; font: 400 11px Inter, sans-serif; color: var(--muted); }
 details summary { list-style: none; }
 details summary::-webkit-details-marker { display: none; }
 details summary::before { content: "▸ "; color: var(--muted); }
@@ -328,15 +337,29 @@ footer a, .prose a { color: var(--series); }
   <!-- ═══ HARTNETT Y CÁRPATOS ═══ -->
   <section id="tab-tesis" hidden>
     <div class="banner info"><span>ℹ</span><div>Esta pestaña mide el <b>pulso del mercado</b> según Michael Hartnett (BofA) y José Luis Cárpatos: niveles técnicos, flujos y rotación. <b>No entra en el score de recesión.</b> Los niveles se calculan con datos en vivo; las notas son resúmenes de sus vídeos e informes, y al lado de cada afirmación va lo que dicen los datos.</div></div>
-    <div class="grid g-2">
+    <div class="card">
+      <h2>Señales de compra de Hartnett <span class="hint" id="hBuyHint"></span></h2>
+      <div class="verdict" id="hVerdict"></div>
+      <div class="grid g-3 mt">
+        <div><div class="subh">1 · Condiciones financieras<small>Las tres tienen que destensarse para dejar la postura defensiva</small></div><div class="list" id="hMacro"></div></div>
+        <div><div class="subh">2 · Capitulación<small>La amplitud o el Bull &amp; Bear bastan; los semis, solo para chips</small></div><div class="list" id="hCap"></div></div>
+        <div><div class="subh">3 · Qué tendría que pasar<small>Distancia de hoy a cada señal</small></div><div class="list" id="hNeed"></div></div>
+      </div>
+      <p class="small-sub mt" id="hCross" style="margin-bottom:0"></p>
+    </div>
+    <div class="grid g-2 mt">
       <div class="card">
         <h2>Niveles que vigilan <span class="hint" id="pulseHint"></span></h2>
         <div class="list" id="pulseLevels"></div>
       </div>
-      <div class="grid">
+      <div class="grid" style="align-content:start">
         <div class="card">
           <h2>Siete Magníficas <span class="hint" id="m7Hint"></span></h2>
           <div class="tscroll"><table id="m7Table"></table></div>
+        </div>
+        <div class="card">
+          <h2>Oro y techo de deuda <span class="hint" id="debtHint"></span></h2>
+          <div class="list" id="debtList"></div>
         </div>
         <div class="card prose">
           <h2>Cruce con el monitor</h2>
@@ -345,6 +368,18 @@ footer a, .prose a { color: var(--series); }
       </div>
     </div>
     <div class="grid g-3 mt" id="pulseCharts"></div>
+    <div class="grid g-2 mt">
+      <div class="card">
+        <h2>Regla de amplitud: cuándo saltó <span class="hint" id="brHint"></span></h2>
+        <div class="tscroll"><table id="brTable"></table></div>
+        <p class="small-sub mt" id="brNote" style="margin-bottom:0"></p>
+      </div>
+      <div class="card">
+        <h2>Semis a −20% de su MM200 <span class="hint" id="sxHint"></span></h2>
+        <div class="tscroll"><table id="sxTable"></table></div>
+        <p class="small-sub mt" id="sxNote" style="margin-bottom:0"></p>
+      </div>
+    </div>
     <div class="card mt">
       <h2>Notas de la semana <span class="hint">la más reciente primero · se editan en docs/manual.json</span></h2>
       <div id="notes"></div>
@@ -444,8 +479,9 @@ footer a, .prose a { color: var(--series); }
           <li><b>Eurostat</b>: sentimiento económico (ESI) y paro de la zona euro.</li>
           <li><b>BCE</b>: curva AAA y encuesta de préstamos bancarios (BLS).</li>
           <li><b>Yahoo Finance</b>: S&amp;P 500, VIX, cobre, oro, TTF, Brent, WTI, dólar, sectores.</li>
-          <li><b>Treasury.gov</b>: curva oficial diaria.</li>
-          <li><b>Manual</b> (<code>docs/manual.json</code>): almacén de gas de la UE (la API de AGSI pide clave) y el Bull &amp; Bear de BofA.</li>
+          <li><b>Treasury.gov</b>: curva oficial diaria. <b>Fiscal Data del Tesoro</b>: deuda sujeta al techo legal (Daily Treasury Statement).</li>
+          <li><b>Pestaña Hartnett y Cárpatos</b>: ETF de MAGS, semis, bancos, medianas y bonos basura; futuros del S&amp;P 500 y del Nasdaq; 42 ETF de países MSCI para la regla de amplitud; SOX desde 1994.</li>
+          <li><b>Manual</b> (<code>docs/manual.json</code>): almacén de gas de la UE (la API de AGSI pide clave), el Bull &amp; Bear de BofA, las subidas de tipos de los bancos centrales, el fin del ciclo de subidas y el diferencial de los hiperescaladores.</li>
         </ul>
       </div>
       <div class="card prose">
@@ -576,7 +612,7 @@ function lineChart(el, pts, o = {}) {
   (o.refs || []).forEach(r => {
     if (r.y < y0 || r.y > y1) return;
     s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(r.y)}" y2="${Y(r.y)}" stroke="${css(r.color || '--critical')}" stroke-width="1.5" stroke-dasharray="4 3"/>`;
-    s += `<text x="${m.l + 4}" y="${Y(r.y) - 4}" class="lbl" style="fill:${css(r.color || '--critical')}">${esc(r.label)}</text>`;
+    s += `<text x="${m.l + 4}" y="${Y(r.y) + (r.below ? 11 : -4)}" class="lbl" style="fill:${css(r.color || '--critical')}">${esc(r.label)}</text>`;
   });
   s += `<line x1="${m.l}" x2="${W - m.r}" y1="${H - m.b}" y2="${H - m.b}" stroke="${css('--axis')}"/>`;
   const d = pts.map((p, i) => (i ? 'L' : 'M') + X(xs[i]).toFixed(1) + ',' + Y(p[1]).toFixed(1)).join('');
@@ -804,19 +840,89 @@ async function main() {
     const PU = D.pulse || { levels: [], mag7: [], charts: {} };
     const L = Object.fromEntries(PU.levels.map(l => [l.key, l]));
     const lvState = l => l.ok === true ? ['--good', '✓'] : l.ok === false ? ['--critical', '✕'] : ['--muted', '·'];
-    const lvVal = l => fmt(l.value, l.decimals, l.unit, ['qqq_ma200', 'soxx_ma200', 'rsp_spy_1m', 'vflo_spy_1m', 'def_tech_1m'].includes(l.key));
+    const lvVal = l => fmt(l.value, l.decimals, l.unit, ['qqq_ma200', 'soxx_ma200', 'mags_ma200', 'spx_ma200', 'rsp_spy_1m', 'vflo_spy_1m', 'def_tech_1m'].includes(l.key));
     const lvThr = l => l.threshold == null || l.ok == null ? '' : `umbral ${fmt(l.threshold, l.threshold % 1 ? 1 : 0, l.unit === ' de 7' ? '' : l.unit)} · `;
-    $('#pulseHint').textContent = PU.levels.length ? `${PU.levels.filter(l => l.ok === false).length} roto(s) de ${PU.levels.filter(l => l.ok != null).length} con umbral` : '';
-    $('#pulseLevels').innerHTML = PU.levels.map(l => {
+    const GROUPS = [['tech', 'Canarios: tecnología y semis'], ['credit', 'Termómetros de la economía y del crédito'],
+      ['flows', 'Fontanería: niveles de los CTA (Cárpatos)'], ['macro', 'Macro, oro y sentimiento'], ['rot', 'Rotación y refugios']];
+    const lvRow = l => {
       const [c, ic] = lvState(l);
-      return `<div class="row"><div class="check" style="border-color:var(${c});color:var(${c})">${ic}</div><div class="name">${esc(l.label)}<small>${lvThr(l)}${esc(l.note)} · ${esDate(l.as_of)}</small></div><div class="val">${lvVal(l)}</div></div>`;
+      const ma = l.ma_gap != null ? `<small>MM200 ${fmt(l.ma200, l.decimals)} (${fmt(l.ma_gap, 1, '%', true)})</small>` : '';
+      return `<div class="row"><div class="check" style="border-color:var(${c});color:var(${c})">${ic}</div><div class="name">${esc(l.label)}<small>${lvThr(l)}${esc(l.note)} · ${l.as_of ? esDate(l.as_of) : 'sin dato'}</small></div><div class="val">${lvVal(l)}${ma}</div></div>`;
+    };
+    $('#pulseHint').textContent = PU.levels.length ? `${PU.levels.filter(l => l.ok === false).length} roto(s) de ${PU.levels.filter(l => l.ok != null).length} con umbral` : '';
+    $('#pulseLevels').innerHTML = GROUPS.map(([g, t]) => {
+      const ls = PU.levels.filter(l => (l.group || 'rot') === g);
+      return ls.length ? `<div class="lgroup">${esc(t)}</div>` + ls.map(lvRow).join('') : '';
     }).join('') || '<div class="row"><div class="name">Sin datos de mercado.</div></div>';
+
+    // ── Señales de compra de Hartnett
+    const HT = PU.hartnett;
+    const VC = { buy: '--good', watch: '--warning', wait: '--muted' };
+    if (HT) {
+      const v = HT.verdict;
+      $('#hVerdict').style.borderLeftColor = `var(${VC[v[0]]})`;
+      $('#hVerdict').innerHTML = `<div><div class="t" style="color:var(${v[0] === 'wait' ? '--ink' : VC[v[0]]})">${esc(v[1])}</div><div class="d">${esc(v[2])}</div></div><div class="n">${HT.n_macro} de 3 condiciones<br>${HT.cap_on.length} de 3 de capitulación</div>`;
+      $('#hBuyHint').textContent = 'no entra en el score · no es una recomendación';
+      const F_ = HT.fed, fedTxt = F_?.date ? ` Fed: ${fmt(F_.level, 2, '%')}; último movimiento, ${F_.to > F_.from ? 'subida' : 'bajada'} el ${esDate(F_.date)}.` : '';
+      const tRow = t => {
+        const ic = t.met === true ? '✓' : t.met == null ? '?' : '';
+        const note = t.key === 'rate_cycle' ? t.note + fedTxt : t.note;
+        return `<div class="row"><div class="check ${t.met ? 'on' : ''}">${ic}</div><div class="name">${esc(t.label)}<small>${esc(note)} · ${t.as_of ? esDate(t.as_of) : 'sin dato'}</small></div><div class="val">${fmt(t.value, t.decimals, t.unit, t.key === 'semis')}</div></div>`;
+      };
+      $('#hMacro').innerHTML = HT.macro.map(tRow).join('');
+      $('#hCap').innerHTML = HT.capitulation.map(tRow).join('');
+      const MT = Object.fromEntries(HT.macro.map(t => [t.key, t])), KT = Object.fromEntries(HT.capitulation.map(t => [t.key, t]));
+      const BR = HT.breadth, SX = HT.semis, need = [];
+      const t10 = MT.t10y, oil = MT.oil80, bbT = KT.bb_buy;
+      if (t10?.value != null) need.push(['Bono a 10 años por debajo del 4,5%', t10.met ? '✓' : `−${fmt((t10.value - t10.threshold) * 100, 0)} pb`, `Hoy ${fmt(t10.value, 2, '%')}.`]);
+      if (oil?.value != null) need.push(['Petróleo por debajo de 80 $', oil.met ? '✓' : fmt((oil.threshold / oil.value - 1) * 100, 0, '%'), `Brent hoy en ${fmt(oil.value, 1, ' $')}.`]);
+      need.push(['Fin de las subidas de tipos', MT.rate_cycle?.met ? '✓' : '–', 'Lo dirá el Flow Show; se apunta en manual.json.']);
+      if (BR) need.push(['Amplitud global en el 88%', BR.need > 0 ? `+${BR.need} bolsas` : '✓',
+        BR.need > 0 ? `Hoy ${BR.below} de ${BR.n}. Las más cerca de perder sus dos medias: ${BR.closest.slice(0, Math.min(BR.need, 6)).map(([n, p]) => `${n} ${fmt(p, 1, '%')}`).join(', ')}${BR.need > 6 ? `… y la ${BR.need}.ª, ${BR.closest[BR.need - 1]?.[0]} ${fmt(BR.closest[BR.need - 1]?.[1], 1, '%')}` : ''}.` : 'Señal activa.']);
+      if (HT.spx_to_7323 != null) need.push(['S&P 500 por debajo de 7.323', HT.spx_to_7323 < 0 ? fmt(HT.spx_to_7323, 1, '%') : '✓', 'El nivel que Hartnett liga a la regla de amplitud.']);
+      if (SX) need.push(['Semis un 20% bajo su MM200', SX.value <= -20 ? '✓' : fmt(SX.need_pct, 1, '%'), `SOX hoy ${fmt(SX.value, 1, '%', true)} de su MM200; lo peor del año, ${fmt(SX.min_1y, 1, '%')} el ${esDate(SX.min_1y_date)}.`]);
+      if (bbT) need.push(['Bull & Bear en 2 o menos', bbT.met ? '✓' : `${fmt(bbT.value, 1)} → 2`, `Dato del ${esDate(bbT.as_of)}.`]);
+      $('#hNeed').innerHTML = need.map(([k, val, d]) => `<div class="row"><div class="name">${esc(k)}<small>${esc(d)}</small></div><div class="val">${esc(val)}</div></div>`).join('');
+      const st = SX?.stats;
+      $('#hCross').innerHTML = st ? `<b>Cruce con el monitor de recesión.</b> Desde 1996, cuando los semis cayeron un 20% bajo su MM200 sin recesión cerca, subieron a 12 meses ${st.up - st.up_rec} de ${st.n - st.n_rec} veces (mediana ${fmt(st.med_norec, 0, '%', true)}). Con recesión, ${st.up_rec} de ${st.n_rec} (mediana ${fmt(st.med_rec, 0, '%', true)}: 2000 y 2008). Las compras de Hartnett funcionan si el endurecimiento es «doloroso pero no mortal». Hoy el score de recesión de EE. UU. es <b>${fmt(C.score, 0)}</b> (${esc((C.label || '').toLowerCase())}).` : '';
+
+      // Oro y techo de deuda
+      const DB = HT.debt || {};
+      const days = iso => iso ? Math.round((new Date(iso + 'T12:00:00Z') - Date.now()) / 864e5) : null;
+      $('#debtHint').textContent = DB.date ? 'Tesoro de EE. UU. · ' + esDate(DB.date) : '';
+      const bil = x => fmt(x / 1000, 2, ' billones $');
+      $('#debtList').innerHTML = [
+        DB.subject_bn != null ? ['Deuda sujeta al techo', bil(DB.subject_bn), `Techo legal: ${bil(DB.limit_bn)}. Margen: ${fmt(DB.headroom_bn, 0)} mil M$.`] : null,
+        DB.pace_bn_day != null ? ['Al ritmo de los últimos 90 días', DB.projected ? esDate(DB.projected) : '–', `Sube ${fmt(DB.pace_bn_day, 1)} mil M$ al día. Hartnett pone el choque el ${esDate(DB.deadline)}. Estimación lineal: los impuestos de abril la mueven.`] : null,
+        DB.congress ? ['Toma posesión el nuevo Congreso', esDate(DB.congress), days(DB.congress) > 0 ? `En ${days(DB.congress)} días.` : ''] : null,
+        DB.gold != null ? ['Oro', fmt(DB.gold, 0, ' $'), `${fmt(DB.gold_3m, 1, '%', true)} en 3 meses. Hartnett: acumularlo antes del pulso, como en 2011 y 2023 (la comprobación, en la nota del 8-nov).`] : null,
+      ].filter(Boolean).map(([k, val, d]) => `<div class="row"><div class="name">${esc(k)}<small>${esc(d)}</small></div><div class="val">${esc(val)}</div></div>`).join('') || '<div class="row"><div class="name">Sin datos del Tesoro.</div></div>';
+
+      // ¿Funcionaron antes?
+      const yes = b => b ? '<span style="color:var(--serious)">sí</span>' : 'no';
+      const col = x => `style="color:var(${x == null ? '--muted' : x < 0 ? '--critical' : '--ink'})"`;
+      if (BR) {
+        $('#brHint').textContent = `${BR.signals.length} señales desde ${esMonth(BR.since)}`;
+        $('#brTable').innerHTML = '<thead><tr><th>Primera vez</th><th class="num">Máximo</th><th class="num">ACWI 3 meses</th><th class="num">ACWI 12 meses</th><th class="num">Recesión</th></tr></thead><tbody>' +
+          [...BR.signals].reverse().map(s => `<tr><td>${esDate(s.date)}</td><td class="num">${fmt(s.peak, 0, '%')}</td><td class="num" ${col(s.acwi_3m)}>${fmt(s.acwi_3m, 1, '%', true)}</td><td class="num" ${col(s.acwi_12m)}>${fmt(s.acwi_12m, 1, '%', true)}</td><td class="num">${yes(s.recession)}</td></tr>`).join('') + '</tbody>';
+        $('#brNote').textContent = `Aproximación: ${BR.n} ETF de países MSCI en dólares, no los índices del MSCI ACWI que usa BofA; antes de 2014 había menos países (mínimo 30). Una señal nueva = primera vez en el 88% tras 60 sesiones sin estar ahí. Hoy por debajo de las dos medias: ${BR.below_names.join(', ')}.`;
+      }
+      if (SX) {
+        $('#sxHint').textContent = `${SX.stats.n} señales desde 1996 · SOX`;
+        $('#sxTable').innerHTML = '<thead><tr><th>Primera vez</th><th class="num">vs MM200</th><th class="num">SOX 12 meses</th><th class="num">Recesión</th></tr></thead><tbody>' +
+          [...SX.signals].reverse().map(s => `<tr><td>${esDate(s.date)}</td><td class="num">${fmt(s.gap, 1, '%')}</td><td class="num" ${col(s.sox_12m)}>${fmt(s.sox_12m, 0, '%', true)}</td><td class="num">${yes(s.recession)}</td></tr>`).join('') + '</tbody>';
+        $('#sxNote').textContent = 'Una señal nueva = primera vez a −20% tras 6 meses sin tocarlo. «Recesión» = recesión del NBER entre 6 meses antes y 12 después.';
+      }
+    }
     $('#m7Hint').textContent = PU.mag7_bear != null ? `${PU.mag7_bear} de ${PU.mag7.length} en bajista (−20% del máximo de 52 sem.)` : '';
     $('#m7Table').innerHTML = '<thead><tr><th>Empresa</th><th class="num">Desde máx. 52 sem.</th><th class="num">vs MM200</th><th class="num">1 mes</th></tr></thead><tbody>' +
       [...PU.mag7].sort((a, b) => a.dd52 - b.dd52).map(m => `<tr><td>${esc(m.name)} <span class="sub" style="display:inline">${esc(m.ticker)}</span></td><td class="num" style="color:var(${m.dd52 <= -20 ? '--critical' : m.dd52 <= -10 ? '--serious' : '--ink'})">${fmt(m.dd52, 1, '%')}</td><td class="num">${fmt(m.ma200, 1, '%', true)}</td><td class="num">${fmt(m.m1, 1, '%', true)}</td></tr>`).join('') + '</tbody>';
     const pc = C.pillars;
     $('#crossNote').innerHTML = `Hartnett dice que el endurecimiento es «doloroso pero no mortal» <b>mientras no se destruya empleo ni estalle un evento de crédito</b>. Eso es justo lo que miden dos pilares de este monitor: <b>Confirmación ${fmt(pc['Confirmación'], 0)}</b> y <b>Crédito y tipos ${fmt(pc['Crédito y tipos'], 0)}</b> sobre 100. ${(pc['Confirmación'] ?? 0) < 35 && (pc['Crédito y tipos'] ?? 0) < 35 ? 'Hoy los dos están en calma: la caída de la tecnología es, de momento, una rotación de mercado y no una señal de recesión.' : 'Uno de los dos ya está en alerta: la condición de Hartnett empieza a fallar.'} El riesgo que sí comparten es el petróleo (${fmt(I.oil_yoy?.value, 0, '%', true)} en un año).`;
     const PCH = [
+      ['breadth', 'Amplitud global: bolsas bajo su MM50 y MM200 (semanal)', '%', 0, [{ y: HT?.capitulation?.find(t => t.key === 'breadth')?.threshold ?? 88, label: 'Compra' }], { yMin: 0, yMax: 100, shade: REC }],
+      ['sox_ma200', 'Semis (SOX) frente a su MM200', '%', 1, [{ y: 0, label: 'MM200' }, { y: -20, label: '−20%' }, { y: -25, label: '−25%', below: true }]],
+      ['es', 'Futuro del S&P 500 y niveles de los CTA', '', 0, [{ y: L.es_cta_mid?.threshold ?? 7606, label: 'Ventas medias' }, { y: L.es_cta_long?.threshold ?? 7450, label: 'Ventas de largo plazo', below: true }]],
       ['mags', 'Siete Magníficas (MAGS)', ' $', 2, [{ y: L.mags?.threshold ?? 70, label: 'Línea roja' }]],
       ['smh', 'Semiconductores (SMH)', ' $', 1, [{ y: L.smh?.threshold ?? 520, label: 'Soporte' }]],
       ['qqq_ma200', 'Nasdaq 100 sobre su MM200', '%', 1, [{ y: 0, label: 'MM200' }]],
@@ -825,14 +931,16 @@ async function main() {
       ['aapl_corr', 'Correlación Apple–Nasdaq 100 (21 ses.)', '', 2, [{ y: 0, label: '0' }]],
     ].filter(([k]) => (PU.charts[k] || []).length > 1);
     $('#pulseCharts').innerHTML = PCH.map(([k, t]) => `<div class="card"><div class="small-title"><span>${esc(t)}</span><span class="now">${fmt((PU.charts[k].at(-1) || [])[1], PCH.find(x => x[0] === k)[3], PCH.find(x => x[0] === k)[2])}</span></div><div class="chart" id="pc-${k}"></div></div>`).join('');
-    PCH.forEach(([k, t, u, d, refs]) => lineChart($('#pc-' + k), PU.charts[k], { unit: u, dec: d, refs, h: 160, thin: true, label: t }));
+    PCH.forEach(([k, t, u, d, refs, ex]) => lineChart($('#pc-' + k), PU.charts[k], { unit: u, dec: d, refs, h: 160, thin: true, label: t, ...(ex || {}) }));
     const notes = M.market_notes || [];
     $('#notes').innerHTML = notes.length ? notes.map(n => `<div class="note"><h3>${esc(n.title)}</h3><div class="meta">${esDate(n.date)} · ${esc(n.source)}${n.checked ? ' · ' + esc(n.checked) : ''}</div><ul>${(n.items || []).map(it => `<li>${esc(it.t)}${it.v ? `<span class="chk ${it.warn ? 'warn' : ''}">${it.warn ? '⚠' : '✓'} Datos: ${esc(it.v)}</span>` : ''}</li>`).join('')}</ul></div>`).join('')
       : '<div class="small-sub">Sin notas.</div>';
 
     // ── Pulso en el resumen
-    const CH = ['mags', 'smh', 'qqq_ma200', 'mag7_bear', 'bull_bear', 'rsp_spy_1m'].map(k => L[k]).filter(Boolean);
-    $('#pulseChips').innerHTML = CH.map(l => { const [c, ic] = lvState(l); return `<div class="chip" style="border-left-color:var(${c})"><div class="k">${esc(l.label)}</div><div class="v">${lvVal(l)}</div><div class="s">${l.ok != null ? (l.ok === false ? 'roto · ' : 'aguanta · ') + lvThr(l).replace(' · ', '') : esc(l.note.split('.')[0])}</div></div>`; }).join('');
+    const CH = ['mags', 'smh', 'qqq_ma200', 'mag7_bear', 'bull_bear'].map(k => L[k]).filter(Boolean);
+    const hChips = HT ? `<div class="chip" style="border-left-color:var(${VC[HT.verdict[0]]})"><div class="k">Compra según Hartnett</div><div class="v">${HT.n_macro}/3 · ${HT.cap_on.length}/3</div><div class="s">${esc(HT.verdict[1].charAt(0) + HT.verdict[1].slice(1).toLowerCase())}</div></div>` +
+      (HT.breadth ? `<div class="chip" style="border-left-color:var(${HT.breadth.value >= 88 ? '--good' : '--muted'})"><div class="k">Amplitud global (compra en 88%)</div><div class="v">${fmt(HT.breadth.value, 0, '%')}</div><div class="s">${HT.breadth.need > 0 ? `faltan ${HT.breadth.need} de ${HT.breadth.n} bolsas` : 'señal de compra'}</div></div>` : '') : '';
+    $('#pulseChips').innerHTML = hChips + CH.map(l => { const [c, ic] = lvState(l); return `<div class="chip" style="border-left-color:var(${c})"><div class="k">${esc(l.label)}</div><div class="v">${lvVal(l)}</div><div class="s">${l.ok != null ? (l.ok === false ? 'roto · ' : 'aguanta · ') + lvThr(l).replace(' · ', '') : esc(l.note.split('.')[0])}</div></div>`; }).join('');
 
     // ── Tesis de mayo (histórica)
     const bb = M.bull_bear || {}, bbAge = bb.date ? Math.round((Date.now() - new Date(bb.date)) / 864e5) : null;

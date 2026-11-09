@@ -12,7 +12,7 @@ v5 (oct-2026): tres scores de 0 a 100. EE. UU. tiene 22 indicadores en cuatro pi
 | `scripts/backfill_history.py` | Reconstruye el histórico desde el git de la v3 (se ejecutó una vez) |
 | `docs/index.html` | El panel. Solo lee JSON: no hay que tocarlo para actualizar datos |
 | `docs/backtest.json` | Score mensual de EE. UU. desde 1988, pilares, recesiones, avisos y falsas alarmas |
-| `docs/manual.json` | Datos que no se pueden descargar (almacén de gas de la UE, Bull & Bear de BofA). Se editan a mano |
+| `docs/manual.json` | Datos que no se pueden descargar (almacén de gas de la UE, Bull & Bear de BofA, señales manuales de Hartnett y notas semanales). Se editan a mano |
 | `scripts/legacy/` | Scripts de la v1–v2 que generaban PNG; ya no se ejecutan |
 
 ## Reglas del score

@@ -18,13 +18,41 @@
   "source": "Hartnett (BofA), Flow Show: subidas de tipos de bancos centrales del mundo en los últimos 6 meses"
  },
  "levels": {
-  "_nota": "Umbrales de los niveles que vigilan Hartnett y Cárpatos. Cámbialos aquí si ellos los mueven.",
+  "_nota": "Umbrales de los niveles que vigilan Hartnett y Cárpatos. Cámbialos aquí si ellos los mueven. Los h_ son las señales de compra de Hartnett.",
   "mags": 70,
   "smh": 520,
+  "tsm": 400,
+  "nvda": 200,
+  "ixg": 125,
+  "mdy": 666,
+  "jnk": 92,
+  "hyper_spread": 200,
+  "es_cta_mid": 7606,
+  "es_cta_long": 7450,
+  "nq_res": 28580,
+  "spx_breadth": 7323,
   "gold": 4000,
-  "brent": 100,
+  "brent": 80,
   "bb_sell": 8,
-  "bb_buy": 2
+  "bb_buy": 2,
+  "h_10y": 4.5,
+  "h_oil": 80,
+  "h_breadth": 88,
+  "h_semis": -20,
+  "h_semis_strong": -25
+ },
+ "hartnett": {
+  "_nota": "Señales de compra de Hartnett que no se pueden descargar. rate_cycle_over: pon true cuando el Flow Show dé por terminado el ciclo mundial de subidas de tipos. hyperscaler_spread_bp: diferencial de los bonos de los hiperescaladores (pánico por encima de 200 pb), de los informes de BofA.",
+  "rate_cycle_over": false,
+  "rate_cycle_date": "2026-11-08",
+  "rate_cycle_note": "Sigue abierto: 42 subidas de bancos centrales en 6 meses (Flow Show del 30-oct).",
+  "debt_limit_date": "2027-02-01",
+  "congress_date": "2027-01-03",
+  "hyperscaler_spread_bp": {
+   "value": null,
+   "date": null,
+   "source": "BofA (Hartnett). Sin dato público gratuito: apúntalo cuando salga en el Flow Show"
+  }
  },
  "materials_weight_sp500": {
   "value": 2.0,
@@ -38,6 +66,43 @@
   "alarm": "<50% en enero"
  },
  "market_notes": [
+  {
+   "date": "2026-11-08",
+   "title": "Las señales de compra de Hartnett y la fontanería de Cárpatos",
+   "source": "Flow Show de BofA (Michael Hartnett) y vídeos de José Luis Cárpatos, resumidos por Roger",
+   "checked": "Comprobado el 9-nov con los cierres del 6-nov (Yahoo Finance, Treasury.gov y Fiscal Data del Tesoro).",
+   "items": [
+    {"t": "Para dejar la postura defensiva tienen que destensarse las condiciones financieras: el bono a 10 años claramente por debajo del 4,5%, el petróleo por debajo de 80 $ y el fin del ciclo de subidas de tipos.",
+     "v": "No se cumple ninguna: el 10 años está en el 4,86%, el Brent en 96-97 $ (WTI 90 $) y van 42 subidas de bancos centrales en 6 meses."},
+    {"t": "El petróleo es la pieza clave: si cae con fuerza por acuerdos de paz (Oriente Medio, Ucrania), alivia la inflación y deja a los bancos centrales frenar las subidas. Recomienda corto en petróleo para el primer semestre.",
+     "v": "El Brent ha caído un 7% en cinco sesiones, pero sigue un 20% por encima de los 80 $."},
+    {"t": "Regla de amplitud: compra contraria agresiva solo cuando el 88% de las bolsas del mundo cotiza a la vez por debajo de su media de 50 y de 200 sesiones. Aún no está ahí.",
+     "v": "Con 42 ETF de países MSCI: 55% (23 de 42). Esta aproximación saltó en ago-2011, jun-2012, ago-2015, oct-2018, feb-2020, may-2022 y oct-2023: en las siete, el ACWI subía a 12 meses (+7% a +33%)."},
+    {"t": "Para llegar al 88%, el S&P 500 tendría que perder los 7.323 y las bolsas europeas y británicas caer otro 3-4%.",
+     "v": "El S&P cerró en 7.376,86, a un 0,7% de 7.323 (su MM200 está en 7.325). Faltan 14 bolsas: las más cerca son España (−0,4%), EE. UU. (−1,0%), Reino Unido (−1,1%) y Australia (−1,4%); la 14.ª, Suiza, necesita un −5,0%. Cuadra en orden de magnitud."},
+    {"t": "MAGS (Siete Magníficas): por debajo de 70 pone en peligro a todo el mercado, porque pesan cerca del 40% del índice. Tras perderlo prueba su media de 200 sesiones: si la pierde, «se le echa la cruz al mercado».",
+     "v": "MAGS 67,53, por debajo de 70 y un 1,6% por encima de su MM200 (66,44): la prueba sigue abierta."},
+    {"t": "Semis: nivel crítico del SMH en 520. TSM perdió su línea roja de 400 $ y su media de 200 sesiones, con un doble techo y rotura de la línea clavicular.",
+     "v": "SMH 463,96, un 11% bajo 520. TSM 375,44, bajo 400 y bajo su MM200 (400,03). El doble techo no se comprueba aquí."},
+    {"t": "Los semiconductores cotizan un 17% por debajo de su media de 200 sesiones. Desde 1996, las grandes compras llegaron entre un 20% y un 25% por debajo.",
+     "v": "Con el cierre del jueves 5-nov: SOX −16,8% y SOXX −17,2%; el viernes rebotaron a −13,3% y −14,4%. Desde 1996, el SOX a −20% subió a 12 meses en 7 de 8 casos sin recesión cerca (mediana +33%); con recesión, la mediana fue −17% (2000 y 2008)."},
+    {"t": "Nvidia: alarma por debajo de 200 $.",
+     "v": "186,64 $: alarma activa (su MM200 está en 204,39)."},
+    {"t": "Termómetros de la economía y del crédito: bancos (IXG) en 125; medianas (MDY) en 666, ya perforado y perdiendo la media de 200; bonos basura (JNK) en 92, que aguantan en 92,71.",
+     "v": "IXG 130,05: aguanta. MDY 657,82: bajo 666 y bajo su MM200 (664,51). JNK 92,70: aguanta por poco."},
+    {"t": "Pánico si el diferencial de los bonos de los hiperescaladores supera los 200 pb: estampida por miedo a un evento de crédito corporativo. Sin dato público gratuito: se apunta a mano en manual.json."},
+    {"t": "Oro: acumularlo antes del choque por el techo de deuda de EE. UU. (41,1 billones $). El nuevo Congreso toma posesión el 3-ene y el techo se alcanza el 1-feb. En los 3 meses previos a los pulsos de 2011 y 2023 el oro subió un 12% y un 17%.",
+     "v": "El techo es de 41,104 billones $ y la deuda sujeta a él, 40,357 billones (5-nov): quedan 747.000 M$. Al ritmo de los últimos 90 días se alcanzaría hacia el 15-feb, cerca del 1-feb. Los porcentajes del oro no se reproducen: +5,5% (2011) y +8,1% (2023) en los 3 meses hasta la fecha límite; +19% y +12% si se mide hasta el pico.", "warn": true},
+    {"t": "Cárpatos: en el futuro del S&P 500 entran ventas medias de los CTA en 7.606 y ventas de largo plazo en 7.450.",
+     "v": "El futuro cerró en 7.383 el 5-nov y en 7.402 el 6-nov: los dos niveles ya están perforados."},
+    {"t": "El S&P 500 al contado prueba su media de 200 sesiones a la vez que el MAGS.",
+     "v": "S&P un 0,7% por encima de su MM200 y MAGS un 1,6% por encima de la suya: cierto."},
+    {"t": "Nasdaq 100 (futuro): resistencia crítica en 28.580 tras perder su media de 200 sesiones.",
+     "v": "El futuro cerró en 27.085 el 6-nov, un 4% bajo su MM200 (≈28.120)."},
+    {"t": "Actualización de la nota del 31-oct: «cuatro de las Siete Magníficas en mercado bajista».",
+     "v": "Con los cierres del 6-nov ya son cuatro: Alphabet −29%, Tesla −27%, Nvidia −22% y Meta −22% desde su máximo de 52 semanas."}
+   ]
+  },
   {
    "date": "2026-10-31",
    "title": "«No pánico, gran rotación en bolsa, de momento»",
