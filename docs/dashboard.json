@@ -1,5 +1,5 @@
 {
- "timestamp": "2026-11-14T01:26:23Z",
+ "timestamp": "2026-11-15T19:28:47Z",
  "version": 5,
  "fred_enabled": true,
  "composite": {
@@ -326,7 +326,7 @@
    "group": "Economía adelantada",
    "unit": "%",
    "decimals": 0,
-   "value": 51.6184,
+   "value": 51.5808,
    "score": 60,
    "status": "ALERTA",
    "weight": 0.06,
@@ -598,7 +598,7 @@
    "group": "Zona euro",
    "unit": " €",
    "decimals": 1,
-   "value": 88.7106,
+   "value": 88.7906,
    "score": 80,
    "status": "PELIGRO",
    "weight": 0.1,
@@ -606,7 +606,7 @@
    "note": ">60 € = choque",
    "why": "El choque de energía es el canal por el que Europa entró en estancamiento en 2022-23.",
    "source": "Yahoo TTF=F, media del mes",
-   "as_of": "2026-11-12",
+   "as_of": "2026-11-13",
    "stale": false
   },
   {
@@ -649,7 +649,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 1,
-   "value": 0.3488,
+   "value": 0.3919,
    "score": 20,
    "status": "OK",
    "weight": 0.15,
@@ -666,7 +666,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 1,
-   "value": 15.1077,
+   "value": 15.1625,
    "score": 5,
    "status": "OK",
    "weight": 0.1,
@@ -683,7 +683,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 0,
-   "value": 51.6184,
+   "value": 51.5808,
    "score": 60,
    "status": "ALERTA",
    "weight": 0.2,
@@ -700,7 +700,7 @@
    "group": "Global",
    "unit": "",
    "decimals": 1,
-   "value": 102.2351,
+   "value": 102.235,
    "score": 40,
    "status": "VIGILAR",
    "weight": 0.1,
@@ -771,7 +771,7 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 1,
-   "value": -3.2037,
+   "value": -6.842,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -779,7 +779,7 @@
    "note": "",
    "why": "",
    "source": "",
-   "as_of": "2026-11-12",
+   "as_of": "2026-11-13",
    "stale": false,
    "info": true
   },
@@ -789,7 +789,7 @@
    "group": "Mercados",
    "unit": " $",
    "decimals": 1,
-   "value": 88.92,
+   "value": 88.56,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -807,7 +807,7 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 0,
-   "value": 60.8829,
+   "value": 60.2316,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -825,7 +825,7 @@
    "group": "Mercados",
    "unit": " $",
    "decimals": 1,
-   "value": 96.08,
+   "value": 95.84,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -951,7 +951,7 @@
    {
     "key": "oil_price",
     "label": "Petróleo por encima de 100 $",
-    "value": 88.92,
+    "value": 88.56,
     "threshold": 100,
     "op": ">=",
     "unit": " $",
@@ -960,7 +960,7 @@
    {
     "key": "oil_rise",
     "label": "Petróleo +90% desde mínimos",
-    "value": 60.88,
+    "value": 60.23,
     "threshold": 90,
     "op": ">=",
     "unit": "%",
@@ -991,79 +991,79 @@
   {
    "name": "Tecnología",
    "ticker": "XLK",
-   "1M": -8.7,
-   "3M": -8.4,
-   "12M": 21.2
+   "1M": -10.0,
+   "3M": -10.4,
+   "12M": 18.8
   },
   {
    "name": "Financieras",
    "ticker": "XLF",
-   "1M": 6.8,
-   "3M": 0.4,
-   "12M": 12.7
+   "1M": 6.2,
+   "3M": 2.3,
+   "12M": 13.6
   },
   {
    "name": "Energía",
    "ticker": "XLE",
-   "1M": -4.9,
-   "3M": 4.5,
-   "12M": 43.8
+   "1M": -2.4,
+   "3M": 4.4,
+   "12M": 45.2
   },
   {
    "name": "Materiales",
    "ticker": "XLB",
-   "1M": 5.4,
-   "3M": 0.1,
-   "12M": 22.8
+   "1M": 3.3,
+   "3M": 0.4,
+   "12M": 22.6
   },
   {
    "name": "Salud",
    "ticker": "XLV",
-   "1M": 8.0,
-   "3M": 12.7,
-   "12M": 25.8
+   "1M": 6.6,
+   "3M": 13.5,
+   "12M": 26.5
   },
   {
    "name": "Utilities",
    "ticker": "XLU",
-   "1M": 5.0,
-   "3M": -0.4,
-   "12M": 1.5
+   "1M": 5.7,
+   "3M": 0.4,
+   "12M": 2.1
   },
   {
    "name": "Industriales",
    "ticker": "XLI",
-   "1M": 1.4,
-   "3M": -8.9,
-   "12M": 12.7
+   "1M": 0.5,
+   "3M": -9.2,
+   "12M": 12.3
   },
   {
    "name": "Consumo disc.",
    "ticker": "XLY",
-   "1M": 8.0,
-   "3M": 2.1,
-   "12M": 5.2
+   "1M": 5.8,
+   "3M": 3.0,
+   "12M": 4.8
   },
   {
    "name": "Consumo básico",
    "ticker": "XLP",
-   "1M": 5.8,
-   "3M": 6.5,
-   "12M": 21.1
+   "1M": 6.5,
+   "3M": 9.8,
+   "12M": 22.8
   },
   {
    "name": "Comunicación",
    "ticker": "XLC",
-   "1M": -2.9,
-   "3M": -4.5,
-   "12M": -2.2
+   "1M": -3.3,
+   "3M": -1.6,
+   "12M": -1.2
   },
   {
    "name": "Inmobiliario",
    "ticker": "XLRE",
-   "1M": 6.9,
-   "3M": -1.2,
-   "12M": 12.1
+   "1M": 5.7,
+   "3M": -0.2,
+   "12M": 12.2
   }
  ],
  "charts": {
@@ -9728,7 +9728,7 @@
    ],
    [
     "2026-11-01",
-    51.62
+    51.58
    ]
   ],
   "profits": [
@@ -19991,8 +19991,444 @@
   ],
   "ttf": [
    [
+    "2017-10-01",
+    18.11
+   ],
+   [
+    "2017-11-01",
+    19.52
+   ],
+   [
+    "2017-12-01",
+    20.55
+   ],
+   [
+    "2018-01-01",
+    18.59
+   ],
+   [
+    "2018-02-01",
+    18.47
+   ],
+   [
+    "2018-03-01",
+    18.51
+   ],
+   [
+    "2018-04-01",
+    19.24
+   ],
+   [
+    "2018-05-01",
+    21.56
+   ],
+   [
+    "2018-06-01",
+    21.75
+   ],
+   [
+    "2018-07-01",
+    22.2
+   ],
+   [
+    "2018-08-01",
+    23.89
+   ],
+   [
+    "2018-09-01",
+    27.95
+   ],
+   [
+    "2018-10-01",
+    26.11
+   ],
+   [
+    "2018-11-01",
+    24.83
+   ],
+   [
+    "2018-12-01",
+    23.91
+   ],
+   [
+    "2019-01-01",
+    21.69
+   ],
+   [
+    "2019-02-01",
+    18.09
+   ],
+   [
+    "2019-03-01",
+    15.63
+   ],
+   [
+    "2019-04-01",
+    14.94
+   ],
+   [
+    "2019-05-01",
+    13.29
+   ],
+   [
+    "2019-06-01",
+    10.84
+   ],
+   [
+    "2019-07-01",
+    11.03
+   ],
+   [
+    "2019-08-01",
+    11.28
+   ],
+   [
+    "2019-09-01",
+    13.09
+   ],
+   [
+    "2019-10-01",
+    15.61
+   ],
+   [
+    "2019-11-01",
+    15.91
+   ],
+   [
+    "2019-12-01",
+    14.19
+   ],
+   [
+    "2020-01-01",
+    11.19
+   ],
+   [
+    "2020-02-01",
+    9.08
+   ],
+   [
+    "2020-03-01",
+    8.39
+   ],
+   [
+    "2020-04-01",
+    6.66
+   ],
+   [
+    "2020-05-01",
+    4.94
+   ],
+   [
+    "2020-06-01",
+    5.31
+   ],
+   [
+    "2020-07-01",
+    5.33
+   ],
+   [
+    "2020-08-01",
+    8.26
+   ],
+   [
+    "2020-09-01",
+    11.44
+   ],
+   [
+    "2020-10-01",
+    14.18
+   ],
+   [
+    "2020-11-01",
+    13.94
+   ],
+   [
+    "2020-12-01",
+    16.42
+   ],
+   [
+    "2021-01-01",
+    20.44
+   ],
+   [
+    "2021-02-01",
+    17.42
+   ],
+   [
+    "2021-03-01",
+    17.56
+   ],
+   [
+    "2021-04-01",
+    20.39
+   ],
+   [
+    "2021-05-01",
+    25.02
+   ],
+   [
+    "2021-06-01",
+    29.17
+   ],
+   [
+    "2021-07-01",
+    36.02
+   ],
+   [
+    "2021-08-01",
+    44.71
+   ],
+   [
+    "2021-09-01",
+    66.84
+   ],
+   [
+    "2021-10-01",
+    91.33
+   ],
+   [
+    "2021-11-01",
+    82.06
+   ],
+   [
+    "2021-12-01",
+    114.99
+   ],
+   [
+    "2022-01-01",
+    85.59
+   ],
+   [
+    "2022-02-01",
+    82.4
+   ],
+   [
+    "2022-03-01",
+    131.27
+   ],
+   [
+    "2022-04-01",
+    101.52
+   ],
+   [
+    "2022-05-01",
+    94.38
+   ],
+   [
+    "2022-06-01",
+    107.7
+   ],
+   [
+    "2022-07-01",
+    172.42
+   ],
+   [
+    "2022-08-01",
+    235.96
+   ],
+   [
+    "2022-09-01",
+    201.48
+   ],
+   [
+    "2022-10-01",
+    135.48
+   ],
+   [
+    "2022-11-01",
+    119.34
+   ],
+   [
+    "2022-12-01",
+    116.17
+   ],
+   [
+    "2023-01-01",
+    63.68
+   ],
+   [
+    "2023-02-01",
+    52.79
+   ],
+   [
+    "2023-03-01",
+    44.03
+   ],
+   [
+    "2023-04-01",
+    42.07
+   ],
+   [
+    "2023-05-01",
+    32.05
+   ],
+   [
+    "2023-06-01",
+    32.47
+   ],
+   [
+    "2023-07-01",
+    29.15
+   ],
+   [
+    "2023-08-01",
+    35.0
+   ],
+   [
+    "2023-09-01",
+    37.04
+   ],
+   [
+    "2023-10-01",
+    47.07
+   ],
+   [
+    "2023-11-01",
+    45.74
+   ],
+   [
+    "2023-12-01",
+    35.97
+   ],
+   [
+    "2024-01-01",
+    29.91
+   ],
+   [
+    "2024-02-01",
+    25.87
+   ],
+   [
+    "2024-03-01",
+    26.85
+   ],
+   [
+    "2024-04-01",
+    28.96
+   ],
+   [
+    "2024-05-01",
+    31.81
+   ],
+   [
+    "2024-06-01",
+    34.42
+   ],
+   [
+    "2024-07-01",
+    32.52
+   ],
+   [
+    "2024-08-01",
+    38.35
+   ],
+   [
+    "2024-09-01",
+    36.08
+   ],
+   [
+    "2024-10-01",
+    40.42
+   ],
+   [
+    "2024-11-01",
+    44.63
+   ],
+   [
+    "2024-12-01",
+    45.15
+   ],
+   [
+    "2025-01-01",
+    48.35
+   ],
+   [
+    "2025-02-01",
+    50.38
+   ],
+   [
+    "2025-03-01",
+    41.78
+   ],
+   [
+    "2025-04-01",
+    35.21
+   ],
+   [
+    "2025-05-01",
+    35.18
+   ],
+   [
+    "2025-06-01",
+    36.39
+   ],
+   [
+    "2025-07-01",
+    33.94
+   ],
+   [
+    "2025-08-01",
+    32.7
+   ],
+   [
+    "2025-09-01",
+    32.34
+   ],
+   [
+    "2025-10-01",
+    31.92
+   ],
+   [
+    "2025-11-01",
+    30.86
+   ],
+   [
+    "2025-12-01",
+    27.62
+   ],
+   [
+    "2026-01-01",
+    34.11
+   ],
+   [
+    "2026-02-01",
+    32.5
+   ],
+   [
+    "2026-03-01",
+    52.87
+   ],
+   [
+    "2026-04-01",
+    44.98
+   ],
+   [
+    "2026-05-01",
+    47.32
+   ],
+   [
+    "2026-06-01",
+    45.07
+   ],
+   [
+    "2026-07-01",
+    54.37
+   ],
+   [
+    "2026-08-01",
+    62.14
+   ],
+   [
+    "2026-09-01",
+    75.44
+   ],
+   [
+    "2026-10-01",
+    86.79
+   ],
+   [
     "2026-11-01",
-    88.71
+    88.79
    ]
   ],
   "cli_china": [
@@ -22158,7 +22594,7 @@
    ],
    [
     "2026-11-01",
-    0.35
+    0.39
    ]
   ],
   "cu_au6": [
@@ -22880,7 +23316,7 @@
    ],
    [
     "2026-11-01",
-    15.11
+    15.16
    ]
   ],
   "oil_yoy_g": [
@@ -23602,7 +24038,7 @@
    ],
    [
     "2026-11-01",
-    51.62
+    51.58
    ]
   ],
   "dxy": [
@@ -24328,10 +24764,6 @@
    ]
   ],
   "sox_bubble": [
-   [
-    "2025-10-31",
-    34.0
-   ],
    [
     "2025-11-03",
     34.6
@@ -25367,6 +25799,10 @@
    [
     "2026-11-12",
     -3.2
+   ],
+   [
+    "2026-11-13",
+    -6.8
    ]
   ]
  },
@@ -25392,8 +25828,8 @@
    {
     "key": "mags",
     "label": "Siete Magníficas (ETF MAGS)",
-    "value": 68.86,
-    "as_of": "2026-11-12",
+    "value": 68.66,
+    "as_of": "2026-11-13",
     "unit": " $",
     "decimals": 2,
     "threshold": 70,
@@ -25402,14 +25838,14 @@
     "note": "Línea roja de Hartnett: pesan cerca del 40% del índice",
     "source": "Yahoo MAGS",
     "group": "tech",
-    "ma200": 66.49,
-    "ma_gap": 3.6
+    "ma200": 66.5,
+    "ma_gap": 3.2
    },
    {
     "key": "mags_ma200",
     "label": "MAGS sobre su media de 200 sesiones",
-    "value": 3.559,
-    "as_of": "2026-11-12",
+    "value": 3.241,
+    "as_of": "2026-11-13",
     "unit": "%",
     "decimals": 1,
     "threshold": 0,
@@ -25424,8 +25860,8 @@
    {
     "key": "smh",
     "label": "Semiconductores (ETF SMH)",
-    "value": 501.73,
-    "as_of": "2026-11-12",
+    "value": 486.75,
+    "as_of": "2026-11-13",
     "unit": " $",
     "decimals": 2,
     "threshold": 520,
@@ -25434,30 +25870,30 @@
     "note": "Nivel crítico de Hartnett",
     "source": "Yahoo SMH",
     "group": "tech",
-    "ma200": 523.54,
-    "ma_gap": -4.2
+    "ma200": 523.89,
+    "ma_gap": -7.1
    },
    {
     "key": "tsm",
     "label": "Taiwan Semiconductor (TSM)",
-    "value": 405.49,
-    "as_of": "2026-11-12",
+    "value": 398.73,
+    "as_of": "2026-11-13",
     "unit": " $",
     "decimals": 2,
     "threshold": 400,
-    "above": true,
-    "ok": true,
+    "above": false,
+    "ok": false,
     "note": "Línea roja de Hartnett; perderla con la MM200 confirma el doble techo",
     "source": "Yahoo TSM",
     "group": "tech",
-    "ma200": 401.36,
-    "ma_gap": 1.0
+    "ma200": 401.67,
+    "ma_gap": -0.7
    },
    {
     "key": "nvda",
     "label": "Nvidia",
-    "value": 166.19,
-    "as_of": "2026-11-12",
+    "value": 162.85,
+    "as_of": "2026-11-13",
     "unit": " $",
     "decimals": 2,
     "threshold": 200,
@@ -25466,19 +25902,19 @@
     "note": "Alarma de Hartnett por debajo de 200 $",
     "source": "Yahoo NVDA",
     "group": "tech",
-    "ma200": 204.07,
-    "ma_gap": -18.6
+    "ma200": 203.92,
+    "ma_gap": -20.1
    },
    {
     "key": "qqq_ma200",
     "label": "Nasdaq 100 (QQQ) sobre su media de 200 sesiones",
-    "value": 1.062,
-    "as_of": "2026-11-12",
+    "value": -0.192,
+    "as_of": "2026-11-13",
     "unit": "%",
     "decimals": 1,
     "threshold": 0,
-    "above": true,
-    "ok": true,
+    "above": false,
+    "ok": false,
     "note": "Cárpatos: si la pierde, ventas forzadas de los fondos CTA",
     "source": "Yahoo QQQ",
     "group": "tech",
@@ -25488,8 +25924,8 @@
    {
     "key": "soxx_ma200",
     "label": "Semis (SOXX) sobre su media de 200 sesiones",
-    "value": -3.204,
-    "as_of": "2026-11-12",
+    "value": -6.842,
+    "as_of": "2026-11-13",
     "unit": "%",
     "decimals": 1,
     "threshold": 0,
@@ -25504,8 +25940,8 @@
    {
     "key": "mag7_bear",
     "label": "Siete Magníficas en mercado bajista",
-    "value": 2.0,
-    "as_of": "2026-11-12",
+    "value": 3.0,
+    "as_of": "2026-11-13",
     "unit": " de 7",
     "decimals": 0,
     "threshold": 4,
@@ -25518,10 +25954,26 @@
     "ma_gap": null
    },
    {
+    "key": "neocloud",
+    "label": "Neoclouds (CoreWeave y Nebius), 1 mes",
+    "value": -31.129,
+    "as_of": "2026-11-13",
+    "unit": "%",
+    "decimals": 1,
+    "threshold": null,
+    "above": null,
+    "ok": null,
+    "note": "McElligott y Cárpatos: el «banco de Nvidia» financiaba a estos clientes; caen primero si se corta. Desde su máximo de 52 semanas: CoreWeave −61%, Nebius −60%",
+    "source": "Yahoo CRWV y NBIS",
+    "group": "tech",
+    "ma200": null,
+    "ma_gap": null
+   },
+   {
     "key": "ixg",
     "label": "Bancos del mundo (ETF IXG)",
-    "value": 132.52,
-    "as_of": "2026-11-12",
+    "value": 133.51,
+    "as_of": "2026-11-13",
     "unit": " $",
     "decimals": 2,
     "threshold": 125,
@@ -25530,14 +25982,14 @@
     "note": "Nivel crítico de Hartnett para el sector bancario",
     "source": "Yahoo IXG",
     "group": "credit",
-    "ma200": 124.5,
-    "ma_gap": 6.4
+    "ma200": 124.57,
+    "ma_gap": 7.2
    },
    {
     "key": "mdy",
     "label": "Medianas de EE. UU. (ETF MDY)",
-    "value": 673.54,
-    "as_of": "2026-11-12",
+    "value": 672.7,
+    "as_of": "2026-11-13",
     "unit": " $",
     "decimals": 2,
     "threshold": 666,
@@ -25546,14 +25998,14 @@
     "note": "Termómetro de la economía doméstica de Hartnett",
     "source": "Yahoo MDY",
     "group": "credit",
-    "ma200": 665.44,
-    "ma_gap": 1.2
+    "ma200": 665.67,
+    "ma_gap": 1.1
    },
    {
     "key": "jnk",
     "label": "Bonos basura (ETF JNK)",
-    "value": 92.42,
-    "as_of": "2026-11-12",
+    "value": 92.32,
+    "as_of": "2026-11-13",
     "unit": " $",
     "decimals": 2,
     "threshold": 92,
@@ -25563,7 +26015,7 @@
     "source": "Yahoo JNK",
     "group": "credit",
     "ma200": 92.97,
-    "ma_gap": -0.6
+    "ma_gap": -0.7
    },
    {
     "key": "hyper_spread",
@@ -25576,6 +26028,22 @@
     "above": null,
     "ok": null,
     "note": "Pánico por encima de 200 pb: miedo a un evento de crédito corporativo (dato manual de BofA)",
+    "source": "manual.json",
+    "group": "credit",
+    "ma200": null,
+    "ma_gap": null
+   },
+   {
+    "key": "crwv_cds",
+    "label": "CDS de CoreWeave",
+    "value": 1163.0,
+    "as_of": "2026-11-13",
+    "unit": " pb",
+    "decimals": 0,
+    "threshold": null,
+    "above": null,
+    "ok": null,
+    "note": "Cárpatos y McElligott: el seguro contra impago del mayor de los neoclouds, en cotas de alarma (dato manual, sin fuente pública gratuita)",
     "source": "manual.json",
     "group": "credit",
     "ma200": null,
@@ -25616,7 +26084,7 @@
    {
     "key": "es_cta_mid",
     "label": "Futuro del S&P 500 frente a 7.606",
-    "value": 7561.0,
+    "value": 7583.0,
     "as_of": "2026-11-13",
     "unit": "",
     "decimals": 0,
@@ -25626,13 +26094,13 @@
     "note": "Cárpatos: por debajo entran ventas medias de los CTA",
     "source": "Yahoo ES=F",
     "group": "flows",
-    "ma200": 7369.37,
-    "ma_gap": 2.6
+    "ma200": 7369.48,
+    "ma_gap": 2.9
    },
    {
     "key": "es_cta_long",
     "label": "Futuro del S&P 500 frente a 7.450",
-    "value": 7561.0,
+    "value": 7583.0,
     "as_of": "2026-11-13",
     "unit": "",
     "decimals": 0,
@@ -25648,24 +26116,56 @@
    {
     "key": "nq_res",
     "label": "Futuro del Nasdaq 100 frente a 28.580",
-    "value": 27927.25,
+    "value": 28034.75,
     "as_of": "2026-11-13",
     "unit": "",
     "decimals": 0,
     "threshold": 28580,
     "above": false,
     "ok": false,
-    "note": "Cárpatos: resistencia crítica tras perder la MM200",
+    "note": "Cárpatos: resistencia infranqueable a corto plazo (la sitúa en la MM200)",
     "source": "Yahoo NQ=F",
     "group": "flows",
-    "ma200": 28167.08,
-    "ma_gap": -0.9
+    "ma200": 28167.62,
+    "ma_gap": -0.5
+   },
+   {
+    "key": "nq_fibo",
+    "label": "Futuro del Nasdaq 100 frente a 29.640",
+    "value": 28034.75,
+    "as_of": "2026-11-13",
+    "unit": "",
+    "decimals": 0,
+    "threshold": 29640,
+    "above": false,
+    "ok": false,
+    "note": "Cárpatos: superar el 61,8% de Fibonacci anula la estructura bajista de ondas",
+    "source": "Yahoo NQ=F",
+    "group": "flows",
+    "ma200": null,
+    "ma_gap": null
+   },
+   {
+    "key": "vol_ctl",
+    "label": "S&P 500: sesiones fuera de ±0,5% (de las 10 últimas)",
+    "value": 5.0,
+    "as_of": "2026-11-13",
+    "unit": " de 10",
+    "decimals": 0,
+    "threshold": null,
+    "above": null,
+    "ok": null,
+    "note": "Fondos de control de volatilidad: cada sesión de más de ±0,5% les obliga a vender al día siguiente; dentro del rango se quedan quietos. Última sesión −0,40%; volatilidad realizada a 21 sesiones, 22%",
+    "source": "Yahoo ^GSPC",
+    "group": "flows",
+    "ma200": null,
+    "ma_gap": null
    },
    {
     "key": "rsp_spy_1m",
     "label": "Equiponderado (RSP) frente al S&P 500, 1 mes",
-    "value": 5.691,
-    "as_of": "2026-11-12",
+    "value": 5.122,
+    "as_of": "2026-11-13",
     "unit": " pp",
     "decimals": 1,
     "threshold": 0,
@@ -25680,8 +26180,8 @@
    {
     "key": "vflo_spy_1m",
     "label": "Empresas con caja libre (VFLO) frente al S&P 500, 1 mes",
-    "value": 1.908,
-    "as_of": "2026-11-12",
+    "value": 1.134,
+    "as_of": "2026-11-13",
     "unit": " pp",
     "decimals": 1,
     "threshold": 0,
@@ -25696,8 +26196,8 @@
    {
     "key": "def_tech_1m",
     "label": "Defensivos frente a tecnología, 1 mes",
-    "value": 10.667,
-    "as_of": "2026-11-12",
+    "value": 13.267,
+    "as_of": "2026-11-13",
     "unit": " pp",
     "decimals": 1,
     "threshold": 0,
@@ -25712,8 +26212,8 @@
    {
     "key": "aapl_corr",
     "label": "Correlación Apple–Nasdaq 100 (21 sesiones)",
-    "value": 0.378,
-    "as_of": "2026-11-12",
+    "value": 0.375,
+    "as_of": "2026-11-13",
     "unit": "",
     "decimals": 2,
     "threshold": 0,
@@ -25726,32 +26226,80 @@
     "ma_gap": null
    },
    {
+    "key": "t10y",
+    "label": "Bono del Tesoro a 10 años",
+    "value": 5.15,
+    "as_of": "2026-11-13",
+    "unit": "%",
+    "decimals": 2,
+    "threshold": 5.25,
+    "above": false,
+    "ok": true,
+    "note": "Goldman: subir rápido por encima del 5,25% desata correcciones por velocidad; Hartnett vuelve al riesgo por debajo del 4,5% · +29 pb en una semana",
+    "source": "Treasury.gov",
+    "group": "macro",
+    "ma200": null,
+    "ma_gap": null
+   },
+   {
+    "key": "dxy",
+    "label": "Dólar (DXY)",
+    "value": 103.41,
+    "as_of": "2026-11-13",
+    "unit": "",
+    "decimals": 2,
+    "threshold": 99.85,
+    "above": true,
+    "ok": false,
+    "note": "Hartnett: tan fuerte que es una «bola de demolición» para el riesgo; su tercera condición es que baje (umbral = su MM200) · +1,4% en un mes",
+    "source": "Yahoo DX-Y.NYB",
+    "group": "macro",
+    "ma200": 99.85,
+    "ma_gap": 3.6
+   },
+   {
     "key": "gold",
-    "label": "Oro",
-    "value": 3887.6,
+    "label": "Oro: soporte",
+    "value": 3886.3,
     "as_of": "2026-11-13",
     "unit": " $",
     "decimals": 0,
-    "threshold": 4000,
-    "above": false,
-    "ok": null,
-    "note": "Hartnett: acumular oro antes del pulso por el techo de deuda (ABD, «todo menos el dólar»)",
+    "threshold": 3880,
+    "above": true,
+    "ok": true,
+    "note": "Soporte de 3.880-4.000 $ (media de 100 semanas: 3.915 $). Hartnett: acumular oro antes del pulso por el techo de deuda",
     "source": "Yahoo GC=F",
     "group": "macro",
     "ma200": 4472.25,
     "ma_gap": -13.1
    },
    {
+    "key": "gold_res",
+    "label": "Oro: cierre semanal frente a 4.155 $",
+    "value": 3886.3,
+    "as_of": "2026-11-13",
+    "unit": " $",
+    "decimals": 0,
+    "threshold": 4155,
+    "above": false,
+    "ok": false,
+    "note": "Para recuperar el tono alcista tiene que superar 4.155 $ en semanal o 4.565 $",
+    "source": "Yahoo GC=F",
+    "group": "macro",
+    "ma200": null,
+    "ma_gap": null
+   },
+   {
     "key": "brent",
     "label": "Petróleo Brent",
-    "value": 96.08,
+    "value": 95.84,
     "as_of": "2026-11-13",
     "unit": " $",
     "decimals": 1,
-    "threshold": 80,
+    "threshold": 70,
     "above": true,
     "ok": false,
-    "note": "Hartnett: por debajo de 80 $ es su señal de calma; corto en petróleo para el 1S 2027",
+    "note": "Hartnett: por debajo de 70 $ (antes 80 $) da por superado el shock de inflación; corto en petróleo para el 1S 2027",
     "source": "FRED + Yahoo BZ=F",
     "group": "macro",
     "ma200": null,
@@ -25776,8 +26324,8 @@
    {
     "key": "bull_bear",
     "label": "Bull & Bear de BofA",
-    "value": 7.1,
-    "as_of": "2026-10-30",
+    "value": 7.4,
+    "as_of": "2026-11-13",
     "unit": "",
     "decimals": 1,
     "threshold": 8,
@@ -25810,54 +26358,54 @@
    {
     "ticker": "AAPL",
     "name": "Apple",
-    "dd52": -0.1,
-    "ma200": 18.2,
-    "m1": 3.6
+    "dd52": 0.0,
+    "ma200": 18.5,
+    "m1": 4.3
    },
    {
     "ticker": "MSFT",
     "name": "Microsoft",
-    "dd52": -5.9,
+    "dd52": -5.7,
     "ma200": 18.9,
-    "m1": -2.0
+    "m1": -2.9
    },
    {
     "ticker": "GOOGL",
     "name": "Alphabet",
-    "dd52": -25.7,
-    "ma200": -11.7,
-    "m1": -14.1
+    "dd52": -26.4,
+    "ma200": -12.5,
+    "m1": -15.3
    },
    {
     "ticker": "AMZN",
     "name": "Amazon",
-    "dd52": -5.8,
-    "ma200": 9.4,
-    "m1": 5.3
+    "dd52": -6.1,
+    "ma200": 9.0,
+    "m1": 4.7
    },
    {
     "ticker": "META",
     "name": "Meta",
-    "dd52": -19.8,
-    "ma200": -1.1,
-    "m1": -15.4
+    "dd52": -17.5,
+    "ma200": 1.9,
+    "m1": -12.9
    },
    {
     "ticker": "NVDA",
     "name": "Nvidia",
-    "dd52": -30.5,
-    "ma200": -18.6,
-    "m1": -24.9
+    "dd52": -31.9,
+    "ma200": -20.1,
+    "m1": -25.0
    },
    {
     "ticker": "TSLA",
     "name": "Tesla",
-    "dd52": -18.9,
-    "ma200": 3.8,
-    "m1": 8.2
+    "dd52": -20.3,
+    "ma200": 2.0,
+    "m1": 7.7
    }
   ],
-  "mag7_bear": 2,
+  "mag7_bear": 3,
   "hartnett": {
    "macro": [
     {
@@ -25874,44 +26422,44 @@
      "source": "Treasury.gov"
     },
     {
-     "key": "oil80",
-     "label": "Petróleo por debajo de 80 $",
-     "value": 96.08,
+     "key": "oil",
+     "label": "Petróleo por debajo de 70 $",
+     "value": 95.84,
      "as_of": "2026-11-13",
      "unit": " $",
      "decimals": 1,
-     "threshold": 80,
+     "threshold": 70,
      "op": "<",
      "met": false,
-     "note": "Brent; el WTI está en 88,9 $. La pieza clave: alivia la inflación y frena las subidas",
+     "note": "Brent; el WTI está en 88,6 $. Con él da por superado el shock de inflación (13-nov: baja el listón de 80 a 70 $)",
      "source": "FRED + Yahoo BZ=F"
     },
     {
-     "key": "rate_cycle",
-     "label": "Fin del ciclo de subidas de tipos",
-     "value": 42.0,
-     "as_of": "2026-11-08",
-     "unit": " subidas",
-     "decimals": 0,
-     "threshold": null,
-     "op": null,
+     "key": "dollar",
+     "label": "Dólar a la baja (DXY bajo su MM200)",
+     "value": 3.562,
+     "as_of": "2026-11-13",
+     "unit": "%",
+     "decimals": 1,
+     "threshold": 0,
+     "op": "<",
      "met": false,
-     "note": "Sigue abierto: 42 subidas de bancos centrales en 6 meses (Flow Show del 30-oct).",
-     "source": "BofA (manual) + FRED DFEDTARU"
+     "note": "DXY 103,41, MM200 99,85; +1,4% en un mes. Hoy es una «bola de demolición» para el riesgo",
+     "source": "Yahoo DX-Y.NYB"
     }
    ],
    "capitulation": [
     {
      "key": "breadth",
      "label": "Regla de amplitud global en el 88%",
-     "value": 33.3,
-     "as_of": "2026-11-12",
+     "value": 40.5,
+     "as_of": "2026-11-13",
      "unit": "%",
      "decimals": 0,
      "threshold": 88,
      "op": ">=",
      "met": false,
-     "note": "14 de 42 bolsas por debajo de su MM50 y su MM200",
+     "note": "17 de 42 bolsas por debajo de su MM50 y su MM200",
      "source": "Yahoo, ETF de países MSCI"
     },
     {
@@ -25930,8 +26478,8 @@
     {
      "key": "bb_buy",
      "label": "Bull & Bear de BofA en 2 o menos",
-     "value": 7.1,
-     "as_of": "2026-10-30",
+     "value": 7.4,
+     "as_of": "2026-11-13",
      "unit": "",
      "decimals": 1,
      "threshold": 2,
@@ -25949,31 +26497,19 @@
     "Hartnett sigue defensivo: no se cumple ninguna de las seis señales."
    ],
    "breadth": {
-    "value": 33.3,
-    "date": "2026-11-12",
+    "value": 40.5,
+    "date": "2026-11-13",
     "n": 42,
-    "below": 14,
-    "need": 23,
+    "below": 17,
+    "need": 20,
     "closest": [
      [
-      "Países Bajos",
+      "Nueva Zelanda",
       -0.1
-     ],
-     [
-      "Arabia Saudí",
-      -0.1
-     ],
-     [
-      "Singapur",
-      -0.3
      ],
      [
       "Kuwait",
-      -0.3
-     ],
-     [
-      "Nueva Zelanda",
-      -0.7
+      -0.2
      ],
      [
       "Italia",
@@ -25981,94 +26517,95 @@
      ],
      [
       "Australia",
-      -1.4
-     ],
-     [
-      "Francia",
-      -1.8
-     ],
-     [
-      "Reino Unido",
-      -2.1
+      -1.0
      ],
      [
       "Austria",
-      -2.3
+      -1.7
+     ],
+     [
+      "Francia",
+      -2.0
      ],
      [
       "Alemania",
-      -2.3
+      -2.5
+     ],
+     [
+      "Reino Unido",
+      -2.5
+     ],
+     [
+      "Canadá",
+      -2.8
      ],
      [
       "Taiwán",
       -2.8
      ],
      [
-      "Canadá",
+      "Hong Kong",
       -2.9
      ],
      [
       "Suecia",
-      -3.1
-     ],
-     [
-      "España",
       -3.2
      ],
      [
-      "Hong Kong",
-      -3.4
+      "EE. UU.",
+      -3.3
      ],
      [
       "Noruega",
-      -3.6
+      -3.5
      ],
      [
-      "EE. UU.",
-      -3.7
-     ],
-     [
-      "Bélgica",
-      -3.9
+      "España",
+      -3.5
      ],
      [
       "México",
-      -4.2
+      -3.6
+     ],
+     [
+      "Bélgica",
+      -3.7
      ],
      [
       "Suiza",
-      -5.3
+      -5.1
      ],
      [
       "Catar",
-      -6.0
-     ],
-     [
-      "Dinamarca",
-      -6.1
-     ],
-     [
-      "India",
-      -6.9
+      -5.9
      ],
      [
       "Grecia",
-      -7.3
+      -6.6
+     ],
+     [
+      "India",
+      -6.6
+     ],
+     [
+      "Dinamarca",
+      -6.9
      ],
      [
       "Irlanda",
-      -7.5
-     ],
-     [
-      "Polonia",
-      -7.8
+      -7.4
      ],
      [
       "Emiratos",
-      -8.8
+      -8.0
+     ],
+     [
+      "Polonia",
+      -8.1
      ]
     ],
     "below_names": [
+     "Arabia Saudí",
      "Brasil",
      "Chile",
      "China",
@@ -26079,7 +26616,9 @@
      "Israel",
      "Japón",
      "Malasia",
+     "Países Bajos",
      "Perú",
+     "Singapur",
      "Sudáfrica",
      "Tailandia",
      "Turquía"
@@ -26233,28 +26772,193 @@
     "from": 3.75,
     "to": 4.0,
     "level": 4.0,
-    "as_of": "2026-11-13"
+    "as_of": "2026-11-15"
    },
    "debt": {
-    "date": "2026-11-12",
-    "subject_bn": 40410.0,
-    "limit_bn": 41104.0,
-    "headroom_bn": 694.0,
-    "pace_bn_day": 7.34,
-    "projected": "2027-02-14",
     "deadline": "2027-02-01",
     "congress": "2027-01-03",
-    "gold": 3888.0,
+    "gold": 3886.0,
     "gold_3m": -13.1
    },
-   "spx_to_7323": -3.2
+   "spx_to_7323": -3.2,
+   "scenarios": {
+    "spx": 7561.67,
+    "date": "2026-11-13",
+    "bull": {
+     "target": 8000,
+     "dist": 5.8,
+     "items": [
+      {
+       "label": "El S&P 500 equiponderado (RSP) vuelve a máximos",
+       "met": false,
+       "value": "−1,0%",
+       "note": "RSP 221,16 $; máximo de 2 años 223,33 $ el 4 nov 2026",
+       "as_of": "2026-11-13"
+      },
+      {
+       "label": "Las grandes tecnológicas aguantan su MM200 (MAGS)",
+       "met": true,
+       "value": "+3,2%",
+       "note": "MAGS sobre su media de 200 sesiones",
+       "as_of": "2026-11-13"
+      },
+      {
+       "label": "La cumbre EE. UU.-China-Rusia confirma el pico del petróleo",
+       "met": null,
+       "value": "−18,5%",
+       "note": "Pendiente: la cumbre EE. UU.-China-Rusia todavía no ha confirmado el pico del petróleo. Brent 95,8 $ frente a su máximo de 6 meses, 117,6 $ el 30 oct 2026",
+       "as_of": "2026-11-13"
+      }
+     ],
+     "n": 1
+    },
+    "bear": {
+     "target": 7000,
+     "dist": -7.4,
+     "items": [
+      {
+       "label": "La liquidez global sigue retirándose",
+       "met": true,
+       "value": "sí",
+       "note": "Flow Show del 13-nov: escasea la liquidez excedente del G10 (dato de Hartnett, sin serie pública)",
+       "as_of": "2026-11-13"
+      },
+      {
+       "label": "El dólar sigue subiendo",
+       "met": true,
+       "value": "+1,4%",
+       "note": "DXY en un mes; hoy 103,41, un +3,6% frente a su MM200",
+       "as_of": "2026-11-13"
+      },
+      {
+       "label": "Error de política: suben tipos en plena desaceleración",
+       "met": false,
+       "value": "42 subidas · score 14",
+       "note": "Subidas de bancos centrales en 6 meses (30 oct 2026) y score de recesión de EE. UU. (desaceleración = 35 o más). Fed 4,00%; último movimiento, subida el 17 sept 2026.",
+       "as_of": "2026-11-13"
+      },
+      {
+       "label": "Se amplían los diferenciales de crédito",
+       "met": false,
+       "value": "+4 pb",
+       "note": "High yield (OAS) en un mes; hoy 3,20%. Ampliación = +25 pb o más",
+       "as_of": "2026-11-12"
+      }
+     ],
+     "n": 2
+    }
+   },
+   "calls": [
+    {
+     "label": "Oro como cobertura fiscal",
+     "long": [
+      "GC=F"
+     ],
+     "short": [
+      "SPY"
+     ],
+     "since": "2026-11-13",
+     "note": "pulso por el techo de deuda del 1-feb",
+     "last": "2026-11-13",
+     "r_since": 0.0,
+     "r_1m": -4.5,
+     "r_3m": -11.0
+    },
+    {
+     "label": "Bonos de grado de inversión antes que acciones tecnológicas",
+     "long": [
+      "LQD"
+     ],
+     "short": [
+      "XLK"
+     ],
+     "since": "2026-11-13",
+     "note": "aproximación: LQD es todo el grado de inversión, no solo tecnológicas",
+     "last": "2026-11-13",
+     "r_since": 0.0,
+     "r_1m": 9.7,
+     "r_3m": 8.9
+    },
+    {
+     "label": "Bolsa europea",
+     "long": [
+      "VGK"
+     ],
+     "short": [
+      "SPY"
+     ],
+     "since": "2026-11-13",
+     "note": null,
+     "last": "2026-11-13",
+     "r_since": 0.0,
+     "r_1m": 4.4,
+     "r_3m": -1.0
+    },
+    {
+     "label": "Tecnología china",
+     "long": [
+      "KWEB"
+     ],
+     "short": [
+      "QQQ"
+     ],
+     "since": "2026-11-13",
+     "note": "sin los cuellos de botella eléctricos de EE. UU.",
+     "last": "2026-11-13",
+     "r_since": 0.0,
+     "r_1m": -0.2,
+     "r_3m": -8.2
+    },
+    {
+     "label": "Pequeñas compañías frente a los monopolios",
+     "long": [
+      "IWM"
+     ],
+     "short": [
+      "MAGS"
+     ],
+     "since": "2026-11-13",
+     "note": null,
+     "last": "2026-11-13",
+     "r_since": 0.0,
+     "r_1m": 6.5,
+     "r_3m": -10.4
+    },
+    {
+     "label": "Constructoras de viviendas frente a los monopolios",
+     "long": [
+      "ITB"
+     ],
+     "short": [
+      "MAGS"
+     ],
+     "since": "2026-11-13",
+     "note": null,
+     "last": "2026-11-13",
+     "r_since": 0.0,
+     "r_1m": 13.9,
+     "r_3m": -5.0
+    },
+    {
+     "label": "Consumo discrecional y salud frente a energía",
+     "long": [
+      "XLY",
+      "XLV"
+     ],
+     "short": [
+      "XLE"
+     ],
+     "since": "2026-11-13",
+     "note": null,
+     "last": "2026-11-13",
+     "r_since": 0.0,
+     "r_1m": 8.6,
+     "r_3m": 3.8
+    }
+   ]
   },
   "charts": {
    "mags": [
-    [
-     "2025-10-31",
-     66.98
-    ],
     [
      "2025-11-03",
      67.66
@@ -27290,13 +27994,13 @@
     [
      "2026-11-12",
      68.86
+    ],
+    [
+     "2026-11-13",
+     68.66
     ]
    ],
    "smh": [
-    [
-     "2025-10-31",
-     361.89
-    ],
     [
      "2025-11-03",
      364.96
@@ -28332,13 +29036,13 @@
     [
      "2026-11-12",
      501.73
+    ],
+    [
+     "2026-11-13",
+     486.75
     ]
    ],
    "qqq_ma200": [
-    [
-     "2025-10-31",
-     17.4
-    ],
     [
      "2025-11-03",
      17.8
@@ -29374,6 +30078,10 @@
     [
      "2026-11-12",
      1.1
+    ],
+    [
+     "2026-11-13",
+     -0.2
     ]
    ],
    "gold": [
@@ -30415,1056 +31123,1052 @@
     ],
     [
      "2026-11-13",
-     3888.0
+     3886.0
     ]
    ],
    "rsp_spy": [
     [
-     "2025-10-31",
-     100.0
-    ],
-    [
      "2025-11-03",
-     99.6
+     100.0
     ],
     [
      "2025-11-04",
-     100.1
+     100.5
     ],
     [
      "2025-11-05",
-     100.3
+     100.8
     ],
     [
      "2025-11-06",
-     100.7
+     101.1
     ],
     [
      "2025-11-07",
-     101.5
-    ],
-    [
-     "2025-11-10",
-     100.5
-    ],
-    [
-     "2025-11-11",
-     100.8
-    ],
-    [
-     "2025-11-12",
-     101.0
-    ],
-    [
-     "2025-11-13",
-     101.5
-    ],
-    [
-     "2025-11-14",
-     101.2
-    ],
-    [
-     "2025-11-17",
-     100.8
-    ],
-    [
-     "2025-11-18",
-     101.7
-    ],
-    [
-     "2025-11-19",
-     101.0
-    ],
-    [
-     "2025-11-20",
-     101.3
-    ],
-    [
-     "2025-11-21",
-     102.3
-    ],
-    [
-     "2025-11-24",
-     101.2
-    ],
-    [
-     "2025-11-25",
-     101.7
-    ],
-    [
-     "2025-11-26",
-     101.7
-    ],
-    [
-     "2025-11-28",
-     101.7
-    ],
-    [
-     "2025-12-01",
-     101.5
-    ],
-    [
-     "2025-12-02",
-     101.2
-    ],
-    [
-     "2025-12-03",
-     101.6
-    ],
-    [
-     "2025-12-04",
-     101.6
-    ],
-    [
-     "2025-12-05",
-     101.6
-    ],
-    [
-     "2025-12-08",
-     101.3
-    ],
-    [
-     "2025-12-09",
-     101.2
-    ],
-    [
-     "2025-12-10",
-     102.0
-    ],
-    [
-     "2025-12-11",
-     102.5
-    ],
-    [
-     "2025-12-12",
-     103.0
-    ],
-    [
-     "2025-12-15",
-     103.2
-    ],
-    [
-     "2025-12-16",
-     102.8
-    ],
-    [
-     "2025-12-17",
-     103.7
-    ],
-    [
-     "2025-12-18",
-     103.1
-    ],
-    [
-     "2025-12-19",
-     102.6
-    ],
-    [
-     "2025-12-22",
-     102.7
-    ],
-    [
-     "2025-12-23",
-     102.0
-    ],
-    [
-     "2025-12-24",
-     102.0
-    ],
-    [
-     "2025-12-26",
-     102.0
-    ],
-    [
-     "2025-12-29",
-     102.2
-    ],
-    [
-     "2025-12-30",
-     102.2
-    ],
-    [
-     "2025-12-31",
-     102.1
-    ],
-    [
-     "2026-01-02",
-     102.6
-    ],
-    [
-     "2026-01-05",
-     102.8
-    ],
-    [
-     "2026-01-06",
-     103.5
-    ],
-    [
-     "2026-01-07",
-     102.6
-    ],
-    [
-     "2026-01-08",
-     103.5
-    ],
-    [
-     "2026-01-09",
-     103.4
-    ],
-    [
-     "2026-01-12",
-     103.4
-    ],
-    [
-     "2026-01-13",
-     103.6
-    ],
-    [
-     "2026-01-14",
-     104.6
-    ],
-    [
-     "2026-01-15",
-     104.7
-    ],
-    [
-     "2026-01-16",
-     104.6
-    ],
-    [
-     "2026-01-20",
-     105.1
-    ],
-    [
-     "2026-01-21",
-     105.7
-    ],
-    [
-     "2026-01-22",
-     105.3
-    ],
-    [
-     "2026-01-23",
-     104.8
-    ],
-    [
-     "2026-01-26",
-     104.5
-    ],
-    [
-     "2026-01-27",
-     103.9
-    ],
-    [
-     "2026-01-28",
-     103.6
-    ],
-    [
-     "2026-01-29",
-     103.9
-    ],
-    [
-     "2026-01-30",
-     104.0
-    ],
-    [
-     "2026-02-02",
-     104.0
-    ],
-    [
-     "2026-02-03",
-     104.6
-    ],
-    [
-     "2026-02-04",
-     106.0
-    ],
-    [
-     "2026-02-05",
-     106.5
-    ],
-    [
-     "2026-02-06",
-     106.4
-    ],
-    [
-     "2026-02-09",
-     106.0
-    ],
-    [
-     "2026-02-10",
-     106.6
-    ],
-    [
-     "2026-02-11",
-     106.8
-    ],
-    [
-     "2026-02-12",
-     107.1
-    ],
-    [
-     "2026-02-13",
-     108.1
-    ],
-    [
-     "2026-02-17",
-     107.7
-    ],
-    [
-     "2026-02-18",
-     107.8
-    ],
-    [
-     "2026-02-19",
-     107.8
-    ],
-    [
-     "2026-02-20",
-     107.5
-    ],
-    [
-     "2026-02-23",
-     107.5
-    ],
-    [
-     "2026-02-24",
-     107.5
-    ],
-    [
-     "2026-02-25",
-     106.7
-    ],
-    [
-     "2026-02-26",
-     107.9
-    ],
-    [
-     "2026-02-27",
-     108.6
-    ],
-    [
-     "2026-03-02",
-     108.3
-    ],
-    [
-     "2026-03-03",
-     107.9
-    ],
-    [
-     "2026-03-04",
-     107.6
-    ],
-    [
-     "2026-03-05",
-     106.9
-    ],
-    [
-     "2026-03-06",
-     107.1
-    ],
-    [
-     "2026-03-09",
-     106.4
-    ],
-    [
-     "2026-03-10",
-     105.8
-    ],
-    [
-     "2026-03-11",
-     105.6
-    ],
-    [
-     "2026-03-12",
-     105.6
-    ],
-    [
-     "2026-03-13",
-     106.2
-    ],
-    [
-     "2026-03-16",
-     105.9
-    ],
-    [
-     "2026-03-17",
-     106.2
-    ],
-    [
-     "2026-03-18",
-     106.3
-    ],
-    [
-     "2026-03-19",
-     106.4
-    ],
-    [
-     "2026-03-20",
-     106.4
-    ],
-    [
-     "2026-03-23",
-     106.4
-    ],
-    [
-     "2026-03-24",
-     106.9
-    ],
-    [
-     "2026-03-25",
-     106.8
-    ],
-    [
-     "2026-03-26",
-     107.8
-    ],
-    [
-     "2026-03-27",
-     108.1
-    ],
-    [
-     "2026-03-30",
-     108.3
-    ],
-    [
-     "2026-03-31",
-     107.4
-    ],
-    [
-     "2026-04-01",
-     106.9
-    ],
-    [
-     "2026-04-02",
-     107.1
-    ],
-    [
-     "2026-04-06",
-     107.1
-    ],
-    [
-     "2026-04-07",
-     106.8
-    ],
-    [
-     "2026-04-08",
-     106.6
-    ],
-    [
-     "2026-04-09",
-     106.0
-    ],
-    [
-     "2026-04-10",
-     105.3
-    ],
-    [
-     "2026-04-13",
-     105.4
-    ],
-    [
-     "2026-04-14",
-     104.6
-    ],
-    [
-     "2026-04-15",
-     103.8
-    ],
-    [
-     "2026-04-16",
-     104.0
-    ],
-    [
-     "2026-04-17",
-     104.1
-    ],
-    [
-     "2026-04-20",
-     104.6
-    ],
-    [
-     "2026-04-21",
-     104.7
-    ],
-    [
-     "2026-04-22",
-     103.6
-    ],
-    [
-     "2026-04-23",
-     104.0
-    ],
-    [
-     "2026-04-24",
-     103.0
-    ],
-    [
-     "2026-04-27",
-     102.7
-    ],
-    [
-     "2026-04-28",
-     102.6
-    ],
-    [
-     "2026-04-29",
-     102.5
-    ],
-    [
-     "2026-04-30",
-     103.0
-    ],
-    [
-     "2026-05-01",
-     102.4
-    ],
-    [
-     "2026-05-04",
-     102.2
-    ],
-    [
-     "2026-05-05",
-     102.2
-    ],
-    [
-     "2026-05-06",
-     101.6
-    ],
-    [
-     "2026-05-07",
-     101.2
-    ],
-    [
-     "2026-05-08",
-     100.7
-    ],
-    [
-     "2026-05-11",
-     100.4
-    ],
-    [
-     "2026-05-12",
-     100.5
-    ],
-    [
-     "2026-05-13",
-     99.5
-    ],
-    [
-     "2026-05-14",
-     99.0
-    ],
-    [
-     "2026-05-15",
-     99.2
-    ],
-    [
-     "2026-05-18",
-     99.9
-    ],
-    [
-     "2026-05-19",
-     100.0
-    ],
-    [
-     "2026-05-20",
-     100.1
-    ],
-    [
-     "2026-05-21",
-     100.3
-    ],
-    [
-     "2026-05-22",
-     100.8
-    ],
-    [
-     "2026-05-26",
-     100.7
-    ],
-    [
-     "2026-05-27",
-     100.6
-    ],
-    [
-     "2026-05-28",
-     100.4
-    ],
-    [
-     "2026-05-29",
-     100.4
-    ],
-    [
-     "2026-06-01",
-     100.4
-    ],
-    [
-     "2026-06-02",
-     100.6
-    ],
-    [
-     "2026-06-03",
-     100.9
-    ],
-    [
-     "2026-06-04",
-     101.3
-    ],
-    [
-     "2026-06-05",
-     102.5
-    ],
-    [
-     "2026-06-08",
-     102.2
-    ],
-    [
-     "2026-06-09",
-     103.3
-    ],
-    [
-     "2026-06-10",
-     103.6
-    ],
-    [
-     "2026-06-11",
-     103.4
-    ],
-    [
-     "2026-06-12",
-     103.8
-    ],
-    [
-     "2026-06-15",
-     102.6
-    ],
-    [
-     "2026-06-16",
-     102.9
-    ],
-    [
-     "2026-06-17",
-     102.6
-    ],
-    [
-     "2026-06-18",
-     102.0
-    ],
-    [
-     "2026-06-22",
-     102.6
-    ],
-    [
-     "2026-06-23",
-     103.7
-    ],
-    [
-     "2026-06-24",
-     104.5
-    ],
-    [
-     "2026-06-25",
-     105.1
-    ],
-    [
-     "2026-06-26",
-     105.1
-    ],
-    [
-     "2026-06-29",
-     104.8
-    ],
-    [
-     "2026-06-30",
-     103.8
-    ],
-    [
-     "2026-07-01",
-     104.3
-    ],
-    [
-     "2026-07-02",
-     105.1
-    ],
-    [
-     "2026-07-06",
-     104.3
-    ],
-    [
-     "2026-07-07",
-     104.6
-    ],
-    [
-     "2026-07-08",
-     103.7
-    ],
-    [
-     "2026-07-09",
-     103.5
-    ],
-    [
-     "2026-07-10",
-     103.4
-    ],
-    [
-     "2026-07-13",
-     104.2
-    ],
-    [
-     "2026-07-14",
-     103.4
-    ],
-    [
-     "2026-07-15",
-     102.8
-    ],
-    [
-     "2026-07-16",
-     104.4
-    ],
-    [
-     "2026-07-17",
-     104.6
-    ],
-    [
-     "2026-07-20",
-     104.3
-    ],
-    [
-     "2026-07-21",
-     103.6
-    ],
-    [
-     "2026-07-22",
-     103.7
-    ],
-    [
-     "2026-07-23",
-     104.6
-    ],
-    [
-     "2026-07-24",
-     105.3
-    ],
-    [
-     "2026-07-27",
-     106.1
-    ],
-    [
-     "2026-07-28",
-     107.1
-    ],
-    [
-     "2026-07-29",
-     107.7
-    ],
-    [
-     "2026-07-30",
-     105.8
-    ],
-    [
-     "2026-07-31",
-     104.9
-    ],
-    [
-     "2026-08-03",
-     104.4
-    ],
-    [
-     "2026-08-04",
-     104.0
-    ],
-    [
-     "2026-08-05",
-     104.0
-    ],
-    [
-     "2026-08-06",
-     103.6
-    ],
-    [
-     "2026-08-07",
-     103.7
-    ],
-    [
-     "2026-08-10",
-     103.8
-    ],
-    [
-     "2026-08-11",
-     104.3
-    ],
-    [
-     "2026-08-12",
-     104.3
-    ],
-    [
-     "2026-08-13",
-     104.3
-    ],
-    [
-     "2026-08-14",
-     104.5
-    ],
-    [
-     "2026-08-17",
-     104.1
-    ],
-    [
-     "2026-08-18",
-     104.3
-    ],
-    [
-     "2026-08-19",
-     105.2
-    ],
-    [
-     "2026-08-20",
-     105.2
-    ],
-    [
-     "2026-08-21",
-     105.5
-    ],
-    [
-     "2026-08-24",
-     105.9
-    ],
-    [
-     "2026-08-25",
-     105.5
-    ],
-    [
-     "2026-08-26",
-     105.6
-    ],
-    [
-     "2026-08-27",
-     104.6
-    ],
-    [
-     "2026-08-28",
-     104.5
-    ],
-    [
-     "2026-08-31",
-     104.2
-    ],
-    [
-     "2026-09-01",
-     104.1
-    ],
-    [
-     "2026-09-02",
-     104.1
-    ],
-    [
-     "2026-09-03",
-     103.7
-    ],
-    [
-     "2026-09-04",
-     103.6
-    ],
-    [
-     "2026-09-08",
-     103.1
-    ],
-    [
-     "2026-09-09",
-     102.6
-    ],
-    [
-     "2026-09-10",
-     102.5
-    ],
-    [
-     "2026-09-11",
-     102.4
-    ],
-    [
-     "2026-09-14",
-     103.0
-    ],
-    [
-     "2026-09-15",
-     102.9
-    ],
-    [
-     "2026-09-16",
-     102.6
-    ],
-    [
-     "2026-09-17",
      101.9
     ],
     [
-     "2026-09-18",
+     "2025-11-10",
+     100.9
+    ],
+    [
+     "2025-11-11",
      101.3
     ],
     [
-     "2026-09-21",
-     100.3
+     "2025-11-12",
+     101.4
     ],
     [
-     "2026-09-22",
-     100.4
+     "2025-11-13",
+     102.0
     ],
     [
-     "2026-09-23",
-     100.4
-    ],
-    [
-     "2026-09-24",
-     100.0
-    ],
-    [
-     "2026-09-25",
-     99.8
-    ],
-    [
-     "2026-09-28",
-     99.9
-    ],
-    [
-     "2026-09-29",
-     100.0
-    ],
-    [
-     "2026-09-30",
-     99.5
-    ],
-    [
-     "2026-10-01",
-     99.8
-    ],
-    [
-     "2026-10-02",
-     99.4
-    ],
-    [
-     "2026-10-05",
-     99.4
-    ],
-    [
-     "2026-10-06",
-     99.4
-    ],
-    [
-     "2026-10-07",
-     98.8
-    ],
-    [
-     "2026-10-08",
-     99.9
-    ],
-    [
-     "2026-10-09",
-     99.8
-    ],
-    [
-     "2026-10-12",
-     100.0
-    ],
-    [
-     "2026-10-13",
-     100.0
-    ],
-    [
-     "2026-10-14",
-     100.5
-    ],
-    [
-     "2026-10-15",
+     "2025-11-14",
      101.6
     ],
     [
-     "2026-10-16",
-     102.3
+     "2025-11-17",
+     101.2
     ],
     [
-     "2026-10-19",
-     101.6
-    ],
-    [
-     "2026-10-20",
-     102.4
-    ],
-    [
-     "2026-10-21",
+     "2025-11-18",
      102.2
     ],
     [
-     "2026-10-22",
-     104.2
+     "2025-11-19",
+     101.5
     ],
     [
-     "2026-10-23",
-     103.9
+     "2025-11-20",
+     101.8
     ],
     [
-     "2026-10-26",
-     103.6
-    ],
-    [
-     "2026-10-27",
-     103.1
-    ],
-    [
-     "2026-10-28",
+     "2025-11-21",
      102.7
     ],
     [
-     "2026-10-29",
-     104.3
+     "2025-11-24",
+     101.7
     ],
     [
-     "2026-10-30",
-     105.4
+     "2025-11-25",
+     102.2
     ],
     [
-     "2026-11-02",
-     106.7
+     "2025-11-26",
+     102.2
     ],
     [
-     "2026-11-03",
-     106.0
+     "2025-11-28",
+     102.2
     ],
     [
-     "2026-11-04",
+     "2025-12-01",
+     101.9
+    ],
+    [
+     "2025-12-02",
+     101.6
+    ],
+    [
+     "2025-12-03",
+     102.1
+    ],
+    [
+     "2025-12-04",
+     102.0
+    ],
+    [
+     "2025-12-05",
+     102.1
+    ],
+    [
+     "2025-12-08",
+     101.8
+    ],
+    [
+     "2025-12-09",
+     101.7
+    ],
+    [
+     "2025-12-10",
+     102.4
+    ],
+    [
+     "2025-12-11",
+     103.0
+    ],
+    [
+     "2025-12-12",
+     103.4
+    ],
+    [
+     "2025-12-15",
+     103.7
+    ],
+    [
+     "2025-12-16",
+     103.2
+    ],
+    [
+     "2025-12-17",
+     104.1
+    ],
+    [
+     "2025-12-18",
+     103.6
+    ],
+    [
+     "2025-12-19",
+     103.0
+    ],
+    [
+     "2025-12-22",
+     103.1
+    ],
+    [
+     "2025-12-23",
+     102.4
+    ],
+    [
+     "2025-12-24",
+     102.4
+    ],
+    [
+     "2025-12-26",
+     102.5
+    ],
+    [
+     "2025-12-29",
+     102.7
+    ],
+    [
+     "2025-12-30",
+     102.6
+    ],
+    [
+     "2025-12-31",
+     102.5
+    ],
+    [
+     "2026-01-02",
+     103.0
+    ],
+    [
+     "2026-01-05",
+     103.3
+    ],
+    [
+     "2026-01-06",
+     103.9
+    ],
+    [
+     "2026-01-07",
+     103.1
+    ],
+    [
+     "2026-01-08",
+     104.0
+    ],
+    [
+     "2026-01-09",
+     103.9
+    ],
+    [
+     "2026-01-12",
+     103.8
+    ],
+    [
+     "2026-01-13",
+     104.0
+    ],
+    [
+     "2026-01-14",
+     105.0
+    ],
+    [
+     "2026-01-15",
+     105.2
+    ],
+    [
+     "2026-01-16",
+     105.0
+    ],
+    [
+     "2026-01-20",
+     105.6
+    ],
+    [
+     "2026-01-21",
      106.2
     ],
     [
-     "2026-11-05",
-     107.9
+     "2026-01-22",
+     105.7
     ],
     [
-     "2026-11-06",
-     107.2
+     "2026-01-23",
+     105.2
     ],
     [
-     "2026-11-09",
-     107.1
+     "2026-01-26",
+     104.9
     ],
     [
-     "2026-11-10",
-     107.4
+     "2026-01-27",
+     104.4
     ],
     [
-     "2026-11-11",
+     "2026-01-28",
+     104.0
+    ],
+    [
+     "2026-01-29",
+     104.4
+    ],
+    [
+     "2026-01-30",
+     104.4
+    ],
+    [
+     "2026-02-02",
+     104.5
+    ],
+    [
+     "2026-02-03",
+     105.1
+    ],
+    [
+     "2026-02-04",
+     106.5
+    ],
+    [
+     "2026-02-05",
      106.9
     ],
     [
-     "2026-11-12",
+     "2026-02-06",
+     106.9
+    ],
+    [
+     "2026-02-09",
+     106.4
+    ],
+    [
+     "2026-02-10",
+     107.1
+    ],
+    [
+     "2026-02-11",
+     107.3
+    ],
+    [
+     "2026-02-12",
+     107.5
+    ],
+    [
+     "2026-02-13",
+     108.6
+    ],
+    [
+     "2026-02-17",
+     108.2
+    ],
+    [
+     "2026-02-18",
+     108.2
+    ],
+    [
+     "2026-02-19",
+     108.3
+    ],
+    [
+     "2026-02-20",
+     108.0
+    ],
+    [
+     "2026-02-23",
+     107.9
+    ],
+    [
+     "2026-02-24",
+     108.0
+    ],
+    [
+     "2026-02-25",
+     107.2
+    ],
+    [
+     "2026-02-26",
+     108.4
+    ],
+    [
+     "2026-02-27",
+     109.0
+    ],
+    [
+     "2026-03-02",
+     108.8
+    ],
+    [
+     "2026-03-03",
+     108.4
+    ],
+    [
+     "2026-03-04",
+     108.1
+    ],
+    [
+     "2026-03-05",
+     107.4
+    ],
+    [
+     "2026-03-06",
+     107.5
+    ],
+    [
+     "2026-03-09",
+     106.9
+    ],
+    [
+     "2026-03-10",
      106.3
+    ],
+    [
+     "2026-03-11",
+     106.0
+    ],
+    [
+     "2026-03-12",
+     106.0
+    ],
+    [
+     "2026-03-13",
+     106.6
+    ],
+    [
+     "2026-03-16",
+     106.3
+    ],
+    [
+     "2026-03-17",
+     106.6
+    ],
+    [
+     "2026-03-18",
+     106.7
+    ],
+    [
+     "2026-03-19",
+     106.9
+    ],
+    [
+     "2026-03-20",
+     106.9
+    ],
+    [
+     "2026-03-23",
+     106.9
+    ],
+    [
+     "2026-03-24",
+     107.4
+    ],
+    [
+     "2026-03-25",
+     107.3
+    ],
+    [
+     "2026-03-26",
+     108.2
+    ],
+    [
+     "2026-03-27",
+     108.6
+    ],
+    [
+     "2026-03-30",
+     108.8
+    ],
+    [
+     "2026-03-31",
+     107.8
+    ],
+    [
+     "2026-04-01",
+     107.4
+    ],
+    [
+     "2026-04-02",
+     107.6
+    ],
+    [
+     "2026-04-06",
+     107.5
+    ],
+    [
+     "2026-04-07",
+     107.3
+    ],
+    [
+     "2026-04-08",
+     107.0
+    ],
+    [
+     "2026-04-09",
+     106.5
+    ],
+    [
+     "2026-04-10",
+     105.8
+    ],
+    [
+     "2026-04-13",
+     105.9
+    ],
+    [
+     "2026-04-14",
+     105.1
+    ],
+    [
+     "2026-04-15",
+     104.3
+    ],
+    [
+     "2026-04-16",
+     104.5
+    ],
+    [
+     "2026-04-17",
+     104.5
+    ],
+    [
+     "2026-04-20",
+     105.1
+    ],
+    [
+     "2026-04-21",
+     105.1
+    ],
+    [
+     "2026-04-22",
+     104.0
+    ],
+    [
+     "2026-04-23",
+     104.4
+    ],
+    [
+     "2026-04-24",
+     103.4
+    ],
+    [
+     "2026-04-27",
+     103.1
+    ],
+    [
+     "2026-04-28",
+     103.1
+    ],
+    [
+     "2026-04-29",
+     102.9
+    ],
+    [
+     "2026-04-30",
+     103.5
+    ],
+    [
+     "2026-05-01",
+     102.9
+    ],
+    [
+     "2026-05-04",
+     102.6
+    ],
+    [
+     "2026-05-05",
+     102.6
+    ],
+    [
+     "2026-05-06",
+     102.0
+    ],
+    [
+     "2026-05-07",
+     101.7
+    ],
+    [
+     "2026-05-08",
+     101.1
+    ],
+    [
+     "2026-05-11",
+     100.8
+    ],
+    [
+     "2026-05-12",
+     100.9
+    ],
+    [
+     "2026-05-13",
+     99.9
+    ],
+    [
+     "2026-05-14",
+     99.5
+    ],
+    [
+     "2026-05-15",
+     99.7
+    ],
+    [
+     "2026-05-18",
+     100.3
+    ],
+    [
+     "2026-05-19",
+     100.4
+    ],
+    [
+     "2026-05-20",
+     100.5
+    ],
+    [
+     "2026-05-21",
+     100.7
+    ],
+    [
+     "2026-05-22",
+     101.2
+    ],
+    [
+     "2026-05-26",
+     101.1
+    ],
+    [
+     "2026-05-27",
+     101.0
+    ],
+    [
+     "2026-05-28",
+     100.9
+    ],
+    [
+     "2026-05-29",
+     100.9
+    ],
+    [
+     "2026-06-01",
+     100.8
+    ],
+    [
+     "2026-06-02",
+     101.1
+    ],
+    [
+     "2026-06-03",
+     101.4
+    ],
+    [
+     "2026-06-04",
+     101.8
+    ],
+    [
+     "2026-06-05",
+     103.0
+    ],
+    [
+     "2026-06-08",
+     102.6
+    ],
+    [
+     "2026-06-09",
+     103.7
+    ],
+    [
+     "2026-06-10",
+     104.0
+    ],
+    [
+     "2026-06-11",
+     103.9
+    ],
+    [
+     "2026-06-12",
+     104.3
+    ],
+    [
+     "2026-06-15",
+     103.1
+    ],
+    [
+     "2026-06-16",
+     103.3
+    ],
+    [
+     "2026-06-17",
+     103.1
+    ],
+    [
+     "2026-06-18",
+     102.5
+    ],
+    [
+     "2026-06-22",
+     103.0
+    ],
+    [
+     "2026-06-23",
+     104.2
+    ],
+    [
+     "2026-06-24",
+     105.0
+    ],
+    [
+     "2026-06-25",
+     105.5
+    ],
+    [
+     "2026-06-26",
+     105.6
+    ],
+    [
+     "2026-06-29",
+     105.2
+    ],
+    [
+     "2026-06-30",
+     104.3
+    ],
+    [
+     "2026-07-01",
+     104.7
+    ],
+    [
+     "2026-07-02",
+     105.6
+    ],
+    [
+     "2026-07-06",
+     104.7
+    ],
+    [
+     "2026-07-07",
+     105.1
+    ],
+    [
+     "2026-07-08",
+     104.2
+    ],
+    [
+     "2026-07-09",
+     103.9
+    ],
+    [
+     "2026-07-10",
+     103.9
+    ],
+    [
+     "2026-07-13",
+     104.6
+    ],
+    [
+     "2026-07-14",
+     103.9
+    ],
+    [
+     "2026-07-15",
+     103.2
+    ],
+    [
+     "2026-07-16",
+     104.8
+    ],
+    [
+     "2026-07-17",
+     105.0
+    ],
+    [
+     "2026-07-20",
+     104.7
+    ],
+    [
+     "2026-07-21",
+     104.0
+    ],
+    [
+     "2026-07-22",
+     104.1
+    ],
+    [
+     "2026-07-23",
+     105.0
+    ],
+    [
+     "2026-07-24",
+     105.8
+    ],
+    [
+     "2026-07-27",
+     106.5
+    ],
+    [
+     "2026-07-28",
+     107.5
+    ],
+    [
+     "2026-07-29",
+     108.2
+    ],
+    [
+     "2026-07-30",
+     106.3
+    ],
+    [
+     "2026-07-31",
+     105.3
+    ],
+    [
+     "2026-08-03",
+     104.9
+    ],
+    [
+     "2026-08-04",
+     104.5
+    ],
+    [
+     "2026-08-05",
+     104.4
+    ],
+    [
+     "2026-08-06",
+     104.1
+    ],
+    [
+     "2026-08-07",
+     104.1
+    ],
+    [
+     "2026-08-10",
+     104.2
+    ],
+    [
+     "2026-08-11",
+     104.8
+    ],
+    [
+     "2026-08-12",
+     104.7
+    ],
+    [
+     "2026-08-13",
+     104.8
+    ],
+    [
+     "2026-08-14",
+     105.0
+    ],
+    [
+     "2026-08-17",
+     104.6
+    ],
+    [
+     "2026-08-18",
+     104.8
+    ],
+    [
+     "2026-08-19",
+     105.7
+    ],
+    [
+     "2026-08-20",
+     105.7
+    ],
+    [
+     "2026-08-21",
+     105.9
+    ],
+    [
+     "2026-08-24",
+     106.4
+    ],
+    [
+     "2026-08-25",
+     106.0
+    ],
+    [
+     "2026-08-26",
+     106.1
+    ],
+    [
+     "2026-08-27",
+     105.1
+    ],
+    [
+     "2026-08-28",
+     105.0
+    ],
+    [
+     "2026-08-31",
+     104.7
+    ],
+    [
+     "2026-09-01",
+     104.5
+    ],
+    [
+     "2026-09-02",
+     104.5
+    ],
+    [
+     "2026-09-03",
+     104.1
+    ],
+    [
+     "2026-09-04",
+     104.0
+    ],
+    [
+     "2026-09-08",
+     103.5
+    ],
+    [
+     "2026-09-09",
+     103.0
+    ],
+    [
+     "2026-09-10",
+     102.9
+    ],
+    [
+     "2026-09-11",
+     102.9
+    ],
+    [
+     "2026-09-14",
+     103.4
+    ],
+    [
+     "2026-09-15",
+     103.4
+    ],
+    [
+     "2026-09-16",
+     103.0
+    ],
+    [
+     "2026-09-17",
+     102.4
+    ],
+    [
+     "2026-09-18",
+     101.7
+    ],
+    [
+     "2026-09-21",
+     100.7
+    ],
+    [
+     "2026-09-22",
+     100.8
+    ],
+    [
+     "2026-09-23",
+     100.8
+    ],
+    [
+     "2026-09-24",
+     100.4
+    ],
+    [
+     "2026-09-25",
+     100.3
+    ],
+    [
+     "2026-09-28",
+     100.4
+    ],
+    [
+     "2026-09-29",
+     100.4
+    ],
+    [
+     "2026-09-30",
+     99.9
+    ],
+    [
+     "2026-10-01",
+     100.2
+    ],
+    [
+     "2026-10-02",
+     99.8
+    ],
+    [
+     "2026-10-05",
+     99.8
+    ],
+    [
+     "2026-10-06",
+     99.9
+    ],
+    [
+     "2026-10-07",
+     99.3
+    ],
+    [
+     "2026-10-08",
+     100.3
+    ],
+    [
+     "2026-10-09",
+     100.3
+    ],
+    [
+     "2026-10-12",
+     100.4
+    ],
+    [
+     "2026-10-13",
+     100.4
+    ],
+    [
+     "2026-10-14",
+     101.0
+    ],
+    [
+     "2026-10-15",
+     102.1
+    ],
+    [
+     "2026-10-16",
+     102.8
+    ],
+    [
+     "2026-10-19",
+     102.0
+    ],
+    [
+     "2026-10-20",
+     102.8
+    ],
+    [
+     "2026-10-21",
+     102.7
+    ],
+    [
+     "2026-10-22",
+     104.7
+    ],
+    [
+     "2026-10-23",
+     104.4
+    ],
+    [
+     "2026-10-26",
+     104.0
+    ],
+    [
+     "2026-10-27",
+     103.5
+    ],
+    [
+     "2026-10-28",
+     103.1
+    ],
+    [
+     "2026-10-29",
+     104.8
+    ],
+    [
+     "2026-10-30",
+     105.8
+    ],
+    [
+     "2026-11-02",
+     107.2
+    ],
+    [
+     "2026-11-03",
+     106.5
+    ],
+    [
+     "2026-11-04",
+     106.7
+    ],
+    [
+     "2026-11-05",
+     108.4
+    ],
+    [
+     "2026-11-06",
+     107.7
+    ],
+    [
+     "2026-11-09",
+     107.5
+    ],
+    [
+     "2026-11-10",
+     107.9
+    ],
+    [
+     "2026-11-11",
+     107.4
+    ],
+    [
+     "2026-11-12",
+     106.8
+    ],
+    [
+     "2026-11-13",
+     107.4
     ]
    ],
    "aapl_corr": [
-    [
-     "2025-10-31",
-     0.72
-    ],
     [
      "2025-11-03",
      0.72
@@ -32499,6 +33203,10 @@
     ],
     [
      "2026-11-12",
+     0.38
+    ],
+    [
+     "2026-11-13",
      0.38
     ]
    ],
@@ -33541,7 +34249,7 @@
     ],
     [
      "2026-11-13",
-     7561.0
+     7583.0
     ]
    ],
    "breadth": [
@@ -36819,7 +37527,7 @@
     ],
     [
      "2026-11-13",
-     33.0
+     40.0
     ]
    ],
    "sox_ma200": [
