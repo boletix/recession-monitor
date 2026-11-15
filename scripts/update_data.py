@@ -64,6 +64,24 @@ def rnd(x, n=2):
     return None if x is None else round(x, n)
 
 
+def fes(x, d=1, unit='', sign=False):
+    """Número en formato español para los textos del panel: 7.561,7 · −1,4% · +5,8%."""
+    x = num(x)
+    if x is None:
+        return '–'
+    s = f'{x:{"+" if sign else ""},.{d}f}'.replace(',', '_').replace('.', ',').replace('_', '.').replace('-', '−')
+    return s + unit
+
+
+MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic']
+
+
+def fdt(d):
+    """Fecha en español como en el panel: 4 nov 2026."""
+    d = pd.Timestamp(d)
+    return f'{d.day} {MESES[d.month - 1]} {d.year}'
+
+
 def clean(obj):
     """Sustituye NaN/inf por None en cualquier estructura."""
     if isinstance(obj, dict):
@@ -661,7 +679,9 @@ def main():
              'aapl': 'AAPL', 'msft': 'MSFT', 'googl': 'GOOGL', 'amzn': 'AMZN', 'meta': 'META',
              'nvda': 'NVDA', 'tsla': 'TSLA',
              # canarios y termómetros de Hartnett; futuros para los niveles de los CTA (Cárpatos)
-             'tsm': 'TSM', 'ixg': 'IXG', 'mdy': 'MDY', 'jnk': 'JNK', 'es': 'ES=F', 'nq': 'NQ=F'}
+             'tsm': 'TSM', 'ixg': 'IXG', 'mdy': 'MDY', 'jnk': 'JNK', 'es': 'ES=F', 'nq': 'NQ=F',
+             # neoclouds: el «banco de Nvidia» de McElligott y Cárpatos (13-nov-2026)
+             'nbis': 'NBIS', 'crwv': 'CRWV'}
     Q = {k: yf_close(t, '2y') for k, t in PULSE.items()}
     print('Amplitud global (ETF de países MSCI), semis desde 1994 y techo de deuda…')
     BR = {t: yf_close(t, 'max') for t in BREADTH}
@@ -978,10 +998,12 @@ def main():
     # No entra en ningún score: mide el humor del mercado, no la economía.
     # Los umbrales se pueden cambiar en manual.json → "levels".
     # ══════════════════════════════════════════════════════════════════════════
-    lv = {'mags': 70, 'smh': 520, 'gold': 4000, 'brent': 80, 'bb_sell': 8, 'bb_buy': 2,
+    lv = {'mags': 70, 'smh': 520, 'gold': 3880, 'gold_res': 4155, 'gold_res2': 4565, 'brent': 70,
+          'bb_sell': 8, 'bb_buy': 2,
           'tsm': 400, 'nvda': 200, 'ixg': 125, 'mdy': 666, 'jnk': 92, 'hyper_spread': 200,
-          'es_cta_mid': 7606, 'es_cta_long': 7450, 'nq_res': 28580, 'spx_breadth': 7323,
-          'h_10y': 4.5, 'h_oil': 80, 'h_breadth': 88, 'h_semis': -20, 'h_semis_strong': -25,
+          'es_cta_mid': 7606, 'es_cta_long': 7450, 'nq_res': 28580, 'nq_fibo': 29640, 'spx_breadth': 7323,
+          't10y_alert': 5.25, 'spx_bull': 8000, 'spx_bear': 7000, 'vol_band': 0.5, 'hy_widen': 0.25,
+          'h_10y': 4.5, 'h_oil': 70, 'h_breadth': 88, 'h_semis': -20, 'h_semis_strong': -25,
           **{k: v for k, v in manual.get('levels', {}).items() if not k.startswith('_')}}
     hk = manual.get('hartnett', {})
 
@@ -1059,6 +1081,15 @@ def main():
           'El otro soporte que vigila Cárpatos', 'Yahoo SOXX', 'tech')
     level('mag7_bear', 'Siete Magníficas en mercado bajista', n_bear, lastd(Q['aapl'])[1], ' de 7', 0, 4, 'below',
           'Más de un 20% por debajo de su máximo de 52 semanas, con cierres', 'Yahoo', 'tech')
+    neo = [(n, Q.get(k)) for k, n in (('crwv', 'CoreWeave'), ('nbis', 'Nebius'))]
+    neo = [(n, s) for n, s in neo if s is not None and len(s) > 22]
+    if neo:
+        neo_1m = sum(pct(s, 21) for _, s in neo) / len(neo)
+        neo_dd = ', '.join(f"{n} {(s.iloc[-1] / s.tail(252).max() - 1) * 100:+.0f}%".replace('-', '−')
+                           for n, s in neo)
+        level('neocloud', 'Neoclouds (CoreWeave y Nebius), 1 mes', neo_1m, lastd(neo[0][1])[1], '%', 1, None, None,
+              f'McElligott y Cárpatos: el «banco de Nvidia» financiaba a estos clientes; caen primero si se corta. '
+              f'Desde su máximo de 52 semanas: {neo_dd}', 'Yahoo CRWV y NBIS', 'tech')
     # ── Termómetros de la economía y del crédito
     level('ixg', 'Bancos del mundo (ETF IXG)', *lastd(Q['ixg']), ' $', 2, lv['ixg'], 'above',
           'Nivel crítico de Hartnett para el sector bancario', 'Yahoo IXG', 'credit', Q['ixg'])
@@ -1070,6 +1101,11 @@ def main():
           ' pb', 0, lv['hyper_spread'], 'below',
           'Pánico por encima de 200 pb: miedo a un evento de crédito corporativo (dato manual de BofA)',
           'manual.json', 'credit')
+    cds = hk.get('coreweave_cds_bp', {})
+    if cds.get('value') is not None:
+        level('crwv_cds', 'CDS de CoreWeave', cds.get('value'), cds.get('date'), ' pb', 0, None, None,
+              cds.get('note') or 'Seguro contra impago del mayor de los neoclouds (dato manual, sin fuente pública gratuita)',
+              'manual.json', 'credit')
     # ── Fontanería: niveles de los CTA según Cárpatos (futuros)
     spx_s = P['spx'].tail(520) if P['spx'] is not None else None
     level('spx_ma200', 'S&P 500 sobre su media de 200 sesiones', ma_gap(spx_s)[0], lastd(spx_s)[1], '%', 1, 0,
@@ -1082,7 +1118,21 @@ def main():
     level('es_cta_long', 'Futuro del S&P 500 frente a 7.450', *lastd(Q['es']), '', 0, lv['es_cta_long'], 'above',
           'Cárpatos: por debajo se activan las ventas de largo plazo de los CTA', 'Yahoo ES=F', 'flows')
     level('nq_res', 'Futuro del Nasdaq 100 frente a 28.580', *lastd(Q['nq']), '', 0, lv['nq_res'], 'above',
-          'Cárpatos: resistencia crítica tras perder la MM200', 'Yahoo NQ=F', 'flows', Q['nq'])
+          'Cárpatos: resistencia infranqueable a corto plazo (la sitúa en la MM200)', 'Yahoo NQ=F', 'flows', Q['nq'])
+    level('nq_fibo', f"Futuro del Nasdaq 100 frente a {lv['nq_fibo']:,.0f}".replace(',', '.'), *lastd(Q['nq']), '', 0,
+          lv['nq_fibo'], 'above', 'Cárpatos: superar el 61,8% de Fibonacci anula la estructura bajista de ondas',
+          'Yahoo NQ=F', 'flows')
+    if spx_s is not None and len(spx_s) > 22:
+        rr = spx_s.pct_change().dropna() * 100
+        n_out = int((rr.tail(10).abs() > lv['vol_band']).sum())
+        rv21 = float(rr.tail(21).std() * math.sqrt(252))
+        band_s = f"{lv['vol_band']:.1f}".replace('.', ',')
+        last_r = f"{rr.iloc[-1]:+.2f}".replace('.', ',').replace('-', '−')
+        level('vol_ctl', f'S&P 500: sesiones fuera de ±{band_s}% (de las 10 últimas)', n_out, lastd(spx_s)[1],
+              ' de 10', 0, None, None,
+              f'Fondos de control de volatilidad: cada sesión de más de ±{band_s}% les obliga a vender al día '
+              f'siguiente; dentro del rango se quedan quietos. Última sesión {last_r}%; volatilidad realizada a '
+              f'21 sesiones, {rv21:.0f}%', 'Yahoo ^GSPC', 'flows')
     # ── Rotación y refugios
     level('rsp_spy_1m', 'Equiponderado (RSP) frente al S&P 500, 1 mes', rel(Q['rsp'], Q['spy']),
           lastd(Q['rsp'])[1], ' pp', 1, 0, None,
@@ -1098,12 +1148,39 @@ def main():
           num(corr.iloc[-1]) if corr is not None and len(corr) else None, lastd(Q['aapl'])[1], '', 2, 0, None,
           'Negativa = Apple funciona como cobertura «anti-IA»', 'Yahoo AAPL y QQQ')
     # ── Macro, oro y sentimiento
-    level('gold', 'Oro', *lastd(P['gold']), ' $', 0, lv['gold'], None,
-          'Hartnett: acumular oro antes del pulso por el techo de deuda (ABD, «todo menos el dólar»)',
+    t10s = F.get('DGS10')
+    t10_now = (curve.get('10Y'), tsy['date']) if curve.get('10Y') is not None else lastd(t10s)
+    t10_chg = None      # la velocidad: cambio en una semana (lo que vigila Goldman)
+    if t10s is not None and t10_now[0] is not None and t10_now[1]:
+        wk = t10s.dropna()[t10s.dropna().index <= pd.Timestamp(t10_now[1]) - pd.Timedelta(days=7)]
+        t10_chg = num((t10_now[0] - wk.iloc[-1]) * 100) if len(wk) else None
+    level('t10y', 'Bono del Tesoro a 10 años', *t10_now, '%', 2, lv['t10y_alert'], 'below',
+          f"Goldman: subir rápido por encima del {lv['t10y_alert']:.2f}% desata correcciones por velocidad; "
+          f"Hartnett vuelve al riesgo por debajo del {lv['h_10y']:.1f}%".replace('.', ',')
+          + (f" · {fes(t10_chg, 0, ' pb', True)} en una semana" if t10_chg is not None else ''),
+          'Treasury.gov', 'macro')
+    dxy_s = P['dxy']
+    dxy_gap, dxy_ma = ma_gap(dxy_s)
+    dxy_1m = pct(dxy_s, 21)
+    level('dxy', 'Dólar (DXY)', *lastd(dxy_s), '', 2, rnd(dxy_ma, 2), 'below',
+          'Hartnett: tan fuerte que es una «bola de demolición» para el riesgo; su tercera condición es que baje '
+          '(umbral = su MM200)' + (f" · {dxy_1m:+.1f}% en un mes".replace('.', ',').replace('-', '−')
+                                   if dxy_1m is not None else ''),
+          'Yahoo DX-Y.NYB', 'macro', dxy_s)
+    gold_w = P['gold'].resample('W-FRI').last().dropna() if P['gold'] is not None else None
+    gold_ma100w = num(gold_w.rolling(100).mean().iloc[-1]) if gold_w is not None and len(gold_w) >= 100 else None
+    level('gold', 'Oro: soporte', *lastd(P['gold']), ' $', 0, lv['gold'], 'above',
+          f"Soporte de {lv['gold']:,.0f}-4.000 $ (media de 100 semanas: {gold_ma100w:,.0f} $). Hartnett: acumular oro "
+          f"antes del pulso por el techo de deuda".replace(',', '.') if gold_ma100w else
+          'Soporte de 3.880-4.000 $ (media de 100 semanas). Hartnett: acumular oro antes del techo de deuda',
           'Yahoo GC=F', 'macro', P['gold'])
+    level('gold_res', f"Oro: cierre semanal frente a {lv['gold_res']:,.0f} $".replace(',', '.'),
+          lastd(gold_w)[0], lastd(P['gold'])[1], ' $', 0, lv['gold_res'], 'above',
+          f"Para recuperar el tono alcista tiene que superar {lv['gold_res']:,.0f} $ en semanal o {lv['gold_res2']:,.0f} $"
+          .replace(',', '.'), 'Yahoo GC=F', 'macro')
     level('brent', 'Petróleo Brent', *info['brent'], ' $', 1, lv['brent'], 'below',
-          'Hartnett: por debajo de 80 $ es su señal de calma; corto en petróleo para el 1S 2027',
-          'FRED + Yahoo BZ=F', 'macro')
+          f"Hartnett: por debajo de {lv['h_oil']:.0f} $ (antes 80 $) da por superado el shock de inflación; "
+          'corto en petróleo para el 1S 2027', 'FRED + Yahoo BZ=F', 'macro')
     level('bond_30y', 'Bono del Tesoro a 30 años', *info['bond_30y'], '%', 2, 5.0, 'below',
           '«Bubble killer» por encima del 5%', 'Treasury.gov', 'macro')
     level('bull_bear', 'Bull & Bear de BofA', bb.get('value'), bb.get('date'), '', 1, lv['bb_sell'], 'below',
@@ -1203,20 +1280,20 @@ def main():
         return {'key': key, 'label': label, 'value': rnd(value, 3), 'as_of': date, 'unit': unit,
                 'decimals': dec, 'threshold': threshold, 'op': op, 'met': met, 'note': note, 'source': source}
 
-    t10 = (curve.get('10Y'), tsy['date']) if curve.get('10Y') is not None else lastd(F.get('DGS10'))
+    t10 = t10_now
     wti_now = info['oil_price'][0]
     macro_t = [
         trig('t10y', 'Bono del Tesoro a 10 años por debajo del 4,5%', *t10, '%', 2, lv['h_10y'], '<',
              'Que se destensen las condiciones financieras', 'Treasury.gov'),
-        trig('oil80', 'Petróleo por debajo de 80 $', *info['brent'], ' $', 1, lv['h_oil'], '<',
-             f"Brent; el WTI está en {wti_now:.1f} $. La pieza clave: alivia la inflación y frena las subidas"
-             .replace('.', ',', 1)
-             if wti_now is not None else 'Brent. La pieza clave: alivia la inflación y frena las subidas',
+        trig('oil', f"Petróleo por debajo de {lv['h_oil']:.0f} $", *info['brent'], ' $', 1, lv['h_oil'], '<',
+             f"Brent; el WTI está en {wti_now:.1f} $. Con él da por superado el shock de inflación (13-nov: baja "
+             "el listón de 80 a 70 $)".replace('.', ',', 1)
+             if wti_now is not None else 'Brent. Con él da por superado el shock de inflación',
              'FRED + Yahoo BZ=F'),
-        trig('rate_cycle', 'Fin del ciclo de subidas de tipos', cbh.get('value'), hk.get('rate_cycle_date') or cbh.get('date'),
-             ' subidas', 0, None, None,
-             hk.get('rate_cycle_note') or 'Lo decide Roger con el Flow Show (manual.json → hartnett.rate_cycle_over)',
-             'BofA (manual) + FRED DFEDTARU', met=hk.get('rate_cycle_over')),
+        trig('dollar', 'Dólar a la baja (DXY bajo su MM200)', dxy_gap, lastd(dxy_s)[1], '%', 1, 0, '<',
+             f"DXY {fes(lastd(dxy_s)[0], 2)}, MM200 {fes(dxy_ma, 2)}; {fes(dxy_1m, 1, '%', True)} en un mes. "
+             "Hoy es una «bola de demolición» para el riesgo"
+             if dxy_ma is not None and dxy_1m is not None else 'Sin datos del DXY', 'Yahoo DX-Y.NYB'),
     ]
     cap_t = [
         trig('breadth', 'Regla de amplitud global en el 88%', breadth['value'] if breadth else None,
@@ -1251,6 +1328,108 @@ def main():
                  'gold': rnd(lastd(gold_s)[0], 0), 'gold_3m': rnd(pct(gold_s, 63), 1)},
         'spx_to_7323': rnd((lv['spx_breadth'] / lastd(spx_s)[0] - 1) * 100, 1) if lastd(spx_s)[0] else None,
     }
+
+    # ── Escenarios de Hartnett para el S&P 500 (Flow Show del 13-nov-2026):
+    #    alcista por encima de 8.000 y bajista por debajo de 7.000, con sus condiciones en vivo.
+    def man(key):
+        x = hk.get(key) or {}
+        return x.get('value'), x.get('date'), x.get('note')
+
+    def item(label, met, value, note, as_of=None):
+        return {'label': label, 'met': met, 'value': value, 'note': note, 'as_of': as_of}
+
+    spx_now, spx_d = lastd(spx_s)
+    rsp_s = Q['rsp']
+    rsp_gap = num((rsp_s.iloc[-1] / rsp_s.max() - 1) * 100) if rsp_s is not None and len(rsp_s) else None
+    mags_gap = ma_gap(Q['mags'])[0]
+    br6 = P['brent'].tail(126) if P['brent'] is not None else None
+    br_dd = num((br6.iloc[-1] / br6.max() - 1) * 100) if br6 is not None and len(br6) else None
+    summit = man('summit_oil_peak')
+    liq = man('liquidity_withdrawing')
+    hy_s = F['BAMLH0A0HYM2'].dropna() if F.get('BAMLH0A0HYM2') is not None else None
+    hy_chg = num((hy_s.iloc[-1] - hy_s.iloc[-22]) * 100) if hy_s is not None and len(hy_s) > 22 else None
+    hikes_on = hk.get('rate_cycle_over') is False
+    fed_txt = (f" Fed {fes(fed_last['level'], 2, '%')}; último movimiento, "
+               f"{'subida' if fed_last['to'] > fed_last['from'] else 'bajada'} el {fdt(fed_last['date'])}."
+               if fed_last and fed_last.get('date') else '')
+    scen = {
+        'spx': rnd(spx_now, 2), 'date': spx_d,
+        'bull': {'target': lv['spx_bull'], 'dist': rnd((lv['spx_bull'] / spx_now - 1) * 100, 1) if spx_now else None,
+                 'items': [
+            item('El S&P 500 equiponderado (RSP) vuelve a máximos', None if rsp_gap is None else rsp_gap >= -0.5,
+                 fes(rsp_gap, 1, '%', True), f"RSP {fes(lastd(rsp_s)[0], 2, ' $')}; máximo de 2 años "
+                 f"{fes(rsp_s.max(), 2, ' $')} el {fdt(rsp_s.idxmax())}" if rsp_s is not None else 'Sin datos',
+                 lastd(rsp_s)[1]),
+            item('Las grandes tecnológicas aguantan su MM200 (MAGS)', None if mags_gap is None else mags_gap > 0,
+                 fes(mags_gap, 1, '%', True), 'MAGS sobre su media de 200 sesiones', lastd(Q['mags'])[1]),
+            item('La cumbre EE. UU.-China-Rusia confirma el pico del petróleo', summit[0],
+                 fes(br_dd, 1, '%', True) if br_dd is not None else '–',
+                 (summit[2] or 'Dato manual: hartnett.summit_oil_peak en manual.json')
+                 + (f". Brent {fes(lastd(br6)[0], 1, ' $')} frente a su máximo de 6 meses, {fes(br6.max(), 1, ' $')} "
+                    f"el {fdt(br6.idxmax())}" if br6 is not None and len(br6) else ''), summit[1]),
+        ]},
+        'bear': {'target': lv['spx_bear'], 'dist': rnd((lv['spx_bear'] / spx_now - 1) * 100, 1) if spx_now else None,
+                 'items': [
+            item('La liquidez global sigue retirándose', liq[0], 'sí' if liq[0] else 'no' if liq[0] is False else '–',
+                 liq[2] or 'Dato manual de Hartnett: hartnett.liquidity_withdrawing en manual.json', liq[1]),
+            item('El dólar sigue subiendo', None if dxy_1m is None else dxy_1m > 0, fes(dxy_1m, 1, '%', True),
+                 f"DXY en un mes; hoy {fes(lastd(dxy_s)[0], 2)}, un {fes(dxy_gap, 1, '%', True)} frente a su MM200",
+                 lastd(dxy_s)[1]),
+            item('Error de política: suben tipos en plena desaceleración',
+                 None if us is None else (hikes_on and us >= 35),
+                 f"{fes(cbh.get('value'), 0)} subidas · score {fes(us, 0)}",
+                 f"Subidas de bancos centrales en 6 meses ({fdt(cbh['date']) if cbh.get('date') else 'sin fecha'}) y score de recesión de EE. UU. "
+                 f"(desaceleración = 35 o más).{fed_txt}", spx_d),
+            item('Se amplían los diferenciales de crédito', None if hy_chg is None else hy_chg >= lv['hy_widen'] * 100,
+                 fes(hy_chg, 0, ' pb', True),
+                 f"High yield (OAS) en un mes; hoy {fes(hy_s.iloc[-1], 2, '%')}. Ampliación = +"
+                 f"{fes(lv['hy_widen'] * 100, 0)} pb o más" if hy_s is not None and len(hy_s) else 'Sin datos de FRED',
+                 str(hy_s.index[-1].date()) if hy_s is not None and len(hy_s) else None),
+        ]},
+    }
+    for k_ in ('bull', 'bear'):
+        scen[k_]['n'] = sum(1 for it in scen[k_]['items'] if it['met'])
+    hartnett['scenarios'] = scen
+
+    # ── Lo que recomienda Hartnett, medido: cesta larga frente a cesta corta desde la fecha de la idea.
+    alias = {t: k for k, t in PULSE.items()}
+    px_cache = {}
+
+    def cpx(t):
+        if t not in px_cache:
+            px_cache[t] = Q.get(alias[t]) if t in alias else P['gold'] if t == 'GC=F' else yf_close(t, '2y')
+        return px_cache[t]
+
+    def basket(tks, since=None, n=None):
+        rs = []
+        for t in tks:
+            s = cpx(t)
+            if s is None or len(s) < 2:
+                return None
+            if since:
+                base = s[s.index >= pd.Timestamp(since)]
+                if base.empty:
+                    return None
+                rs.append((s.iloc[-1] / base.iloc[0] - 1) * 100)
+            else:
+                r = pct(s, n)
+                if r is None:
+                    return None
+                rs.append(r)
+        return sum(rs) / len(rs) if rs else 0.0
+
+    calls = []
+    for c in hk.get('calls', []):
+        lg, sh = c.get('long', []), c.get('short', [])
+        out = {'label': c.get('label'), 'long': lg, 'short': sh, 'since': c.get('since'), 'note': c.get('note'),
+               'last': None}
+        for key_, kw in (('r_since', {'since': c.get('since')}), ('r_1m', {'n': 21}), ('r_3m', {'n': 63})):
+            a, b = basket(lg, **kw), basket(sh, **kw) if sh else 0.0
+            out[key_] = rnd(a - b, 1) if a is not None and b is not None else None
+        s0 = cpx(lg[0]) if lg else None
+        out['last'] = str(s0.index[-1].date()) if s0 is not None and len(s0) else None
+        calls.append(out)
+    hartnett['calls'] = calls
 
     rsp_spy = (Q['rsp'] / Q['spy']).dropna().tail(260) if Q['rsp'] is not None and Q['spy'] is not None else None
     pulse = {

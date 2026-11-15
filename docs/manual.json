@@ -1,15 +1,17 @@
 {
  "_nota": "Datos que no se pueden descargar y se actualizan a mano. Cambia el valor y la fecha; el panel avisa cuando un dato es viejo (gas: más de 21 días; Bull & Bear: más de 45). Las notas semanales van en market_notes, la más reciente primero.",
  "bull_bear": {
-  "value": 7.1,
-  "date": "2026-10-30",
+  "value": 7.4,
+  "date": "2026-11-13",
   "sell_signal": 8.0,
   "buy_signal": 2.0,
   "source": "BofA Global Research (Hartnett), Flow Show",
   "history": [
    {"date": "2026-05-16", "value": 7.6},
    {"date": "2026-10-23", "value": 7.2},
-   {"date": "2026-10-30", "value": 7.1}
+   {"date": "2026-10-30", "value": 7.1},
+   {"date": "2026-11-06", "value": 7.2},
+   {"date": "2026-11-13", "value": 7.4}
   ]
  },
  "cb_hikes_6m": {
@@ -30,29 +32,61 @@
   "es_cta_mid": 7606,
   "es_cta_long": 7450,
   "nq_res": 28580,
+  "nq_fibo": 29640,
   "spx_breadth": 7323,
-  "gold": 4000,
-  "brent": 80,
+  "spx_bull": 8000,
+  "spx_bear": 7000,
+  "t10y_alert": 5.25,
+  "vol_band": 0.5,
+  "hy_widen": 0.25,
+  "gold": 3880,
+  "gold_res": 4155,
+  "gold_res2": 4565,
+  "brent": 70,
   "bb_sell": 8,
   "bb_buy": 2,
   "h_10y": 4.5,
-  "h_oil": 80,
+  "h_oil": 70,
   "h_breadth": 88,
   "h_semis": -20,
   "h_semis_strong": -25
  },
  "hartnett": {
-  "_nota": "Señales de compra de Hartnett que no se pueden descargar. rate_cycle_over: pon true cuando el Flow Show dé por terminado el ciclo mundial de subidas de tipos. hyperscaler_spread_bp: diferencial de los bonos de los hiperescaladores (pánico por encima de 200 pb), de los informes de BofA.",
+  "_nota": "Datos de Hartnett que no se pueden descargar. rate_cycle_over: pon true cuando el Flow Show dé por terminado el ciclo mundial de subidas de tipos (desde el 13-nov ya no es condición de compra: entra en el escenario bajista como «error de política»). hyperscaler_spread_bp: diferencial de los bonos de los hiperescaladores (pánico por encima de 200 pb). summit_oil_peak y liquidity_withdrawing: condiciones de sus escenarios del S&P 500 (true, false o null si no se sabe). coreweave_cds_bp: CDS de CoreWeave. calls: sus ideas, que el panel mide desde la fecha (cesta long frente a cesta short, tickers de Yahoo).",
   "rate_cycle_over": false,
-  "rate_cycle_date": "2026-11-08",
-  "rate_cycle_note": "Sigue abierto: 42 subidas de bancos centrales en 6 meses (Flow Show del 30-oct).",
+  "rate_cycle_date": "2026-11-13",
+  "rate_cycle_note": "Sigue abierto: 42 subidas de bancos centrales en 6 meses (Flow Show del 30-oct). El del 13-nov no da cifra nueva.",
   "debt_limit_date": "2027-02-01",
   "congress_date": "2027-01-03",
   "hyperscaler_spread_bp": {
    "value": null,
    "date": null,
    "source": "BofA (Hartnett). Sin dato público gratuito: apúntalo cuando salga en el Flow Show"
-  }
+  },
+  "summit_oil_peak": {
+   "value": null,
+   "date": "2026-11-13",
+   "note": "Pendiente: la cumbre EE. UU.-China-Rusia todavía no ha confirmado el pico del petróleo"
+  },
+  "liquidity_withdrawing": {
+   "value": true,
+   "date": "2026-11-13",
+   "note": "Flow Show del 13-nov: escasea la liquidez excedente del G10 (dato de Hartnett, sin serie pública)"
+  },
+  "coreweave_cds_bp": {
+   "value": 1163,
+   "date": "2026-11-13",
+   "note": "Cárpatos y McElligott: el seguro contra impago del mayor de los neoclouds, en cotas de alarma (dato manual, sin fuente pública gratuita)"
+  },
+  "calls": [
+   {"label": "Oro como cobertura fiscal", "long": ["GC=F"], "short": ["SPY"], "since": "2026-11-13", "note": "pulso por el techo de deuda del 1-feb"},
+   {"label": "Bonos de grado de inversión antes que acciones tecnológicas", "long": ["LQD"], "short": ["XLK"], "since": "2026-11-13", "note": "aproximación: LQD es todo el grado de inversión, no solo tecnológicas"},
+   {"label": "Bolsa europea", "long": ["VGK"], "short": ["SPY"], "since": "2026-11-13"},
+   {"label": "Tecnología china", "long": ["KWEB"], "short": ["QQQ"], "since": "2026-11-13", "note": "sin los cuellos de botella eléctricos de EE. UU."},
+   {"label": "Pequeñas compañías frente a los monopolios", "long": ["IWM"], "short": ["MAGS"], "since": "2026-11-13"},
+   {"label": "Constructoras de viviendas frente a los monopolios", "long": ["ITB"], "short": ["MAGS"], "since": "2026-11-13"},
+   {"label": "Consumo discrecional y salud frente a energía", "long": ["XLY", "XLV"], "short": ["XLE"], "since": "2026-11-13"}
+  ]
  },
  "materials_weight_sp500": {
   "value": 2.0,
@@ -66,6 +100,32 @@
   "alarm": "<50% en enero"
  },
  "market_notes": [
+  {
+   "date": "2026-11-15",
+   "title": "«IA: ¿estamos en 2000 otra vez sin darnos cuenta?»",
+   "source": "Flow Show de BofA del 13-nov (Michael Hartnett), Charlie McElligott (Nomura) y José Luis Cárpatos, resumidos por Roger",
+   "checked": "Comprobado el 15-nov con los cierres del 13-nov (Yahoo Finance, Treasury.gov, FRED y Fiscal Data del Tesoro).",
+   "items": [
+    {"t": "Hartnett deja atrás los catalizadores puntuales (Nvidia, la victoria demócrata en Texas) y apunta a una grieta más de fondo: poca liquidez excedente en el G10, flujo de caja libre que se deteriora y rentabilidades de los bonos al alza.", "v": "El 10 años sube 29 pb en una semana, del 4,86% (6-nov) al 5,15%, y el 30 años está en el 5,47%. El dólar (DXY 103,41) cierra en su máximo de 52 semanas."},
+    {"t": "Bull & Bear de 7,2 a 7,4: fuera de la zona de venta (8) y lejos de la compra contraria (2). Flujos de la semana: +98.300 M$ a bolsa; salen 17.900 M$ de liquidez y 1.800 M$ de cripto."},
+    {"t": "Nuevas condiciones para volver a asumir riesgo: bono a 10 años por debajo del 4,5%, petróleo por debajo de 70 $ (antes pedía 80 $) y un dólar a la baja, que hoy es una «bola de demolición» para los activos de riesgo.", "v": "No se cumple ninguna: 10 años 5,15% (faltan 65 pb); Brent 95,84 $ (WTI 88,6 $); DXY 103,41, un 3,6% sobre su MM200 y +1,4% en un mes. Ojo: pasar de 80 a 70 $ no rebaja la exigencia, la endurece: el Brent tiene que caer un 27% en lugar de un 17%. En el panel, el dólar sustituye al «fin del ciclo de subidas», que pasa al escenario bajista.", "warn": true},
+    {"t": "Escenario alcista, S&P 500 por encima de 8.000: el equiponderado vuelve a máximos, las grandes tecnológicas aguantan su MM200 y la cumbre EE. UU.-China-Rusia confirma el pico del petróleo.", "v": "El S&P (7.561,67) está a un +5,8% de 8.000. Se cumple una de tres: MAGS, un 3,2% sobre su MM200. El RSP está a un −1,0% de su máximo (4-nov) y el Brent ha caído un 18,5% desde su máximo del 30-oct (117,64 $), pero la cumbre aún no ha confirmado nada."},
+    {"t": "Escenario bajista, por debajo de 7.000: la liquidez global sigue retirándose, el dólar sigue subiendo, los bancos centrales cometen un error (subir tipos en plena desaceleración) y se amplían los diferenciales de crédito.", "v": "A un −7,4% de 7.000. Se cumplen dos de cuatro: la liquidez (según Hartnett) y el dólar (+1,4% en un mes). Sin desaceleración no hay error de política (score de recesión de EE. UU. 13,9, riesgo bajo) y el high yield está en el 3,20% (+4 pb en un mes), lejos del estrés (5,5%)."},
+    {"t": "Oro como cobertura fiscal ante el techo de deuda (41,1 billones $ el 1-feb): subió entre un 12% y un 17% en los 3 meses previos a los pulsos anteriores.", "v": "El 12-17% no se reproduce: +5,5% (2011) y +8,1% (2023) hasta la fecha límite; +19% y +12% hasta el pico (nota del 8-nov). Quedan 694.000 M$ de margen (12-nov); al ritmo de 90 días el techo se alcanza hacia el 14-feb. El oro, 3.886 $, lleva −13% en 3 meses.", "warn": true},
+    {"t": "Otras ideas: bonos tecnológicos de grado de inversión antes que acciones tecnológicas (cupones atractivos, menos recompras); bolsa europea y tecnología china (la IA china no sufre los cuellos de botella eléctricos de EE. UU. y cotiza barata); pequeñas compañías y constructoras de viviendas frente a los monopolios; consumo discrecional y salud frente a energía.", "v": "Se miden desde el cierre del 13-nov en la tabla «Lo que recomienda Hartnett». El último mes ya iban a su favor casi todas: constructoras frente a MAGS +13,9 pp, bonos IG frente a tecnología +9,7, consumo y salud frente a energía +8,6, pequeñas frente a MAGS +6,5 y Europa frente al S&P +4,4. La tecnología china, plana (−0,2) y el oro, −4,5 frente al S&P."},
+    {"t": "McElligott (Nomura) y Cárpatos: Nvidia funcionaba como un «banco» que financiaba a sus propios clientes con cerca de 1 billón $ en créditos. Al ponerse en duda su estructura directiva se hundieron las neoclouds: el ETF de neoclouds −6,46% y Nebius −13% en un día. Los CDS de CoreWeave, en 1.163 pb.", "v": "Nvidia 162,85 $: −12,7% desde el 6-nov y −32% desde su máximo de 52 semanas. Nebius cayó un 16,8% el 12-nov y un 9,9% el 13-nov; CoreWeave, un 6,9% y un 6,1%. Las dos, −60% desde su máximo. El billón en créditos, el ETF y los CDS no se pueden comprobar con datos gratuitos (los CDS se apuntan a mano)."},
+    {"t": "Tras caídas de más de un 4,4% en un día desde 1986, el mercado no gira en V: entra en una fase de bandazos de 2 semanas a 1 mes.", "v": "Cuadra. El S&P cayó un 4,36% el 5-nov. En los 14 episodios desde 1986, en el mes siguiente cerró por debajo del día de la caída en 10 (mediana −2,8%), con una mediana de 11 sesiones de más del 1%; un mes después subía en 9 (mediana +2,0%). Esta vez, en 6 sesiones, no ha perdido el cierre del 5-nov (7.353,73) y va +2,8%."},
+    {"t": "Muro de los bonus de fin de año: las manos fuertes no compran caídas, cierran posiciones para asegurar la prima. Y los vendedores lentos (fondos soberanos y pensiones) tardan semanas en reducir y aprovechan cada rebote para vender."},
+    {"t": "Fondos de control de volatilidad: cualquier sesión de más de ±0,5% sube su volatilidad realizada y les obliga a vender al día siguiente; solo se quedan quietos si el mercado se mueve dentro de ese rango.", "v": "De las 10 últimas sesiones del S&P, 5 se movieron más de ±0,5%; las dos últimas, dentro (−0,35% y −0,40%). Volatilidad realizada a 21 sesiones, 22%. Matiz: ajustan la exposición a la volatilidad realizada frente a su objetivo, no por una regla diaria fija."},
+    {"t": "Bono a 10 años: por encima del 5,25%, alerta de Goldman (subir rápido desata correcciones por velocidad); por debajo del 4,5%, risk-on de Hartnett.", "v": "5,15%: a 10 pb del 5,25% tras subir 29 pb en una semana. Su máximo de 52 semanas, ≈5,31% (5-oct)."},
+    {"t": "MAGS por debajo de 70 debilita al 40% del mercado; si pierde su MM200, «se le echa la cruz al mercado». El S&P al contado frenó la caída en su MM200.", "v": "MAGS 68,66: bajo 70 y un 3,2% sobre su MM200 (66,50). El S&P cerró el 5-nov un 0,4% sobre su MM200 y el 13-nov está un 3,0% por encima (7.340). Ya son tres las Siete Magníficas en mercado bajista: Nvidia −32%, Alphabet −26% y Tesla −20%."},
+    {"t": "TSM rompió los 400 $ y su MM200, con doble techo confirmado. Nvidia, línea roja en 200 $.", "v": "TSM 398,73 $: bajo 400 y un 0,7% bajo su MM200 (401,67). Recuperó los 400 el 11 y el 12-nov (413 y 405) y los perdió otra vez el viernes. Nvidia, 162,85 $: un 19% bajo la línea y un 20% bajo su MM200 (203,92)."},
+    {"t": "Los semiconductores cotizan un 17% por debajo de su MM200; las grandes compras llegan entre un 20% y un 25% por debajo.", "v": "Dato del 5-nov (−16,8%). Con el rebote, el 13-nov el SOX está a −6,8% de su MM200 (SMH −7,1%): para el −20% tendría que caer otro 14%.", "warn": true},
+    {"t": "Futuro del S&P: ventas medias de los CTA por debajo de 7.606 y masivas por debajo de 7.450. La gran compra contraria de Hartnett (88% de sobreventa mundial) llegaría con el S&P en 7.323.", "v": "Futuro 7.583: bajo 7.606 y por encima de 7.450. La amplitud está en el 40,5% (17 de 42 bolsas; faltan 20) y el S&P, un 3,2% por encima de 7.323."},
+    {"t": "Nasdaq 100 (futuro): resistencia infranqueable en 28.580 (su MM200); por encima de 29.640 (61,8% de Fibonacci) se anula la estructura bajista de ondas.", "v": "28.034,75: un 1,9% bajo 28.580 y un 5,4% bajo 29.640. Pero la MM200 del futuro está en 28.168, no en 28.580.", "warn": true},
+    {"t": "Oro: soporte en 3.880-4.000 $ (media de 100 semanas); necesita superar 4.155 $ en semanal o 4.565 $ para recuperar el tono alcista.", "v": "3.886,30 $: dentro del soporte, pero ya un 0,7% bajo su media de 100 semanas (3.915 $). −27% desde su máximo de enero (5.318 $)."}
+   ]
+  },
   {
    "date": "2026-11-08",
    "title": "Las señales de compra de Hartnett y la fontanería de Cárpatos",
