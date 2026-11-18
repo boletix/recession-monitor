@@ -59,9 +59,10 @@
   "debt_limit_date": "2027-02-01",
   "congress_date": "2027-01-03",
   "hyperscaler_spread_bp": {
-   "value": null,
-   "date": null,
-   "source": "BofA (Hartnett). Sin dato público gratuito: apúntalo cuando salga en el Flow Show"
+   "value": 160,
+   "date": "2026-11-03",
+   "source": "Aproximación propia con fuente primaria (no es el índice de BofA): diferencial de emisión del bono a 10 años de Meta sobre el Treasury (term sheet FWP en EDGAR, 3-nov-2026). Cambiar por el dato de Hartnett cuando lo dé el Flow Show.",
+   "note": "Meta, diferencial a 10 años sobre el Treasury en sus emisiones: T+80 (ago-2024), T+78 (oct-2025), T+90 (abr-2026), T+160 (3-nov-2026). Plazos del 3-nov: 5 años +110, 7 +145, 10 +160, 20 +200, 30 +220 pb (15.000 M$). Emisión en euros del 4-nov (9.000 M€) sobre el bund: 2031 +129, 2033 +153, 2035 +172, 2038 +202, 2044 +242, 2065 +276 pb (sobre el mid-swap: +103 a +333). S&P pasa la perspectiva a negativa (AA-). El tramo a 30 años ya supera el umbral de pánico de 200 pb; el de 10 años, no."
   },
   "summit_oil_peak": {
    "value": null,
