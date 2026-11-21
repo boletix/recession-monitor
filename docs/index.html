@@ -18,6 +18,8 @@
   --neg: #e66767;
   --good: #0ca30c; --warning: #fab219; --serious: #ec835a; --critical: #d03b3b;
   --mono: 'JetBrains Mono', ui-monospace, monospace;
+  /* categóricos (paleta de referencia validada, en este orden) */
+  --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181;
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
@@ -28,6 +30,7 @@
     --series: #2a78d6; --series-soft: rgba(42,120,214,0.12);
     --rec: rgba(11,11,11,0.07);
     --neg: #e34948;
+    --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a; --c4: #eda100; --c5: #e87ba4;
   }
 }
 :root[data-theme="light"] {
@@ -38,6 +41,7 @@
   --series: #2a78d6; --series-soft: rgba(42,120,214,0.12);
   --rec: rgba(11,11,11,0.07);
   --neg: #e34948;
+  --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a; --c4: #eda100; --c5: #e87ba4;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--page); color: var(--ink); font: 14px/1.5 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
@@ -180,6 +184,22 @@ details[open] summary::before { content: "▾ "; }
 footer { font-size: 12px; color: var(--muted); padding: 20px 0 30px; border-top: 1px solid var(--border); }
 footer a, .prose a { color: var(--series); }
 .loading { padding: 80px 0; text-align: center; color: var(--muted); }
+/* pestaña Big Tech y semis */
+.lg { display: flex; gap: 6px 14px; flex-wrap: wrap; font-size: 11px; color: var(--ink-2); margin-top: 8px; }
+.lg span { white-space: nowrap; }
+.lg i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+.lg i.dash { background: repeating-linear-gradient(90deg, var(--ink-2) 0 4px, transparent 4px 7px) !important; }
+.sect { margin: 28px 0 12px; }
+.sect h3 { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+.sect p { font-size: 12.5px; color: var(--muted); margin-top: 2px; max-width: 900px; }
+.concl { list-style: none; display: grid; gap: 8px; margin-top: 14px; }
+.concl li { font-size: 13px; color: var(--ink-2); line-height: 1.55; padding: 9px 12px 9px 14px; border-radius: 8px; background: var(--surface-2); border-left: 3px solid var(--muted); }
+.concl li b { color: var(--ink); }
+.chip .v small { font: 500 11px Inter, sans-serif; color: var(--muted); }
+#tab-tech .small-title .now { white-space: nowrap; font-size: 14px; }
+td.pos { color: var(--ink); } td.neg { color: var(--neg); }
+.tech-t td, .tech-t th { padding: 7px 6px; font-size: 12.5px; }
+.tech-t tr.grp td { font-size: 11px; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; padding-top: 14px; border-bottom: 1px solid var(--axis); }
 </style>
 </head>
 <body>
@@ -197,6 +217,7 @@ footer a, .prose a { color: var(--series); }
       <button role="tab" data-tab="historia" aria-selected="false">Historia</button>
       <button role="tab" data-tab="graficos" aria-selected="false">Gráficos</button>
       <button role="tab" data-tab="mercado" aria-selected="false">Mercado</button>
+      <button role="tab" data-tab="tech" aria-selected="false">Big Tech y semis</button>
       <button role="tab" data-tab="tesis" aria-selected="false">Hartnett y Cárpatos</button>
       <button role="tab" data-tab="metodo" aria-selected="false">Método y estudios</button>
     </nav>
@@ -333,6 +354,101 @@ footer a, .prose a { color: var(--series); }
       </h2>
       <div class="chart" id="secChart"></div>
     </div>
+  </section>
+
+  <!-- ═══ BIG TECH Y SEMIS ═══ -->
+  <section id="tab-tech" hidden>
+    <div class="banner info"><span>ℹ</span><div>Cuánto depende el S&amp;P 500 de <b>FAAMG</b> (Meta, Apple, Amazon, Microsoft y Alphabet) y de los <b>semiconductores</b>, qué hacen con su caja y cómo puede llegar eso a la economía. <b>No entra en el score de recesión.</b> Precios de Yahoo; pesos de la cartera del SPY; estados de flujos de los 10-K y 10-Q en EDGAR.</div></div>
+    <div class="card">
+      <h2>Lectura de hoy <span class="hint" id="tkHint"></span></h2>
+      <div class="chips" id="tkChips"></div>
+      <ul class="concl" id="tkConcl"></ul>
+    </div>
+
+    <div class="sect"><h3>1 · Quién tira del índice</h3><p>Rentabilidad en precio (sin dividendos) desde el inicio del periodo. «S&amp;P sin FAAMG ni semis» es el resto del índice: el S&amp;P 500 menos el valor en bolsa de esas 16 empresas.</p></div>
+    <div class="card">
+      <h2>FAAMG y semis frente al S&amp;P 500 <span class="seg" id="tkSeg"><button data-w="ytd" aria-pressed="false">Año</button><button data-w="1" aria-pressed="true">1A</button><button data-w="3" aria-pressed="false">3A</button><button data-w="5" aria-pressed="false">5A</button></span></h2>
+      <div class="chart" id="tkPerf"></div>
+      <div class="lg" id="tkPerfLg"></div>
+      <div class="tscroll mt"><table class="tech-t" id="tkStats"></table></div>
+    </div>
+    <div class="grid g-2 mt">
+      <div class="card">
+        <h2>Peso en el S&amp;P 500 <span class="hint" id="tkWHint"></span></h2>
+        <div class="chart" id="tkWeights"></div>
+        <div class="lg" id="tkWLg"></div>
+        <p class="small-sub mt" style="margin-bottom:0" id="tkWNote"></p>
+      </div>
+      <div class="card">
+        <h2>Fuerza relativa frente al S&amp;P 500 <span class="seg" id="tkRelSeg"><button data-k="sox" aria-pressed="true">Semis desde 1995</button><button data-k="faamg" aria-pressed="false">FAAMG desde 2013</button></span></h2>
+        <div class="chart" id="tkRel"></div>
+        <div class="lg" id="tkRelLg"></div>
+        <p class="small-sub mt" style="margin-bottom:0" id="tkRelNote"></p>
+      </div>
+    </div>
+    <div class="card mt">
+      <h2>Empresa a empresa <span class="hint">precio · peso en el S&amp;P 500 · caja de los últimos 12 meses</span></h2>
+      <div class="tscroll"><table class="tech-t" id="tkCos"></table></div>
+    </div>
+
+    <div class="sect"><h3>2 · ¿Mercado estrecho? La amplitud de los 500</h3><p>Lo que medía el notebook, con los ~500 valores actuales del índice. Si el S&amp;P marca máximos con cada vez menos valores detrás, la subida depende de muy pocas empresas.</p></div>
+    <div class="grid g-2">
+      <div class="card"><div class="small-title"><span>Valores sobre su media de 200 y de 50 sesiones</span><span class="now" id="tkA200"></span></div><div class="chart" id="tkBr1"></div><div class="lg" id="tkBr1Lg"></div></div>
+      <div class="card"><div class="small-title"><span>Oscilador McClellan (ajustado, 19/39 sesiones)</span><span class="now" id="tkMcc"></span></div><div class="chart" id="tkBr2"></div><p class="small-sub mt" style="margin-bottom:0" id="tkMccNote"></p></div>
+      <div class="card"><div class="small-title"><span>Máximos menos mínimos de 52 semanas (% de valores, media 5 sesiones)</span><span class="now" id="tkNh"></span></div><div class="chart" id="tkBr3"></div></div>
+      <div class="card"><div class="small-title"><span>Valores bajo su MM50 y su MM200 a la vez</span><span class="now" id="tkBoth"></span></div><div class="chart" id="tkBr4"></div><p class="small-sub mt" style="margin-bottom:0">La regla de Hartnett aplicada a los valores de EE. UU. (la oficial, con bolsas del mundo, está en la pestaña Hartnett y Cárpatos).</p></div>
+    </div>
+
+    <div class="sect"><h3>3 · La caja: el estado de flujos</h3><p>Últimos 12 meses, en miles de millones de $. FCF = caja operativa − capex − arrendamientos financieros. «Tras SBC» resta además lo que pagan en acciones. Hiperescaladores = Microsoft, Alphabet, Amazon y Meta. Semis = 11 de EE. UU. (Nvidia, Broadcom, AMD, Qualcomm, TI, Micron, Intel, ADI, Applied, Lam y KLA).</p></div>
+    <div class="grid g-2">
+      <div class="card"><div class="small-title"><span>Hiperescaladores: caja operativa, capex y FCF tras SBC</span><span class="now" id="tkHypNow"></span></div><div class="chart" id="tkC1"></div><div class="lg" id="tkC1Lg"></div></div>
+      <div class="card"><div class="small-title"><span>Capex sobre caja operativa</span><span class="now" id="tkCoNow"></span></div><div class="chart" id="tkC2"></div><div class="lg" id="tkC2Lg"></div></div>
+      <div class="card">
+        <h2 style="margin-bottom:6px">Qué hacen con la caja <span class="seg" id="tkBrgSeg"><button data-k="hyper" aria-pressed="true">Hiperescaladores</button><button data-k="faamg" aria-pressed="false">FAAMG</button><button data-k="semis" aria-pressed="false">Semis</button></span></h2>
+        <div class="small-sub" id="tkBrgSub"></div>
+        <div class="chart" id="tkBridge"></div>
+        <p class="small-sub mt" style="margin-bottom:0" id="tkBrgNote"></p>
+      </div>
+      <div class="card"><div class="small-title"><span>Recompras y dividendos sobre el FCF</span><span class="now" id="tkRetNow"></span></div><div class="chart" id="tkC4"></div><div class="lg" id="tkC4Lg"></div><p class="small-sub mt" style="margin-bottom:0">Por encima del 100% pagan al accionista más de lo que generan: lo cubren con caja o con deuda.</p></div>
+      <div class="card"><div class="small-title"><span>La cadena del capex: lo que gastan unos lo ingresan otros</span><span class="now" id="tkChainNow"></span></div><div class="chart" id="tkC5"></div><div class="lg" id="tkC5Lg"></div><p class="small-sub mt" style="margin-bottom:0">Crecimiento interanual, últimos 12 meses.</p></div>
+      <div class="card"><div class="small-title"><span>Rentabilidad por FCF tras SBC frente al bono a 10 años</span><span class="now" id="tkFyNow"></span></div><div class="chart" id="tkC6"></div><div class="lg" id="tkC6Lg"></div><p class="small-sub mt" style="margin-bottom:0">FCF tras SBC de 12 meses entre el valor en bolsa al cierre de cada trimestre (acciones diluidas de los 10-Q).</p></div>
+      <div class="card"><div class="small-title"><span>Semis: días de inventario</span><span class="now" id="tkInvNow"></span></div><div class="chart" id="tkC7"></div><p class="small-sub mt" style="margin-bottom:0">Inventario entre coste de ventas de 12 meses × 365. Sube antes de los giros del ciclo de los chips.</p></div>
+      <div class="card"><div class="small-title"><span>Capex sobre amortización (hiperescaladores)</span><span class="now" id="tkDaNow"></span></div><div class="chart" id="tkC8"></div><p class="small-sub mt" style="margin-bottom:0">Por encima de 1 crece la base de activos: la amortización de mañana. Es lo que pesará en sus beneficios cuando el capex se frene.</p></div>
+    </div>
+    <div class="card mt">
+      <h2>El estado de flujos, empresa a empresa <span class="hint" id="tkCfHint"></span></h2>
+      <div class="tscroll"><table class="tech-t" id="tkCf"></table></div>
+      <p class="small-sub mt" style="margin-bottom:0">«Resto de la financiación» = flujo de financiación sin recompras, dividendos ni arrendamientos: sobre todo deuda neta emitida (positivo = piden prestado), más los impuestos que pagan por las acciones de los empleados. Δ = cambio frente a los 12 meses hasta el mismo trimestre del año anterior.</p>
+    </div>
+
+    <div class="sect"><h3>4 · Del capex a la economía</h3><p>Por dónde puede llegar esto a una recesión.</p></div>
+    <div class="grid g-2">
+      <div class="card"><div class="small-title"><span>Inversión en equipos informáticos y software, % del PIB</span><span class="now" id="tkAiNow"></span></div><div class="chart" id="tkM1"></div><p class="small-sub mt" style="margin-bottom:0">BEA vía FRED (A679RC1Q027SBEA), nominal. Sombreado: recesiones del NBER.</p></div>
+      <div class="card"><div class="small-title"><span>Crecimiento del PIB nominal y lo que aporta esa inversión</span><span class="now" id="tkAiC"></span></div><div class="chart" id="tkM2"></div><div class="lg" id="tkM2Lg"></div><p class="small-sub mt" style="margin-bottom:0">Interanual, puntos porcentuales. La aportación es el aumento de esa inversión en un año sobre el PIB de hace un año.</p></div>
+      <div class="card"><div class="small-title"><span>Vacantes por parado (JOLTS)</span><span class="now" id="tkVu"></span></div><div class="chart" id="tkM3"></div><p class="small-sub mt" style="margin-bottom:0">Ofertas de empleo entre parados. La gráfica de vacantes y paro del notebook, alineada por fecha. Por debajo de 1 hay más parados que vacantes.</p></div>
+      <div class="card prose"><h2>Cómo puede afectar</h2><div id="tkHow"></div></div>
+    </div>
+
+    <details class="card mt">
+      <summary style="cursor:pointer;font-size:13px;font-weight:600">Método, límites y qué se ha corregido del notebook «Check Market»</summary>
+      <div class="grid g-2 mt">
+        <div class="prose">
+          <p><b>Fuentes.</b> Pesos: cartera diaria del SPY (State Street). Precios: Yahoo. Caja: SEC EDGAR, 10-K y 10-Q; los 10-Q dan acumulados del año, así que cada trimestre sale por diferencia y los 12 meses suman cuatro trimestres. Macro: FRED.</p>
+          <p><b>Aproximaciones.</b> El peso histórico parte del de hoy y se mueve con precio y acciones diluidas de cada empresa frente al S&amp;P; no recoge los cambios del divisor del índice. La amplitud usa los valores de hoy (sesgo de supervivencia: los que salieron del índice no cuentan). Las cestas de caja alinean cada trimestre fiscal con el trimestre natural más cercano (Nvidia cierra en enero, Broadcom en noviembre) y solo se dibujan con todas las empresas presentadas; la lectura de hoy suma el último dato de cada una. TSMC y ASML no presentan trimestres en XBRL: entran en precios, no en caja.</p>
+        </div>
+        <div class="prose">
+          <p><b>Errores del notebook arreglados aquí</b> (detalle en el informe):</p>
+          <ul>
+            <li>Cesta FAATMANN como <b>suma de precios</b> (pesa más la acción más cara) y con Alphabet dos veces (GOOGL y GOOG): aquí, por valor en bolsa.</li>
+            <li>Peso histórico de FAATMANN dividido por el total del <b>último día</b> (variable del bucle) y <code>drop('GOOG')</code> sin asignar.</li>
+            <li>«WMA 200» que en realidad era la media de 200 <b>sesiones</b>; porcentajes divididos por todos los valores aunque no tuvieran datos.</li>
+            <li>Finviz: si fallaba la descarga reutilizaba la página de la empresa anterior, ignoraba las cifras en billones (T) y usaba el ticker FB.</li>
+            <li>TSR con precios ya ajustados por dividendos y además sumando los dividendos (los cuenta dos veces).</li>
+            <li>Vacantes y paro alineados por posición y no por fecha; McClellan sin ajustar por número de valores; listas de Slickcharts y yahoo_fin que ya no responden; clave de FRED escrita en el código.</li>
+          </ul>
+        </div>
+      </div>
+    </details>
   </section>
 
   <!-- ═══ HARTNETT Y CÁRPATOS ═══ -->
@@ -619,7 +735,7 @@ function lineChart(el, pts, o = {}) {
     months.filter((_, j) => j % every === 0).forEach(i => {
       const d = new Date(pts[i][0] + 'T12:00:00Z');
       if (X(xs[i]) < m.l + 4) return;
-      s += `<text x="${X(xs[i])}" y="${H - 6}" text-anchor="middle">${d.toLocaleDateString('es-ES', { month: 'short' }).replace('.', '')}${d.getUTCMonth() === 0 ? ' ' + String(d.getUTCFullYear()).slice(2) : ''}</text>`;
+      s += `<text x="${X(xs[i])}" y="${H - 6}" text-anchor="middle">${d.toLocaleDateString('es-ES', { month: 'short' }).replace('.', '')}${d.getUTCMonth() === 0 || spanY > 1.1 ? ' ' + String(d.getUTCFullYear()).slice(2) : ''}</text>`;
     });
   }
   (o.refs || []).forEach(r => {
@@ -679,6 +795,120 @@ function divBars(el, rows, key) {
   el.innerHTML = s + '</svg>';
 }
 
+// ── varias líneas en un solo eje (leyenda + etiqueta al final + tooltip) ───
+// series: [{name, color: '--c1', pts: [[fecha, valor]], dash, w}]
+function multiChart(el, series, o = {}) {
+  if (!el) return;
+  series = (series || []).map(s => ({ ...s, pts: (s.pts || []).filter(p => p && p[1] != null) })).filter(s => s.pts.length > 1);
+  if (!series.length) { el.innerHTML = '<div class="small-sub" style="padding:30px 0;text-align:center">Sin datos suficientes</div>'; return; }
+  const W = el.clientWidth || 600, H = o.h || 220;
+  const labels = o.labels !== false && series.length <= 4 && W > 420;
+  const m = { l: 40, r: labels ? 78 : 14, t: 10, b: 22 };
+  const TT = d => new Date(d + 'T12:00:00Z').getTime();
+  series.forEach(s => s.xs = s.pts.map(p => TT(p[0])));
+  const x0 = Math.min(...series.map(s => s.xs[0])), x1 = Math.max(...series.map(s => s.xs.at(-1)));
+  const all = series.flatMap(s => s.pts.map(p => p[1])), refs = (o.refs || []).map(r => r.y);
+  let y0 = o.yMin ?? Math.min(...all, ...refs), y1 = o.yMax ?? Math.max(...all, ...refs);
+  const pad = (y1 - y0) * 0.06 || 1; if (o.yMin == null) y0 -= pad; if (o.yMax == null) y1 += pad;
+  const X = t => m.l + (t - x0) / (x1 - x0 || 1) * (W - m.l - m.r);
+  const Y = v => m.t + (1 - (Math.min(Math.max(v, y0), y1) - y0) / (y1 - y0)) * (H - m.t - m.b);
+  const step = niceStep((y1 - y0) / 4), dec = step < 1 ? (step < 0.1 ? 2 : 1) : 0;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(o.label || '')}">`;
+  (o.shade || []).forEach(([a, b]) => {
+    const ta = TT(a), tb = TT(b) + 30 * 864e5; if (tb < x0 || ta > x1) return;
+    const xa = X(Math.max(ta, x0)), xb = X(Math.min(tb, x1));
+    s += `<rect x="${xa}" y="${m.t}" width="${Math.max(xb - xa, 2)}" height="${H - m.t - m.b}" fill="${css('--rec')}"/>`;
+  });
+  for (let v = Math.ceil(y0 / step) * step; v <= y1 + 1e-9; v += step) s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="${css('--grid')}"/><text x="${m.l - 6}" y="${Y(v) + 3}" text-anchor="end">${NF(dec).format(+v.toFixed(6))}${o.tickUnit || ''}</text>`;
+  const spanY = (x1 - x0) / (365.25 * 864e5);
+  if (spanY > 3) {
+    const a = new Date(x0).getUTCFullYear(), b = new Date(x1).getUTCFullYear();
+    const every = Math.max(1, Math.ceil((b - a) / Math.max(2, Math.floor((W - m.l - m.r) / 46))));
+    for (let y = a + 1; y <= b; y++) { if ((y - a) % every) continue; s += `<text x="${X(Date.UTC(y, 0, 1))}" y="${H - 6}" text-anchor="middle">${y}</text>`; }
+  } else {
+    const d = new Date(x0); d.setUTCDate(1); d.setUTCMonth(d.getUTCMonth() + 1);
+    const ms = []; while (d.getTime() <= x1) { ms.push(d.getTime()); d.setUTCMonth(d.getUTCMonth() + 1); }
+    const every = Math.ceil(ms.length / Math.max(2, Math.floor((W - m.l - m.r) / 62)));
+    ms.filter((_, j) => j % every === 0).forEach(t => { const dd = new Date(t); s += `<text x="${X(t)}" y="${H - 6}" text-anchor="middle">${dd.toLocaleDateString('es-ES', { month: 'short', timeZone: 'UTC' }).replace('.', '')}${dd.getUTCMonth() === 0 || spanY > 1.1 ? ' ' + String(dd.getUTCFullYear()).slice(2) : ''}</text>`; });
+  }
+  (o.refs || []).forEach(r => {
+    if (r.y < y0 || r.y > y1) return;
+    s += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(r.y)}" y2="${Y(r.y)}" stroke="${css(r.color || '--muted')}" stroke-width="1.2" stroke-dasharray="4 3"/>`;
+    s += `<text x="${m.l + 4}" y="${Y(r.y) + (r.below ? 11 : -4)}" class="lbl" style="fill:${css(r.color || '--muted')}">${esc(r.label)}</text>`;
+  });
+  s += `<line x1="${m.l}" x2="${W - m.r}" y1="${H - m.b}" y2="${H - m.b}" stroke="${css('--axis')}"/>`;
+  series.forEach(se => {
+    const d = se.pts.map((p, i) => (i ? 'L' : 'M') + X(se.xs[i]).toFixed(1) + ',' + Y(p[1]).toFixed(1)).join('');
+    s += `<path d="${d}" fill="none" stroke="${css(se.color)}" stroke-width="${se.w || 2}" ${se.dash ? 'stroke-dasharray="5 4"' : ''} stroke-linejoin="round" stroke-linecap="round"/>`;
+  });
+  // etiquetas al final, separadas para que no se pisen
+  if (labels) {
+    const L = series.map(se => ({ se, y: Y(se.pts.at(-1)[1]) })).sort((a, b) => a.y - b.y);
+    for (let i = 1; i < L.length; i++) if (L[i].y - L[i - 1].y < 12) L[i].y = L[i - 1].y + 12;
+    L.forEach(({ se, y }) => {
+      const lx = X(se.xs.at(-1)), ly = Y(se.pts.at(-1)[1]);
+      s += `<circle cx="${lx}" cy="${ly}" r="3.5" fill="${css(se.color)}" stroke="${css('--surface')}" stroke-width="2"/>`;
+      s += `<text x="${W - m.r + 6}" y="${y + 3}" style="fill:${css('--ink-2')};font-weight:600">${esc(se.short || se.name)}</text>`;
+    });
+  }
+  s += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${H - m.b}" stroke="${css('--muted')}" stroke-width="1" opacity="0"/>`;
+  series.forEach((se, k) => s += `<circle class="xd" data-k="${k}" r="4" fill="${css(se.color)}" stroke="${css('--surface')}" stroke-width="2" opacity="0"/>`);
+  s += `<rect x="${m.l}" y="0" width="${W - m.l - m.r}" height="${H}" fill="transparent" class="hit"/></svg><div class="tip"></div>`;
+  el.innerHTML = s;
+  const svg = el.querySelector('svg'), tip = el.querySelector('.tip'), xh = svg.querySelector('.xh'), dots = svg.querySelectorAll('.xd');
+  const f = o.fmt || (v => fmt(v, o.dec ?? 1, o.unit || ''));
+  const dfmt = o.monthly ? esMonth : esDate;
+  const move = ev => {
+    const r = svg.getBoundingClientRect(), px = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+    const t = x0 + (px * W / r.width - m.l) / (W - m.l - m.r) * (x1 - x0);
+    let best = null, rows = '';
+    series.forEach((se, k) => {
+      let i = 0, bd = Infinity; se.xs.forEach((x, j) => { const dd = Math.abs(x - t); if (dd < bd) { bd = dd; i = j; } });
+      const far = bd > (o.monthly ? 100 : 12) * 864e5;
+      dots[k].setAttribute('opacity', far ? 0 : 1);
+      if (far) return;
+      dots[k].setAttribute('cx', X(se.xs[i])); dots[k].setAttribute('cy', Y(se.pts[i][1]));
+      if (!best || bd < best.bd) best = { bd, x: X(se.xs[i]), d: se.pts[i][0] };
+      rows += `<div><span class="dot" style="background:${css(se.color)};margin-right:5px"></span>${esc(se.name)}: <b>${f(se.pts[i][1])}</b></div>`;
+    });
+    if (!best) return;
+    xh.setAttribute('x1', best.x); xh.setAttribute('x2', best.x); xh.setAttribute('opacity', .6);
+    tip.innerHTML = `<div class="d">${dfmt(best.d)}</div>${rows}`;
+    const sx = r.width / W, tx = best.x * sx;
+    tip.style.left = Math.min(Math.max(tx - tip.offsetWidth / 2, 0), r.width - tip.offsetWidth) + 'px';
+    tip.style.top = '0px'; tip.style.opacity = 1;
+  };
+  const leave = () => { tip.style.opacity = 0; xh.setAttribute('opacity', 0); dots.forEach(d => d.setAttribute('opacity', 0)); };
+  const hit = svg.querySelector('.hit');
+  hit.addEventListener('mousemove', move); hit.addEventListener('touchmove', move, { passive: true });
+  hit.addEventListener('mouseleave', leave); hit.addEventListener('touchend', leave);
+}
+const legend = (el, series) => { if (el) el.innerHTML = series.map(s => `<span><i class="${s.dash ? 'dash' : ''}" style="background:var(${s.color})"></i>${esc(s.name)}</span>`).join(''); };
+
+// ── puente del estado de flujos (cascada horizontal) ───────────────────────
+// steps: [{label, v, total: bool, sub}]: los totales parten de 0; el resto suma al anterior
+function bridgeChart(el, steps) {
+  if (!el) return;
+  let cum = 0;
+  const rows = steps.filter(s => s.v != null).map(s => { const a = s.total ? 0 : cum; const b = s.total ? s.v : cum + s.v; cum = b; return { ...s, a, b }; });
+  if (!rows.length) { el.innerHTML = '<div class="small-sub">Sin datos</div>'; return; }
+  const W = el.clientWidth || 500, rh = 30, H = rows.length * rh + 6, lw = Math.min(190, W * 0.42), vw = 62;
+  const lo = Math.min(0, ...rows.flatMap(r => [r.a, r.b])), hi = Math.max(0, ...rows.flatMap(r => [r.a, r.b]));
+  const X = v => lw + (v - lo) / (hi - lo || 1) * (W - lw - vw - 10);
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Estado de flujos">`;
+  s += `<line x1="${X(0)}" x2="${X(0)}" y1="0" y2="${H}" stroke="${css('--axis')}"/>`;
+  rows.forEach((r, i) => {
+    const y = i * rh + 4, x = X(Math.min(r.a, r.b)), w = Math.max(Math.abs(X(r.b) - X(r.a)), 1.5);
+    const col = r.total ? '--ink-2' : r.v >= 0 ? '--series' : '--neg';
+    s += `<g><title>${esc(r.label)}: ${fmt(r.v, 1, ' mil M$', !r.total)}</title>`;
+    s += `<text x="${lw - 8}" y="${y + 15}" text-anchor="end" class="lbl" style="font-weight:${r.total ? 700 : 500}">${esc(r.label)}</text>`;
+    s += `<rect x="${x}" y="${y + 4}" width="${w}" height="${rh - 12}" rx="3" fill="${css(col)}" opacity="${r.total ? .55 : .9}"/>`;
+    if (i < rows.length - 1) s += `<line x1="${X(r.b)}" x2="${X(r.b)}" y1="${y + rh - 8}" y2="${y + rh + 4}" stroke="${css('--muted')}" stroke-dasharray="2 2"/>`;
+    s += `<text x="${W - 4}" y="${y + 15}" text-anchor="end" style="fill:${css('--ink')};font-family:var(--mono);font-weight:600">${fmt(r.v, 0, '', !r.total)}</text></g>`;
+  });
+  el.innerHTML = s + '</svg>';
+}
+
 // ── curva de tipos ─────────────────────────────────────────────────────────
 function curveChart(el, pts) {
   const order = ['1M', '3M', '6M', '1Y', '2Y', '3Y', '5Y', '7Y', '10Y', '20Y', '30Y'];
@@ -720,6 +950,204 @@ function indTable(el, rows, totW, groups) {
   el.innerHTML = t + '</tbody>';
 }
 
+// ── pestaña Big Tech y semis ───────────────────────────────────────────────
+function renderTech(TK, ctx) {
+  const IX = TK.index || {}, PF = TK.perf, BR = TK.breadth, CA = TK.cash, MA = TK.macro || {};
+  const REC = (MA.recessions && MA.recessions.length) ? MA.recessions : ctx.REC;
+  const pp = (v, d = 1) => fmt(v, d, ' pp', true);
+  const bn = (v, d = 0) => fmt(v, d, ' mil M$');
+  const cls = v => v == null ? '' : v < 0 ? 'neg' : 'pos';
+  const ST = PF?.stats || {}, LD = PF?.lead || {};
+  const HB = CA?.baskets?.hyper, FB = CA?.baskets?.faamg, SB = CA?.baskets?.semis;
+  const last = a => (a || []).filter(x => x != null).at(-1);
+  const ago = (a, n) => { const v = (a || []); return v.length > n ? v[v.length - 1 - n] : null; };
+  const ser = (b, k) => b?.series ? b.series.dates.map((d, i) => [d, b.series[k][i]]) : [];
+  const ratio = (a, b) => (a != null && b) ? a / b * 100 : null;
+  const hN = HB?.now, fN = FB?.now, sN = SB?.now;
+  $('#tkHint').textContent = [PF?.as_of && `precios al ${esDate(PF.as_of)}`, IX.as_of && `pesos del SPY al ${esDate(IX.as_of)}`,
+    fN?.last && `caja: último trimestre presentado ${esDate(fN.last)}`].filter(Boolean).join(' · ');
+
+  // ── Lectura de hoy: tarjetas
+  const co = ratio(hN?.capex, hN?.ocf), coY = ratio(hN?.yago?.capex, hN?.yago?.ocf);
+  const fsY = hN?.yago?.fcf_sbc ? (hN.fcf_sbc / hN.yago.fcf_sbc - 1) * 100 : null;
+  const fy = fN?.mcap ? fN.fcf_sbc / fN.mcap * 100 : null, t10 = CA?.t10;
+  const relF = ST.faamg && ST.spx ? ST.faamg.y1 - ST.spx.y1 : null, relS = ST.semis && ST.spx ? ST.semis.y1 - ST.spx.y1 : null;
+  const ai = MA.ai, vu = MA.vu;
+  const narrow = BR && BR.above200 < 50 && BR.spx_dd52 > -5;
+  const chip = (k, v, s, c = '--muted') => `<div class="chip" style="border-left-color:var(${c})"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
+  $('#tkChips').innerHTML = [
+    IX.faamg != null ? chip('Peso de FAAMG en el S&P 500', fmt(IX.faamg, 1, '%'), `hace 1 año ${fmt(LD.w_faamg_1y, 1, '%')} · hace 5 años ${fmt(LD.w_faamg_5y, 1, '%')}`, IX.faamg > (LD.w_faamg_1y ?? 99) ? '--warning' : '--muted') : '',
+    IX.semis != null ? chip('Peso de los semis', fmt(IX.semis, 1, '%'), `hace 1 año ${fmt(LD.w_semis_1y, 1, '%')} · hace 5 años ${fmt(LD.w_semis_5y, 1, '%')}`, IX.semis > (LD.w_semis_1y ?? 99) ? '--warning' : '--muted') : '',
+    relF != null ? chip('FAAMG frente al S&P (12 meses)', pp(relF), `FAAMG ${fmt(ST.faamg.y1, 1, '%', true)} · S&P ${fmt(ST.spx.y1, 1, '%', true)}`) : '',
+    relS != null ? chip('Semis frente al S&P (12 meses)', pp(relS), `SOX ${fmt(ST.semis.y1, 1, '%', true)} · ${fmt(ST.semis.ma200, 1, '%', true)} sobre su MM200`, ST.semis.ma200 <= -20 ? '--serious' : '--muted') : '',
+    BR ? chip('Valores del S&P sobre su MM200', fmt(BR.above200, 0, '%'), `S&P a ${fmt(BR.spx_dd52, 1, '%')} de su máximo${narrow ? ' · mercado estrecho' : ''}`, narrow ? '--warning' : BR.above200 >= 60 ? '--good' : '--muted') : '',
+    co != null ? chip('Capex sobre caja operativa (hiperescaladores)', fmt(co, 0, '%'), `hace 1 año ${fmt(coY, 0, '%')}`, co >= 80 ? '--serious' : co >= 60 ? '--warning' : '--muted') : '',
+    hN ? chip('FCF tras SBC (hiperescaladores)', bn(hN.fcf_sbc), `hace 1 año ${bn(hN.yago?.fcf_sbc)}`, hN.fcf_sbc < (hN.yago?.fcf_sbc ?? 0) * 0.75 ? '--serious' : '--muted') : '',
+    fy != null ? chip('FCF de FAAMG frente al bono', fmt(fy, 1, '%'), `bono a 10 años ${fmt(t10, 2, '%')} · ${fy < t10 ? 'por debajo' : 'por encima'}`, fy < t10 ? '--warning' : '--muted') : '',
+    ai ? chip('Inversión en informática y software', fmt(ai.share, 1, '% del PIB'), `pico de 2000: ${fmt(ai.peak2000, 1, '%')} · aporta ${fmt(ai.contrib_share, 0, '%')} del crecimiento`, ai.share > ai.peak2000 ? '--warning' : '--muted') : '',
+  ].join('');
+
+  // ── Conclusiones (se escriben solas con los datos)
+  const C = [];
+  if (IX.faamg != null) C.push(['--warning', `<b>Concentración.</b> FAAMG pesa el ${fmt(IX.faamg, 1, '%')} del S&P 500 y los semis el ${fmt(IX.semis, 1, '%')}: juntos, ${fmt(IX.faamg + IX.semis, 1, '%')} del índice (hace 5 años, ${fmt((LD.w_faamg_5y || 0) + (LD.w_semis_5y || 0), 1, '%')}). Las 10 mayores, ${fmt(IX.top10, 1, '%')}. Cuando el índice sube o baja, sobre todo lo mueven ellas.`]);
+  if (ST.spx && ST.ex) {
+    const lead = ST.faamg.y1 > ST.spx.y1 || ST.semis.y1 > ST.spx.y1;
+    C.push([lead ? '--warning' : '--muted', `<b>Quién tira.</b> En 12 meses: FAAMG ${fmt(ST.faamg.y1, 1, '%', true)}, semis ${fmt(ST.semis.y1, 1, '%', true)}, S&P 500 ${fmt(ST.spx.y1, 1, '%', true)} y el resto del índice ${fmt(ST.ex.y1, 1, '%', true)}. ${LD.semis_vs_ma200 != null ? `La fuerza relativa de los semis está un ${fmt(LD.semis_vs_ma200, 1, '%', true)} frente a su media de 200 sesiones${LD.semis_vs_ma200 < 0 ? ': han perdido el liderazgo' : ': siguen liderando'}.` : ''} ${LD.faamg_vs_ma200 != null ? `La de FAAMG, ${fmt(LD.faamg_vs_ma200, 1, '%', true)}${LD.faamg_vs_ma200 < 0 ? ' (por debajo: lo hacen peor que el índice)' : ''}.` : ''}`]);
+  }
+  if (BR) C.push([narrow ? '--warning' : '--muted', `<b>Amplitud.</b> El ${fmt(BR.above200, 0, '%')} de los valores del S&P está sobre su media de 200 sesiones (hace un mes, ${fmt(BR.above200_1m, 0, '%')}) con el índice a ${fmt(BR.spx_dd52, 1, '%')} de su máximo. ${narrow ? 'Índice cerca de máximos con menos de la mitad de los valores en tendencia alcista: <b>mercado estrecho</b>, que depende de pocas empresas.' : BR.above200 >= 60 ? 'La subida es amplia.' : 'Ni amplia ni capitulación.'} McClellan ${fmt(BR.mcc, 0)}${BR.mcc <= BR.mcc_p05 ? ', en sobreventa extrema (5% más bajo desde ' + esMonth(BR.since) + ')' : ''}.`]);
+  if (hN) C.push([co >= 80 ? '--serious' : '--warning', `<b>La caja de los hiperescaladores.</b> Gastan en capex el ${fmt(co, 0, '%')} de su caja operativa (hace un año, ${fmt(coY, 0, '%')}): ${bn(hN.capex)} frente a ${bn(hN.ocf)}. Su FCF tras SBC es ${bn(hN.fcf_sbc)} (hace un año, ${bn(hN.yago?.fcf_sbc)}). Recompras y dividendos: ${bn(hN.ret)}${hN.fcf > 0 ? `, el ${fmt(hN.ret / hN.fcf * 100, 0, '%')} del FCF` : ''}. El resto de la financiación suma ${fmt(hN.fin_rest, 0, ' mil M$', true)}${hN.fin_rest > 0 ? ': <b>ya se endeudan para pagar el capex</b>' : ''}.`]);
+  if (sN && SB?.series) {
+    const sy = last(SB.series.rev_yoy), cy = last(HB?.series?.capex_yoy), inv = last(SB.series.inv_days), invY = ago(SB.series.inv_days, 4);
+    C.push(['--muted', `<b>Los semis cobran ese capex.</b> Sus ingresos crecen un ${fmt(sy, 0, '%', true)} (12 meses) con el capex de los hiperescaladores a ${fmt(cy, 0, '%', true)}. Su FCF tras SBC suma ${bn(sN.fcf_sbc)}. Inventario: ${fmt(inv, 0)} días (hace un año, ${fmt(invY, 0)})${inv > invY * 1.1 ? ', subiendo: vigilar' : ''}. Si el capex deja de crecer, sus ingresos lo notan los primeros.`]);
+  }
+  if (fy != null) C.push([fy < t10 ? '--warning' : '--muted', `<b>Valoración.</b> FAAMG rinde un ${fmt(fy, 2, '%')} en FCF tras SBC sobre ${fmt(fN.mcap / 1000, 1, ' billones $')} en bolsa, frente al ${fmt(t10, 2, '%')} del bono a 10 años: ${fy < t10 ? 'el bono paga más que su caja de hoy; el precio descuenta que el FCF vuelva a crecer cuando el capex baje' : 'su caja rinde más que el bono'}.`]);
+  if (ai) C.push([ai.share > ai.peak2000 ? '--serious' : '--muted', `<b>La economía.</b> La inversión en equipos informáticos y software es el ${fmt(ai.share, 2, '%')} del PIB${ai.share > ai.peak2000 ? `, <b>más que en el pico de 2000</b> (${fmt(ai.peak2000, 2, '%')})` : ` (pico de 2000: ${fmt(ai.peak2000, 2, '%')})`}. En un año ha aportado ${fmt(ai.contrib, 2, ' pp')} de un crecimiento nominal del ${fmt(ai.g_yoy, 1, '%')}: ${fmt(ai.contrib_share, 0, '%')} del total. ${vu ? `Empleo: ${fmt(vu.value, 2)} vacantes por parado (hace un año, ${fmt(vu.y1, 2)}; máximo de ${fmt(vu.max, 2)} en ${esMonth(vu.max_date)})${vu.value < vu.y1 ? ', enfriándose' : ''}${vu.value < 1 ? ': ya hay más parados que vacantes' : ''}.` : ''} Score de recesión de EE. UU.: <b>${fmt(ctx.C.score, 0)}</b>.`]);
+  $('#tkConcl').innerHTML = C.map(([c, t]) => `<li style="border-left-color:var(${c})">${t}</li>`).join('');
+
+  // ── 1 · Rentabilidad
+  if (PF) {
+    const win = document.querySelector('#tkSeg [aria-pressed="true"]')?.dataset.w || '1';
+    const D = PF.dates, end = D.at(-1);
+    let i0 = 0;
+    if (win === 'ytd') i0 = Math.max(0, D.findIndex(d => d >= end.slice(0, 4) + '-01-01') - 1);
+    else { const c = new Date(end + 'T12:00:00Z'); c.setUTCFullYear(c.getUTCFullYear() - +win); i0 = Math.max(0, D.findIndex(d => d >= c.toISOString().slice(0, 10))); }
+    const mk = k => { const v = PF.series[k] || []; const b = v.slice(i0).find(x => x != null); return D.slice(i0).map((d, j) => [d, v[i0 + j] == null || !b ? null : v[i0 + j] / b * 100]); };
+    const S1 = [
+      { k: 'spx', name: 'S&P 500', color: '--ink-2', w: 2.5 },
+      { k: 'faamg', name: 'FAAMG', color: '--c1' },
+      { k: 'semis', name: 'Semis (SOX)', short: 'Semis', color: '--c2' },
+      { k: 'ex', name: 'S&P sin FAAMG ni semis', short: 'Resto', color: '--c3' },
+    ].map(s => ({ ...s, pts: mk(s.k) }));
+    multiChart($('#tkPerf'), S1, { h: 290, refs: [{ y: 100, label: 'inicio' }], fmt: v => fmt(v - 100, 1, '%', true), label: 'FAAMG y semis frente al S&P 500' });
+    legend($('#tkPerfLg'), S1);
+    const NM = { spx: 'S&P 500', faamg: 'FAAMG', semis: 'Semis (SOX)', ex: 'S&P sin FAAMG ni semis', rsp: 'S&P 500 equiponderado (RSP)' };
+    const CO = { spx: '--ink-2', faamg: '--c1', semis: '--c2', ex: '--c3', rsp: '--muted' };
+    const c = v => `<td class="num ${cls(v)}">${fmt(v, 1, '%', true)}</td>`;
+    $('#tkStats').innerHTML = '<thead><tr><th></th><th class="num">1 mes</th><th class="num">3 meses</th><th class="num">Año</th><th class="num">12 meses</th><th class="num">3 años</th><th class="num">vs MM200</th><th class="num">Desde máx. 52 sem.</th></tr></thead><tbody>' +
+      Object.keys(NM).filter(k => ST[k]).map(k => `<tr><td><span class="dot" style="background:var(${CO[k]});margin-right:6px"></span>${NM[k]}</td>${c(ST[k].m1)}${c(ST[k].m3)}${c(ST[k].ytd)}${c(ST[k].y1)}${c(ST[k].y3)}${c(ST[k].ma200)}${c(ST[k].dd52)}</tr>`).join('') + '</tbody>';
+    // pesos
+    const S2 = [{ name: 'FAAMG', color: '--c1', pts: PF.weights?.faamg }, { name: 'Semis del S&P 500', short: 'Semis', color: '--c2', pts: PF.weights?.semis }];
+    multiChart($('#tkWeights'), S2, { h: 220, unit: '%', tickUnit: '%', yMin: 0, label: 'Peso en el S&P 500' });
+    legend($('#tkWLg'), S2);
+    $('#tkWHint').textContent = 'semanal desde 2016';
+    $('#tkWNote').textContent = IX.as_of ? `Hoy (SPY al ${esDate(IX.as_of)}): FAAMG ${fmt(IX.faamg, 1, '%')}, todos los semis del índice ${fmt(IX.semis, 1, '%')} (los 11 de la cesta, ${fmt(IX.semis11, 1, '%')}), Siete Magníficas ${fmt(IX.mag7, 1, '%')}, 10 mayores ${fmt(IX.top10, 1, '%')}. Hacia atrás es una aproximación (precio y acciones de cada empresa frente al S&P).` : '';
+    // fuerza relativa
+    const rk = document.querySelector('#tkRelSeg [aria-pressed="true"]')?.dataset.k || 'sox', RL = PF.rel?.[rk];
+    if (RL) {
+      const S3 = [{ name: rk === 'sox' ? 'Semis (SOX) / S&P 500' : 'FAAMG / S&P 500', color: rk === 'sox' ? '--c2' : '--c1', pts: RL.v },
+        { name: 'Su media de 40 semanas (≈ MM200)', short: 'Media', color: '--ink-2', dash: true, w: 1.5, pts: RL.ma }];
+      multiChart($('#tkRel'), S3, { h: 220, dec: 0, labels: false, refs: [{ y: 100, label: 'base 100' }], label: 'Fuerza relativa' });
+      legend($('#tkRelLg'), S3);
+      const g = rk === 'sox' ? LD.semis_vs_ma200 : LD.faamg_vs_ma200;
+      const mx = Math.max(...RL.v.map(p => p[1] ?? 0)), mxD = RL.v.find(p => p[1] === mx)?.[0];
+      $('#tkRelNote').textContent = `Sube = lo hacen mejor que el índice. Hoy ${fmt(g, 1, '%', true)} frente a su media de 200 sesiones. Máximo de la serie: ${fmt(mx, 0)} (${esMonth(mxD)}); hoy ${fmt(RL.v.at(-1)?.[1], 0)}.${rk === 'sox' ? ' El pico de 2000 es la referencia de una burbuja de semis.' : ''}`;
+    }
+    // empresa a empresa
+    const CC = CA?.companies || {};
+    const rowsT = g => (PF.table || []).filter(r => r.g === g).map(r => {
+      const k = CC[r.t]?.ltm || {}, coR = ratio(k.capex, k.ocf);
+      return `<tr><td>${esc(r.name)} <span class="sub" style="display:inline">${esc(r.t)}</span></td><td class="num">${fmt(r.w, 2, '%')}</td>${c(r.m1)}${c(r.m3)}${c(r.ytd)}${c(r.y1)}${c(r.dd52)}${c(r.ma200)}<td class="num hide-sm ${cls(k.fcf_sbc)}">${k.fcf_sbc != null ? fmt(k.fcf_sbc, 1) : '–'}</td><td class="num hide-sm">${fmt(coR, 0, '%')}</td></tr>`;
+    }).join('');
+    $('#tkCos').innerHTML = '<thead><tr><th>Empresa</th><th class="num">Peso</th><th class="num">1 mes</th><th class="num">3 meses</th><th class="num">Año</th><th class="num">12 meses</th><th class="num">Desde máx.</th><th class="num">vs MM200</th><th class="num hide-sm">FCF tras SBC</th><th class="num hide-sm">Capex / caja op.</th></tr></thead><tbody>' +
+      `<tr class="grp"><td colspan="10">FAAMG</td></tr>${rowsT('faamg')}<tr class="grp"><td colspan="10">Semiconductores</td></tr>${rowsT('semis')}</tbody>`;
+  }
+
+  // ── 2 · Amplitud
+  if (BR) {
+    const B4 = [{ name: 'Sobre su MM200', color: '--c1', pts: BR.charts.above200 }, { name: 'Sobre su MM50', color: '--c2', w: 1.5, pts: BR.charts.above50 }];
+    multiChart($('#tkBr1'), B4, { h: 190, unit: '%', yMin: 0, yMax: 100, dec: 0, refs: [{ y: 50, label: '50%' }], label: 'Amplitud' });
+    legend($('#tkBr1Lg'), B4);
+    $('#tkA200').textContent = fmt(BR.above200, 0, '%');
+    lineChart($('#tkBr2'), BR.charts.mcc, { h: 190, dec: 0, thin: true, refs: [{ y: 0, label: '0' }, { y: BR.mcc_p05, label: 'sobreventa extrema (5%)', below: true, color: '--serious' }], label: 'McClellan' });
+    $('#tkMcc').textContent = fmt(BR.mcc, 0);
+    $('#tkMccNote').textContent = `Avances menos descensos entre su suma, ×1.000, media de 19 menos media de 39 sesiones. Bajo 0, dominan las caídas. La línea naranja es el 5% de lecturas más bajas desde ${esMonth(BR.since)}: ahí suele estar la capitulación de corto plazo. Mínimo de la última semana: ${fmt(BR.mcc_min5, 0)}.`;
+    lineChart($('#tkBr3'), BR.charts.nhnl, { h: 190, dec: 1, unit: '%', thin: true, refs: [{ y: 0, label: '0' }], label: 'Máximos menos mínimos' });
+    $('#tkNh').textContent = `máx. ${fmt(BR.nh5, 1, '%')} · mín. ${fmt(BR.nl5, 1, '%')}`;
+    lineChart($('#tkBr4'), BR.charts.below_both, { h: 190, dec: 0, unit: '%', thin: true, yMin: 0, yMax: 100, refs: [{ y: 88, label: '88%' }], label: 'Bajo las dos medias' });
+    $('#tkBoth').textContent = fmt(BR.below_both, 0, '%');
+  }
+
+  // ── 3 · Caja
+  if (HB?.series) {
+    const C1 = [{ name: 'Caja operativa', color: '--c1', pts: ser(HB, 'ocf') }, { name: 'Capex', color: '--c2', pts: ser(HB, 'capex') }, { name: 'FCF tras SBC', color: '--c3', pts: ser(HB, 'fcf_sbc') }];
+    multiChart($('#tkC1'), C1, { h: 220, dec: 0, unit: ' mil M$', monthly: true, refs: [{ y: 0, label: '0' }], label: 'Hiperescaladores' });
+    legend($('#tkC1Lg'), C1);
+    $('#tkHypNow').textContent = hN ? bn(hN.capex) : '';
+    const CC = CA.companies;
+    const C2 = HYPER_T.map((t, i) => {
+      const s = CC[t]?.series; if (!s) return null;
+      const o = Object.fromEntries(s.ocf.map(p => [p[0], p[1]]));
+      return { name: CC[t].name, color: ['--c1', '--c2', '--c3', '--c4'][i], pts: s.capex.map(p => [p[0], o[p[0]] > 0 ? p[1] / o[p[0]] * 100 : null]) };
+    }).filter(Boolean);
+    multiChart($('#tkC2'), C2, { h: 220, dec: 0, unit: '%', tickUnit: '%', yMin: 0, monthly: true, refs: [{ y: 100, label: '100%: todo el FCF', color: '--serious' }], label: 'Capex sobre caja operativa' });
+    legend($('#tkC2Lg'), C2);
+    $('#tkCoNow').textContent = `total ${fmt(co, 0, '%')}`;
+    const C4 = [{ name: 'Hiperescaladores', color: '--c1', pts: ser(HB, 'ret_fcf') }, { name: 'FAAMG', color: '--c2', pts: ser(FB, 'ret_fcf') }, { name: 'Semis', color: '--c3', pts: ser(SB, 'ret_fcf') }]
+      .map(s => ({ ...s, pts: s.pts.map(p => [p[0], p[1] == null ? null : Math.min(p[1], 300)]) }));
+    multiChart($('#tkC4'), C4, { h: 200, dec: 0, unit: '%', tickUnit: '%', yMin: 0, monthly: true, refs: [{ y: 100, label: '100%', color: '--serious' }], label: 'Remuneración sobre FCF' });
+    legend($('#tkC4Lg'), C4);
+    $('#tkRetNow').textContent = hN?.fcf > 0 ? `hiperesc. ${fmt(hN.ret / hN.fcf * 100, 0, '%')}` : '';
+    const C5 = [{ name: 'Capex de los hiperescaladores', short: 'Capex hiper.', color: '--c1', pts: ser(HB, 'capex_yoy') }, { name: 'Ingresos de los semis', short: 'Ingresos semis', color: '--c2', pts: ser(SB, 'rev_yoy') }];
+    multiChart($('#tkC5'), C5, { h: 200, dec: 0, unit: '%', tickUnit: '%', monthly: true, refs: [{ y: 0, label: '0' }], fmt: v => fmt(v, 0, '%', true), label: 'Cadena del capex' });
+    legend($('#tkC5Lg'), C5);
+    $('#tkChainNow').textContent = `${fmt(last(HB.series.capex_yoy), 0, '%', true)} / ${fmt(last(SB?.series?.rev_yoy), 0, '%', true)}`;
+    const C6 = [{ name: 'FAAMG', color: '--c1', pts: ser(FB, 'fcf_yield') }, { name: 'Semis', color: '--c2', pts: ser(SB, 'fcf_yield') }, { name: 'Bono del Tesoro a 10 años', short: 'Bono 10A', color: '--ink-2', dash: true, w: 1.5, pts: ser(FB, 't10') }];
+    multiChart($('#tkC6'), C6, { h: 200, dec: 1, unit: '%', tickUnit: '%', monthly: true, label: 'FCF yield frente al bono', yMin: 0 });
+    legend($('#tkC6Lg'), C6);
+    $('#tkFyNow').textContent = fy != null ? `${fmt(fy, 1, '%')} vs ${fmt(t10, 2, '%')}` : '';
+    lineChart($('#tkC7'), ser(SB, 'inv_days'), { h: 180, dec: 0, unit: ' días', thin: true, monthly: true, label: 'Días de inventario' });
+    $('#tkInvNow').textContent = fmt(last(SB?.series?.inv_days), 0, ' días');
+    lineChart($('#tkC8'), ser(HB, 'capex_da'), { h: 180, dec: 1, unit: '×', thin: true, monthly: true, refs: [{ y: 1, label: '1×' }], label: 'Capex sobre amortización' });
+    $('#tkDaNow').textContent = fmt(last(HB.series.capex_da), 1, '×');
+  }
+  const drawBridge = () => {
+    const k = document.querySelector('#tkBrgSeg [aria-pressed="true"]')?.dataset.k || 'hyper', N = CA?.baskets?.[k]?.now;
+    if (!N) { $('#tkBridge').innerHTML = '<div class="small-sub">Sin datos de EDGAR.</div>'; return; }
+    const dc = N.fcf - N.bb - N.div + N.fin_rest + N.inv_rest;
+    bridgeChart($('#tkBridge'), [
+      { label: 'Caja operativa', v: N.ocf, total: true }, { label: 'Capex', v: -N.capex }, { label: 'Arrendamientos financieros', v: -N.fl },
+      { label: 'FCF', v: N.fcf, total: true }, { label: 'Recompras', v: -N.bb }, { label: 'Dividendos', v: -N.div },
+      { label: 'Resto de la financiación', v: N.fin_rest }, { label: 'Otras inversiones', v: N.inv_rest }, { label: 'Variación de la caja', v: dc, total: true }]);
+    $('#tkBrgSub').textContent = `Últimos 12 meses de ${N.n} empresas, en miles de millones de $ (trimestres hasta ${esDate(N.oldest)}${N.oldest !== N.last ? ' – ' + esDate(N.last) : ''}).`;
+    $('#tkBrgNote').innerHTML = `FCF tras SBC: <b>${bn(N.fcf_sbc)}</b> (SBC ${bn(N.sbc)}). Hace un año: caja operativa ${bn(N.yago.ocf)}, capex ${bn(N.yago.capex)}, FCF ${bn(N.yago.fcf)}, resto de la financiación ${fmt(N.yago.fin_rest, 0, ' mil M$', true)}. «Otras inversiones» son compras y ventas de valores y de empresas.`;
+  };
+  drawBridge();
+  document.querySelectorAll('#tkBrgSeg button').forEach(b => b.onclick = () => { document.querySelectorAll('#tkBrgSeg button').forEach(x => x.setAttribute('aria-pressed', x === b)); drawBridge(); });
+  if (CA?.companies) {
+    const CC = CA.companies;
+    const cell = (v, d = 1) => `<td class="num ${cls(v)}">${fmt(v, d)}</td>`;
+    const row = (name, sub, k, y) => {
+      const coR = ratio(k.capex, k.ocf), dF = y?.fcf_sbc != null ? k.fcf_sbc - y.fcf_sbc : null;
+      return `<tr><td>${esc(name)}${sub ? ` <span class="sub" style="display:inline">${esc(sub)}</span>` : ''}</td>${cell(k.rev, 0)}${cell(k.ocf)}${cell(k.capex)}<td class="num">${fmt(coR, 0, '%')}</td>${cell(k.fcf)}${cell(k.sbc)}${cell(k.fcf_sbc)}<td class="num ${cls(dF)}">${fmt(dF, 1, '', true)}</td>${cell((k.bb || 0) + (k.div || 0))}<td class="num ${cls(k.fin_rest)}">${fmt(k.fin_rest, 1, '', true)}</td><td class="num hide-sm">${k.da ? fmt(k.capex / k.da, 1, '×') : '–'}</td></tr>`;
+    };
+    const grp = (title, tks, N) => `<tr class="grp"><td colspan="12">${title}</td></tr>` + tks.filter(t => CC[t]).map(t => row(CC[t].name, `${t} · ${esMonth(CC[t].last)}`, CC[t].ltm, CC[t].yago)).join('') + (N ? row('Total', '', N, N.yago).replace('<tr>', '<tr style="font-weight:700">') : '');
+    $('#tkCf').innerHTML = '<thead><tr><th>Empresa · último trimestre</th><th class="num">Ventas</th><th class="num">Caja op.</th><th class="num">Capex</th><th class="num">Capex / caja</th><th class="num">FCF</th><th class="num">SBC</th><th class="num">FCF tras SBC</th><th class="num">Δ 1 año</th><th class="num">Recompras + div.</th><th class="num">Resto financ.</th><th class="num hide-sm">Capex / amort.</th></tr></thead><tbody>' +
+      grp('FAAMG', ['AAPL', ...HYPER_T], fN) + grp('Semiconductores', Object.keys(CC).filter(t => CC[t].g === 'semis'), sN) + '</tbody>';
+    $('#tkCfHint').textContent = `12 meses, miles de millones de $ · EDGAR${CA.stale ? ' · ⚠ sin actualizar desde ' + esDate(CA.fetched) : ' al ' + esDate(CA.fetched)}`;
+  }
+
+  // ── 4 · Economía
+  if (ai) {
+    lineChart($('#tkM1'), ai.share_chart, { h: 200, dec: 2, unit: '%', thin: true, monthly: true, shade: REC, refs: [{ y: ai.peak2000, label: `pico de 2000: ${fmt(ai.peak2000, 2, '%')}`, color: '--serious' }], label: 'Inversión en informática, % del PIB' });
+    $('#tkAiNow').textContent = fmt(ai.share, 2, '%');
+    const M2 = [{ name: 'PIB nominal, interanual', short: 'PIB', color: '--ink-2', pts: ai.g_chart }, { name: 'Aportación de la inversión en informática y software', short: 'Informática', color: '--c1', pts: ai.c_chart }];
+    multiChart($('#tkM2'), M2, { h: 200, dec: 1, unit: ' pp', tickUnit: '', monthly: true, shade: REC, refs: [{ y: 0, label: '0' }], yMin: -3, yMax: 14, label: 'PIB y aportación' });
+    legend($('#tkM2Lg'), M2);
+    $('#tkAiC').textContent = `${fmt(ai.contrib, 2)} de ${fmt(ai.g_yoy, 1)} pp`;
+  }
+  if (vu) {
+    lineChart($('#tkM3'), vu.chart, { h: 200, dec: 2, thin: true, monthly: true, shade: REC, refs: [{ y: 1, label: '1 vacante por parado' }], label: 'Vacantes por parado' });
+    $('#tkVu').textContent = fmt(vu.value, 2);
+  }
+  $('#tkHow').innerHTML = [
+    `<p><b>1. Bolsa → riqueza → consumo.</b> Con ${fmt((IX.faamg || 0) + (IX.semis || 0), 0, '%')} del índice en 16 empresas, una caída fuerte de ellas recorta la riqueza de las familias aunque el resto de la economía vaya bien. Es la vía de 2000-01.</p>`,
+    `<p><b>2. Capex → PIB.</b> Si los hiperescaladores frenan el capex, cae a la vez la inversión (${fmt(ai?.contrib_share, 0, '%')} del crecimiento nominal del último año) y los ingresos de los semis. El primer aviso sería el capex trimestral sin crecer y su guía para el año siguiente a la baja.</p>`,
+    `<p><b>3. Caja → deuda → crédito.</b> Con el capex por encima de lo que da la caja, la diferencia se cubre con bonos (resto de la financiación de los hiperescaladores: ${fmt(hN?.fin_rest, 0, ' mil M$', true)} en 12 meses). Si el mercado de crédito se cierra o encarece, lo verá antes el diferencial de sus bonos que el score; está en la pestaña Hartnett y Cárpatos.</p>`,
+    `<p><b>4. Lo que no dice esto.</b> El score de recesión mide la economía y hoy está en <b>${fmt(ctx.C.score, 0)}</b> (${esc((ctx.C.label || '').toLowerCase())}). Una corrección de la tecnología sin pérdida de empleo ni evento de crédito es una rotación de mercado, no una recesión. Mira juntos esta pestaña y los pilares de confirmación y crédito.</p>`,
+  ].join('');
+}
+const HYPER_T = ['MSFT', 'GOOGL', 'AMZN', 'META'];
+
 // ── render principal ───────────────────────────────────────────────────────
 async function main() {
   let D, H = [], B = null, M = {};
@@ -728,6 +1156,8 @@ async function main() {
   try { H = await getJSON('history.json'); } catch (e) { errs.push(e.message); }
   try { B = await getJSON('backtest.json'); } catch (e) { errs.push(e.message); }
   try { M = await getJSON('manual.json'); } catch (e) {}
+  let TK = null;
+  try { TK = await getJSON('tech.json'); } catch (e) {}
   $('#loading').remove();
   if (!D) {
     $('#banners').innerHTML = `<div class="banner bad"><span>✕</span><div><b>No se han podido cargar los datos.</b> ${esc(errs.join(' · '))}</div></div>`;
@@ -970,7 +1400,10 @@ async function main() {
     const CH = ['mags', 'smh', 'qqq_ma200', 'mag7_bear', 'bull_bear'].map(k => L[k]).filter(Boolean);
     const hChips = HT ? `<div class="chip" style="border-left-color:var(${VC[HT.verdict[0]]})"><div class="k">Compra según Hartnett</div><div class="v">${HT.n_macro}/3 · ${HT.cap_on.length}/3</div><div class="s">${esc(HT.verdict[1].charAt(0) + HT.verdict[1].slice(1).toLowerCase())}</div></div>` +
       (HT.breadth ? `<div class="chip" style="border-left-color:var(${HT.breadth.value >= 88 ? '--good' : '--muted'})"><div class="k">Amplitud global (compra en 88%)</div><div class="v">${fmt(HT.breadth.value, 0, '%')}</div><div class="s">${HT.breadth.need > 0 ? `faltan ${HT.breadth.need} de ${HT.breadth.n} bolsas` : 'señal de compra'}</div></div>` : '') : '';
-    $('#pulseChips').innerHTML = hChips + CH.map(l => { const [c, ic] = lvState(l); return `<div class="chip" style="border-left-color:var(${c})"><div class="k">${esc(l.label)}</div><div class="v">${lvVal(l)}</div><div class="s">${l.ok != null ? (l.ok === false ? 'roto · ' : 'aguanta · ') + lvThr(l).replace(' · ', '') : esc(l.note.split('.')[0])}</div></div>`; }).join('');
+    const hn = TK?.cash?.baskets?.hyper?.now, tix = TK?.index;
+    const tChips = (tix?.faamg != null ? `<div class="chip"><div class="k">FAAMG + semis en el S&amp;P 500</div><div class="v">${fmt(tix.faamg + tix.semis, 1, '%')}</div><div class="s"><a href="#tech" style="color:var(--series)">Big Tech y semis</a></div></div>` : '') +
+      (hn?.ocf ? `<div class="chip" style="border-left-color:var(${hn.capex / hn.ocf >= 0.8 ? '--serious' : '--muted'})"><div class="k">Capex / caja op. (hiperescaladores)</div><div class="v">${fmt(hn.capex / hn.ocf * 100, 0, '%')}</div><div class="s">hace 1 año ${fmt(hn.yago.capex / hn.yago.ocf * 100, 0, '%')}</div></div>` : '');
+    $('#pulseChips').innerHTML = hChips + tChips + CH.map(l => { const [c, ic] = lvState(l); return `<div class="chip" style="border-left-color:var(${c})"><div class="k">${esc(l.label)}</div><div class="v">${lvVal(l)}</div><div class="s">${l.ok != null ? (l.ok === false ? 'roto · ' : 'aguanta · ') + lvThr(l).replace(' · ', '') : esc(l.note.split('.')[0])}</div></div>`; }).join('');
 
     // ── Tesis de mayo (histórica)
     const bb = M.bull_bear || {}, bbAge = bb.date ? Math.round((Date.now() - new Date(bb.date)) / 864e5) : null;
@@ -985,8 +1418,18 @@ async function main() {
     ];
     $('#claims').innerHTML = claims.map(([c, v, n]) => `<div class="claim"><div class="c">${esc(c)}</div>${v}<div class="n">${esc(n)}</div></div>`).join('');
     $('#oilNow').textContent = fmt(I.oil_price?.value, 1, ' $');
+
+    // ── Big Tech y semis (solo si la pestaña está a la vista: los gráficos miden su ancho)
+    if (!$('#tab-tech').hidden) {
+      if (TK) renderTech(TK, { C, REC });
+      else $('#tkConcl').innerHTML = '<li>No se ha podido cargar <code>tech.json</code>.</li>';
+    }
   };
   window.__render = () => { try { render(); } catch (e) { console.error(e); } };
+  ['#tkSeg', '#tkRelSeg'].forEach(id => document.querySelectorAll(id + ' button').forEach(b => b.onclick = () => {
+    document.querySelectorAll(id + ' button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    window.__render();
+  }));
   document.querySelectorAll('#secSeg button').forEach(b => b.onclick = () => {
     document.querySelectorAll('#secSeg button').forEach(x => x.setAttribute('aria-pressed', x === b));
     divBars($('#secChart'), D.sectors, b.dataset.p);

@@ -34,6 +34,17 @@ jobs:
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
 
+      # Pestaña «Big Tech y semis». Si falla, no frena la publicación del score:
+      # se queda el tech.json anterior. EDGAR exige un contacto en el User-Agent
+      # (secret SEC_CONTACT_EMAIL); sin él, la caja no se refresca.
+      - name: Fetch Big Tech, semis y caja
+        continue-on-error: true
+        timeout-minutes: 12
+        run: python scripts/update_tech.py
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
+
       # Si el JSON no es estricto (NaN, Infinity) el job falla y la web
       # conserva el último dato bueno en lugar de quedarse en blanco.
       - name: Validate JSON
@@ -49,10 +60,21 @@ jobs:
                 '· zona euro', d['euro']['score'], '· global', d['global']['score'])
           PY
 
+      # tech.json aparte: si no vale, se vuelve al publicado y el resto sigue
+      - name: Validate tech.json
+        run: |
+          python - <<'PY' || git checkout -- docs/tech.json
+          import json
+          def bad(x): raise ValueError(f'constante no válida en JSON: {x}')
+          t = json.load(open('docs/tech.json', encoding='utf-8'), parse_constant=bad)
+          print('ok docs/tech.json', t['timestamp'], '· FAAMG', (t.get('index') or {}).get('faamg'), '%')
+          PY
+
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/dashboard.json docs/history.json docs/backtest.json
+          [ -f docs/tech.json ] && git add docs/tech.json
           git diff --staged --quiet || git commit -m "chore: update data $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push
