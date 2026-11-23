@@ -683,6 +683,7 @@ def main():
              # neoclouds: el «banco de Nvidia» de McElligott y Cárpatos (13-nov-2026)
              'nbis': 'NBIS', 'crwv': 'CRWV'}
     Q = {k: yf_close(t, '2y') for k, t in PULSE.items()}
+    nvda_5y = yf_close('NVDA', '5y')     # media de 200 semanas de Nvidia (Cárpatos, 21-nov-2026)
     print('Amplitud global (ETF de países MSCI), semis desde 1994 y techo de deuda…')
     BR = {t: yf_close(t, 'max') for t in BREADTH}
     acwi = yf_close('ACWI', 'max')
@@ -1074,6 +1075,12 @@ def main():
           'Línea roja de Hartnett; perderla con la MM200 confirma el doble techo', 'Yahoo TSM', 'tech', Q['tsm'])
     level('nvda', 'Nvidia', *lastd(Q['nvda']), ' $', 2, lv['nvda'], 'above',
           'Alarma de Hartnett por debajo de 200 $', 'Yahoo NVDA', 'tech', Q['nvda'])
+    nv_w = nvda_5y.resample('W-FRI').last().dropna() if nvda_5y is not None else None
+    if nv_w is not None and len(nv_w) >= 200:
+        level('nvda_ma200w', 'Nvidia frente a su media de 200 semanas', *lastd(nvda_5y), ' $', 2,
+              rnd(nv_w.rolling(200).mean().iloc[-1], 2), 'above',
+              'Cárpatos: su último gran soporte; la rozó el 20-nov-2026 tras perder un 14% en el día',
+              'Yahoo NVDA', 'tech')
     level('qqq_ma200', 'Nasdaq 100 (QQQ) sobre su media de 200 sesiones',
           num(qma.iloc[-1]) if qma is not None else None, lastd(Q['qqq'])[1], '%', 1, 0, 'above',
           'Cárpatos: si la pierde, ventas forzadas de los fondos CTA', 'Yahoo QQQ', 'tech')
@@ -1186,6 +1193,13 @@ def main():
     level('bull_bear', 'Bull & Bear de BofA', bb.get('value'), bb.get('date'), '', 1, lv['bb_sell'], 'below',
           f"Venta en {lv['bb_sell']} o más, compra en {lv['bb_buy']} o menos (dato manual)", 'BofA, manual.json',
           'macro')
+    fms = manual.get('fms_cash', {})
+    if fms.get('value') is not None:
+        level('fms_cash', 'Liquidez de los gestores (encuesta de BofA)', fms.get('value'), fms.get('date'), '%', 1,
+              fms.get('sell', 4.0), 'above',
+              f"Regla de la liquidez de BofA: venta contraria con un {fes(fms.get('sell', 4.0), 1, '%')} o menos, "
+              f"compra con un {fes(fms.get('buy', 5.0), 1, '%')} o más (dato manual de la encuesta mensual)",
+              'BofA, manual.json', 'macro')
     level('cb_hikes', 'Subidas de tipos de bancos centrales (6 meses)', cbh.get('value'), cbh.get('date'), '', 0,
           None, None, 'Hartnett: «doloroso pero no mortal» mientras no se destruya empleo ni haya un evento de '
           'crédito (dato manual)', 'BofA, manual.json', 'macro')

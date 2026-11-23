@@ -1,8 +1,8 @@
 {
- "_nota": "Datos que no se pueden descargar y se actualizan a mano. Cambia el valor y la fecha; el panel avisa cuando un dato es viejo (gas: más de 21 días; Bull & Bear: más de 45). Las notas semanales van en market_notes, la más reciente primero.",
+ "_nota": "Datos que no se pueden descargar y se actualizan a mano. Cambia el valor y la fecha; el panel avisa cuando un dato es viejo (gas: más de 21 días; Bull & Bear: más de 45). fms_cash: liquidez media de los gestores de la encuesta mensual de BofA (regla de la liquidez: venta contraria en sell o menos, compra en buy o más). Las notas semanales van en market_notes, la más reciente primero.",
  "bull_bear": {
-  "value": 7.4,
-  "date": "2026-11-13",
+  "value": 7.1,
+  "date": "2026-11-20",
   "sell_signal": 8.0,
   "buy_signal": 2.0,
   "source": "BofA Global Research (Hartnett), Flow Show",
@@ -11,13 +11,25 @@
    {"date": "2026-10-23", "value": 7.2},
    {"date": "2026-10-30", "value": 7.1},
    {"date": "2026-11-06", "value": 7.2},
-   {"date": "2026-11-13", "value": 7.4}
+   {"date": "2026-11-13", "value": 7.4},
+   {"date": "2026-11-20", "value": 7.1}
   ]
  },
  "cb_hikes_6m": {
   "value": 42,
   "date": "2026-10-30",
   "source": "Hartnett (BofA), Flow Show: subidas de tipos de bancos centrales del mundo en los últimos 6 meses"
+ },
+ "fms_cash": {
+  "value": 3.6,
+  "date": "2026-11-17",
+  "sell": 4.0,
+  "buy": 5.0,
+  "source": "Encuesta de gestores de BofA (Global Fund Manager Survey) de noviembre, 461.000 M$ gestionados; cifra que da Cárpatos el 21-nov (fecha de publicación aproximada)",
+  "note": "52% prevé que al menos un hiperescalador recorte el capex en los próximos 6 meses; 38% cree que se invierte demasiado en IA; 38% ve la deuda de los hiperescaladores como origen probable de un choque de crédito",
+  "history": [
+   {"date": "2026-11-17", "value": 3.6}
+  ]
  },
  "levels": {
   "_nota": "Umbrales de los niveles que vigilan Hartnett y Cárpatos. Cámbialos aquí si ellos los mueven. Los h_ son las señales de compra de Hartnett.",
@@ -54,15 +66,15 @@
  "hartnett": {
   "_nota": "Datos de Hartnett que no se pueden descargar. rate_cycle_over: pon true cuando el Flow Show dé por terminado el ciclo mundial de subidas de tipos (desde el 13-nov ya no es condición de compra: entra en el escenario bajista como «error de política»). hyperscaler_spread_bp: diferencial de los bonos de los hiperescaladores (pánico por encima de 200 pb). summit_oil_peak y liquidity_withdrawing: condiciones de sus escenarios del S&P 500 (true, false o null si no se sabe). coreweave_cds_bp: CDS de CoreWeave. calls: sus ideas, que el panel mide desde la fecha (cesta long frente a cesta short, tickers de Yahoo).",
   "rate_cycle_over": false,
-  "rate_cycle_date": "2026-11-13",
-  "rate_cycle_note": "Sigue abierto: 42 subidas de bancos centrales en 6 meses (Flow Show del 30-oct). El del 13-nov no da cifra nueva.",
+  "rate_cycle_date": "2026-11-20",
+  "rate_cycle_note": "Sigue abierto: 42 subidas de bancos centrales en 6 meses (Flow Show del 30-oct; Hartnett habla de «más de 40»). Fed: Waller (18-nov) plantea 50 pb en diciembre si el IPC subyacente vuelve a dar un 0,3%; actas del 27-28 oct: casi todos ven más subidas. El mercado descuenta 25 pb el 9-dic (CME, 19-nov: 91%).",
   "debt_limit_date": "2027-02-01",
   "congress_date": "2027-01-03",
   "hyperscaler_spread_bp": {
    "value": 160,
    "date": "2026-11-03",
    "source": "Aproximación propia con fuente primaria (no es el índice de BofA): diferencial de emisión del bono a 10 años de Meta sobre el Treasury (term sheet FWP en EDGAR, 3-nov-2026). Cambiar por el dato de Hartnett cuando lo dé el Flow Show.",
-   "note": "Meta, diferencial a 10 años sobre el Treasury en sus emisiones: T+80 (ago-2024), T+78 (oct-2025), T+90 (abr-2026), T+160 (3-nov-2026). Plazos del 3-nov: 5 años +110, 7 +145, 10 +160, 20 +200, 30 +220 pb (15.000 M$). Emisión en euros del 4-nov (9.000 M€) sobre el bund: 2031 +129, 2033 +153, 2035 +172, 2038 +202, 2044 +242, 2065 +276 pb (sobre el mid-swap: +103 a +333). S&P pasa la perspectiva a negativa (AA-). El tramo a 30 años ya supera el umbral de pánico de 200 pb; el de 10 años, no."
+   "note": "Meta, diferencial a 10 años sobre el Treasury en sus emisiones: T+80 (ago-2024), T+78 (oct-2025), T+90 (abr-2026), T+160 (3-nov-2026). Plazos del 3-nov: 5 años +110, 7 +145, 10 +160, 20 +200, 30 +220 pb (15.000 M$). Emisión en euros del 4-nov (9.000 M€) sobre el bund: 2031 +129, 2033 +153, 2035 +172, 2038 +202, 2044 +242, 2065 +276 pb (sobre el mid-swap: +103 a +333). S&P pasa la perspectiva a negativa (AA-). El tramo a 30 años ya supera el umbral de pánico de 200 pb; el de 10 años, no. El 6,58% de Meta que cita Cárpatos (21-nov) es este tramo a 10 años: 4,95% del Treasury + 160 pb."
   },
   "summit_oil_peak": {
    "value": null,
@@ -71,13 +83,13 @@
   },
   "liquidity_withdrawing": {
    "value": true,
-   "date": "2026-11-13",
-   "note": "Flow Show del 13-nov: escasea la liquidez excedente del G10 (dato de Hartnett, sin serie pública)"
+   "date": "2026-11-20",
+   "note": "Flow Show del 13-nov: escasea la liquidez excedente del G10 (dato de Hartnett, sin serie pública). Semana del 20-nov: la OPV de Anthropic absorbe hasta 119.500 M$ (OPV, opción de los bancos y colocación privada) y salen 7.400 M$ de bonos y 1.100 M$ de cripto"
   },
   "coreweave_cds_bp": {
    "value": 1163,
    "date": "2026-11-13",
-   "note": "Cárpatos y McElligott: el seguro contra impago del mayor de los neoclouds, en cotas de alarma (dato manual, sin fuente pública gratuita)"
+   "note": "Cárpatos y McElligott: el seguro contra impago del mayor de los neoclouds, en cotas de alarma (dato manual, sin fuente pública gratuita). 21-nov: sus bonos ya pagan más de un 16% (Cárpatos); sin CDS nuevo"
   },
   "calls": [
    {"label": "Oro como cobertura fiscal", "long": ["GC=F"], "short": ["SPY"], "since": "2026-11-13", "note": "pulso por el techo de deuda del 1-feb"},
@@ -86,7 +98,9 @@
    {"label": "Tecnología china", "long": ["KWEB"], "short": ["QQQ"], "since": "2026-11-13", "note": "sin los cuellos de botella eléctricos de EE. UU."},
    {"label": "Pequeñas compañías frente a los monopolios", "long": ["IWM"], "short": ["MAGS"], "since": "2026-11-13"},
    {"label": "Constructoras de viviendas frente a los monopolios", "long": ["ITB"], "short": ["MAGS"], "since": "2026-11-13"},
-   {"label": "Consumo discrecional y salud frente a energía", "long": ["XLY", "XLV"], "short": ["XLE"], "since": "2026-11-13"}
+   {"label": "Consumo discrecional y salud frente a energía", "long": ["XLY", "XLV"], "short": ["XLE"], "since": "2026-11-13"},
+   {"label": "Oro frente a petróleo", "long": ["GC=F"], "short": ["BZ=F"], "since": "2026-11-06", "note": "corto en crudo para el 1S desde el Flow Show del 6-nov; el 20-nov, oro frente a petróleo como cobertura del techo de deuda"},
+   {"label": "Bonos del Tesoro frente a las grandes tecnológicas", "long": ["IEF"], "short": ["MAGS"], "since": "2026-11-20", "note": "aproximación: Tesoro a 7-10 años; los bonos van mejor con aterrizaje suave que con recesión"}
   ]
  },
  "materials_weight_sp500": {
@@ -101,6 +115,88 @@
   "alarm": "<50% en enero"
  },
  "market_notes": [
+  {
+   "date": "2026-11-22",
+   "title": "«IA: se pincha la burbuja de infraestructuras»",
+   "source": "Vídeo de José Luis Cárpatos del 21-22 nov, Flow Show de BofA del 20-nov y encuesta de gestores de noviembre (Michael Hartnett), más un repaso del marco completo de Hartnett, resumidos por Roger",
+   "checked": "Comprobado el 23-nov con los cierres del 20-nov (Yahoo Finance, FRED, Treasury.gov, SEC EDGAR y el 424B4 de Anthropic). Fed y Nvidia, con prensa del 17-19 nov.",
+   "items": [
+    {
+     "t": "Cárpatos da por pinchada la burbuja financiera de las infraestructuras de IA: de la rotación sectorial se pasa a un desplome. El S&P 500 encadena 7 caídas, pierde un 8,6% en la semana (−8,83% en el mes) y firma su peor semana desde marzo de 2020.",
+     "v": "S&P 6.910,39: −8,6% en la semana, −8,8% en noviembre y 7 sesiones seguidas a la baja (del 12 al 20-nov). Pero no es su peor semana desde el COVID: la del 4-abr-2025 (aranceles) fue peor, −9,1%. Sí lo es para el Nasdaq 100 (−10,4%, la peor desde el 20-mar-2020), y los semis firman la peor desde septiembre de 2001 (−17,1%).",
+     "warn": true
+    },
+    {
+     "t": "El castigo se concentra en la IA: Nvidia −23% en la semana (−47,5% desde máximos), semiconductores −17,2% (−42%), Taiwán −17,5%, bitcoin −15%, Nasdaq 100 −10,4% (−20%) y oro −9,4%. El S&P sin valores de IA solo cae un 5% desde máximos.",
+     "v": "Cuadra: Nvidia −22,9% (−47,5%), SOX −17,1% (−42,5%), Taiwán −17,5%, Nasdaq 100 −10,4% (−19,8%), oro −9,5% y bitcoin −13,8% de viernes a viernes. No hay un S&P «sin IA» gratuito: nuestro S&P sin FAAMG ni semis (pestaña «Big Tech y semis») cae un 7,4% desde su máximo y el equiponderado un 7,1%, frente al −11,6% del S&P. La concentración es cierta; el −5% se queda algo corto."
+    },
+    {
+     "t": "Se cierra el «banco de Nvidia»: la SEC investiga su contabilidad (desplome del 14% el viernes), el consejo descarta el regreso de Jensen Huang y la nueva dirección será disciplinada y selectiva al financiar a clientes: solo proyectos con terreno, energía, edificio y capital propio asegurados.",
+     "v": "El −14,0% del viernes es exacto (125,53 $; mínimo 124,50). Pero la noticia de la SEC (WSJ, 17-nov; Nvidia no la ha confirmado) habla de si se engañó a los inversores con la información sobre la salida de Huang, no de la contabilidad, y salió tres días antes. El viernes cayó todo el sector (SOX −10,7%), tras la citación del fiscal de California (19-nov). El consejo descartó a Huang el 18-nov (consejera delegada interina, Colette Kress). En la llamada, las garantías a las neoclouds solo existen si consiguen su financiación y el emplazamiento está listo, y la financiación a clientes va la última, caso a caso; Kress lo presentó como una aclaración, no como un cambio (nota del 20-nov).",
+     "warn": true
+    },
+    {
+     "t": "La OPV de Anthropic drenó 119.500 M$ de liquidez del sistema (bolsa, bitcoin y oro). Salió a una valoración de casi 2 billones $, subió un 30% y se desplomó un 27% desde su máximo intradía.",
+     "v": "Los 119.500 M$ cuadran con el 424B4 si se suma todo: 81.340 M$ de la OPV (980 M de acciones a 83 $), 12.200 M$ si los bancos ejercen su opción (147 M de acciones; sin confirmar) y 26.000 M$ de la colocación privada simultánea a Google, Nvidia, AMD, Broadcom, Micron, Microsoft y TSMC, en parte dinero ya comprometido que no sale del mercado. Debut el 19-nov: abrió en 111,50 $ (+34%), máximo 115,10 $ (+39%), cierre 97,17 $. El 20-nov tocó 83,05 $ (−27,8% desde el máximo) y cerró en 88,91 $. Los «casi 2 billones» solo se vieron en el máximo: con 18.138 M de acciones diluidas son 2,09 billones a 115,10 $ y 1,51 a 83 $."
+    },
+    {
+     "t": "La Fed endurece el tono: Christopher Waller sugiere subir 50 pb para frenar la inflación y las actas muestran que casi todos sus miembros apoyan seguir endureciendo.",
+     "v": "Matiz (prensa, 18-nov): Waller pide 50 pb en diciembre si el IPC subyacente vuelve a dar un 0,3%, o 25 pb con aviso de otra subida en enero. En las actas del 27-28 oct casi todos ven más subidas y un par abre la puerta a más de 25 pb. El mercado (CME, 19-nov) daba un 91% a 25 pb el 9-dic y un 9% a 50. El bono a 10 años, en cambio, bajó en la semana: del 5,15% al 4,92%."
+    },
+    {
+     "t": "TS Lombard y el año 2000: el Nasdaq tocó techo el 10-mar-2000, pero las ventas mundiales de semiconductores siguieron subiendo un 23% hasta octubre y la cartera de pedidos un 18% hasta diciembre; luego las ventas de chips se hundieron un 46% en 16 meses. Una burbuja bursátil puede pincharse con las ventas en máximos, como hoy las de Nvidia (+103%).",
+     "v": "El techo del Nasdaq (10-mar-2000, 5.048,62) es exacto, y el SOX cerró en máximos el mismo día. Las ventas de Nvidia del 3T FY27, +103% (115.844 M$). Las ventas de chips de la WSTS no se pueden comprobar aquí con datos gratuitos. Nuestra señal de semis lo ilustra: el SOX a −20% de su MM200 el 3-oct-2000, con las ventas aún en máximos, perdió otro 52% en 12 meses. Es uno de los dos fallos de la señal desde 1996, los dos con recesión (2000 y 2008); hoy el score de recesión de EE. UU. está en 16 (riesgo bajo)."
+    },
+    {
+     "t": "El capex de IA no se sostiene: Microsoft, Alphabet, Amazon y Meta gastan el 115% de su flujo de caja operativo en capex (202.000 M$ en el 3T; 730.000 M$ previstos en 2026 y 935.000 M$ en 2027), el 32% con deuda nueva y a cupones altos (SpaceX más del 8,26%, CoreWeave más del 16%, Meta 6,58%). Hay además 4 billones $ en compromisos fuera de balance (alquileres de centros de datos).",
+     "v": "Cuadra con EDGAR: capex del 3T ≈ 202.000 M$ y ≈ 115% del flujo operativo del trimestre. En 12 meses son 615.000 M$ y el 91% (pestaña «Big Tech y semis»), con un FCF tras SBC de −40.500 M$. Nuestro modelo de capex (30-oct) tenía ~712.000 M$ para 2026. La financiación neta de 12 meses (+300.000 M$) equivale al 49% del capex, más que el 32%. El 6,58% de Meta es su tramo a 10 años del 3-nov (4,95% + 160 pb). SpaceX, CoreWeave y los 4 billones (el BCE hablaba de más de 4 billones en su informe de estabilidad) no se pueden comprobar aquí."
+    },
+    {
+     "t": "Encuesta de gestores de BofA (461.000 M$): el 52% prevé que al menos un hiperescalador recorte el capex en 6 meses, el 38% cree que se invierte demasiado en IA, el 38% ve la deuda de los hiperescaladores como origen probable de un choque de crédito y la liquidez de los fondos cae al 3,6%: no queda pólvora para sostener las caídas.",
+     "v": "Datos de BofA sin fuente pública. Con un 3,6% de liquidez salta la regla de la liquidez de la encuesta (venta contraria con un 4% o menos; compra con un 5% o más). Se apunta a mano en el panel (manual.json → fms_cash)."
+    },
+    {
+     "t": "Hartnett: el Bull & Bear baja de 7,4 a 7,1 (fuera de la zona de venta, lejos de la compra). Flujos de la semana: +66.600 M$ a bolsa, −7.400 M$ de bonos y −1.100 M$ de cripto.",
+     "v": "Sin fuente pública (EPFR). Entran 66.600 M$ en bolsa en plena caída: los flujos no muestran capitulación."
+    },
+    {
+     "t": "Regla de amplitud global: el 68% de los índices del mundo cotiza por debajo de su MM50 y su MM200 (venía del 30%). La gran compra contraria llega en el 88%, que Hartnett ve cerca tras el choque; pedía que el S&P perdiera los 7.323.",
+     "v": "Nuestra aproximación (42 ETF de países) marcaba un 33% el 12-nov y un 69% el 18-nov, el dato que recoge el Flow Show. Al cierre del viernes ya estaba en el 85,7% (36 de 42): falta una bolsa, Suiza (−0,4%) o Grecia (−0,5%). El S&P ya perdió los 7.323 (6.910)."
+    },
+    {
+     "t": "Condiciones para un rally sostenible de medio plazo: 10 años por debajo del 4,5%, petróleo por debajo de 70 $ y techo del dólar. En su marco completo hay una cuarta, el fin de las subidas de tipos (más de 40 en 6 meses). Hasta que caiga el petróleo, no aumentar el riesgo.",
+     "v": "Ninguna de las tres: 10 años 4,92% (−23 pb en la semana; faltan 42), Brent 92,6 $ y DXY 103,81, un 3,8% sobre su MM200. El fin de las subidas está fuera de las condiciones desde el 13-nov (va en el escenario bajista como «error de política»); no hay cifra nueva de subidas (42 el 30-oct)."
+    },
+    {
+     "t": "La paradoja de los bonos: una recesión sería lo peor para la subida de los bonos del Tesoro (dispara el déficit y la emisión); van mejor con un aterrizaje suave.",
+     "v": "Esta semana hicieron de cobertura: IEF +1,8% y TLT +2,6% con el S&P −8,6%. Con el score de recesión de EE. UU. en 16 (riesgo bajo), el escenario es el que, según él, favorece a los bonos."
+    },
+    {
+     "t": "Cambio de régimen político: del capitalismo populista (desregulación) al socialismo populista (más impuestos, redistribución, regulación de las grandes y control del coste de la vida), que frena de forma estructural la inversión en IA. Su lema: «vender soberbia y comprar humillación»."
+    },
+    {
+     "t": "Posicionamiento: bonos, tecnología china y bolsa europea frente a las grandes tecnológicas de EE. UU.; oro frente a petróleo como cobertura del techo de deuda (41,1 billones $ el 1-feb); bonos tecnológicos de grado de inversión antes que acciones; pequeñas, inmobiliario, consumo discrecional y salud; corto en petróleo el primer semestre.",
+     "v": "En la tabla «Lo que recomienda Hartnett», desde el 13-nov van a favor 6 de 7, sobre todo bonos IG frente a tecnología (+13,3 pp) y constructoras frente a MAGS (+7,2); el oro, −1,0 frente al S&P. Se añaden dos ideas: bonos del Tesoro frente a MAGS (desde el 20-nov) y oro frente a petróleo (desde el 6-nov, cuando pidió el corto en crudo). Techo de deuda: quedan 597.000 M$ (19-nov); al ritmo de 90 días se alcanza hacia el 7-feb."
+    },
+    {
+     "t": "La gran señal de compra definitiva no llegará hasta que la caída o el endurecimiento metan miedo a bancos centrales y políticos y les obliguen a recortar tipos o intervenir la curva (QE o control de la curva). Hasta entonces, disciplina y control del riesgo.",
+     "v": "Hoy es al revés: la Fed subió al 4,0% el 17-sep y el mercado descuenta otra subida el 9-dic."
+    },
+    {
+     "t": "Cuadro de mandos de Hartnett: MAGS en 70 (si pierde la MM200, «cruz» al mercado), SMH 520, TSM 400 $, Nvidia 200 $, bancos (IXG) 125, medianas (MDY) 666, bonos basura (JNK) 92 y pánico si el diferencial de los hiperescaladores pasa de 200 pb. Cárpatos: Nvidia roza su media de 200 semanas y el Nasdaq pierde soportes clave.",
+     "v": "Con el cierre del 20-nov se pierden todos: MAGS 61,66 (un 7,3% bajo su MM200: la «cruz» ya está), SMH 400,06, TSM 318,71, Nvidia 125,53, IXG 123,16, MDY 626,03 y JNK 91,54, que pierde los 92 (aviso de contagio de crédito). El high yield amplía 29 pb del 13 al 19-nov (3,52%). Nvidia, a un 1,3% de su media de 200 semanas (123,87 $; mínimo del viernes, 124,50): se añade al panel. El diferencial de Meta a 10 años sigue en 160 pb (3-nov); no hay dato nuevo."
+    },
+    {
+     "t": "VIX disparado a 37,10 (+28,5%): entramos en volatilidad extrema, con rebotes y contrarrebotes violentos.",
+     "v": "Cierre 35,89 (+26,2% en el día, +86% en la semana) y máximo intradía 40,03. El 37,10 es un dato de la sesión."
+    },
+    {
+     "t": "Estudio de Cárpatos: en 41 caídas semanales del Nasdaq de más del 5% desde 2000, el 71% rebotó un 5% en 20 sesiones y el 46% más de un 10%; pero en el 84% de los rebotes de más del 10% (16 de 19) volvió a caer otro 10% o más en las 60 sesiones siguientes, y en el 47% borró todo el rebote. Los rebotes son ventanas para reducir riesgo, no para perseguir precios.",
+     "v": "La lección se sostiene; las cifras no se reproducen. Con el Nasdaq 100 (cierres) hay 79 semanas de más de −5% desde 2000, 40 si se agrupan las seguidas, y la mitad son de 2000-2002. Medido desde el cierre de esa semana, rebota un 5% en 20 sesiones el 49% (40% agrupadas) y un 10% el 29% (20%). De los rebotes de más del 10%, el 65% (15 de 23) vuelve a caer un 10% o más desde el máximo del rebote en 60 sesiones, y el 57% lo borra entero (63% y 63% agrupadas). Con el Nasdaq Composite sale parecido.",
+     "warn": true
+    }
+   ]
+  },
   {
    "date": "2026-11-15",
    "title": "«IA: ¿estamos en 2000 otra vez sin darnos cuenta?»",
