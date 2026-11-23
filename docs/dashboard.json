@@ -1,5 +1,5 @@
 {
- "timestamp": "2026-11-21T09:44:10Z",
+ "timestamp": "2026-11-23T08:22:16Z",
  "version": 5,
  "fred_enabled": true,
  "composite": {
@@ -326,7 +326,7 @@
    "group": "Economía adelantada",
    "unit": "%",
    "decimals": 0,
-   "value": 49.2557,
+   "value": 48.7041,
    "score": 60,
    "status": "ALERTA",
    "weight": 0.06,
@@ -334,7 +334,7 @@
    "note": ">45% = choque",
    "why": "Hamilton: nueve de las diez últimas recesiones vinieron tras una subida fuerte del petróleo. Empuja a una economía ya frágil.",
    "source": "FRED DCOILBRENTEU + BZ=F",
-   "as_of": "2026-11-20",
+   "as_of": "2026-11-23",
    "stale": false
   },
   {
@@ -649,7 +649,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 1,
-   "value": -2.5026,
+   "value": -3.1326,
    "score": 40,
    "status": "VIGILAR",
    "weight": 0.15,
@@ -657,7 +657,7 @@
    "note": "<−8% = alerta",
    "why": "«Doctor Cobre»: demanda industrial y de construcción en tiempo real. Tiene ruido.",
    "source": "Yahoo HG=F",
-   "as_of": "2026-11-20",
+   "as_of": "2026-11-23",
    "stale": false
   },
   {
@@ -666,7 +666,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 1,
-   "value": 14.4323,
+   "value": 14.2525,
    "score": 5,
    "status": "OK",
    "weight": 0.1,
@@ -674,7 +674,7 @@
    "note": "<−8% = alerta",
    "why": "Crecimiento frente a refugio: cae cuando el mercado teme por la economía mundial.",
    "source": "Yahoo HG=F / GC=F",
-   "as_of": "2026-11-20",
+   "as_of": "2026-11-23",
    "stale": false
   },
   {
@@ -683,7 +683,7 @@
    "group": "Global",
    "unit": "%",
    "decimals": 0,
-   "value": 49.2557,
+   "value": 48.7041,
    "score": 60,
    "status": "ALERTA",
    "weight": 0.2,
@@ -691,7 +691,7 @@
    "note": ">45% = choque",
    "why": "El mismo dato que en EE. UU.: un choque de oferta golpea a todos los importadores.",
    "source": "FRED DCOILBRENTEU + BZ=F",
-   "as_of": "2026-11-20",
+   "as_of": "2026-11-23",
    "stale": false
   },
   {
@@ -700,7 +700,7 @@
    "group": "Global",
    "unit": "",
    "decimals": 1,
-   "value": 102.7307,
+   "value": 102.7896,
    "score": 40,
    "status": "VIGILAR",
    "weight": 0.1,
@@ -708,7 +708,7 @@
    "note": ">104 = estrés en emergentes",
    "why": "Un dólar fuerte encarece la deuda en dólares de medio mundo.",
    "source": "ICE DXY",
-   "as_of": "2026-11-20",
+   "as_of": "2026-11-23",
    "stale": false
   },
   {
@@ -789,7 +789,7 @@
    "group": "Mercados",
    "unit": " $",
    "decimals": 1,
-   "value": 83.98,
+   "value": 83.17,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -797,7 +797,7 @@
    "note": "",
    "why": "",
    "source": "",
-   "as_of": "2026-11-20",
+   "as_of": "2026-11-23",
    "stale": false,
    "info": true
   },
@@ -807,7 +807,7 @@
    "group": "Mercados",
    "unit": "%",
    "decimals": 0,
-   "value": 51.945,
+   "value": 50.4795,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -815,7 +815,7 @@
    "note": "",
    "why": "",
    "source": "",
-   "as_of": "2026-11-20",
+   "as_of": "2026-11-23",
    "stale": false,
    "info": true
   },
@@ -825,7 +825,7 @@
    "group": "Mercados",
    "unit": " $",
    "decimals": 1,
-   "value": 92.57,
+   "value": 89.59,
    "score": null,
    "status": "SIN DATO",
    "weight": 0,
@@ -833,7 +833,7 @@
    "note": "",
    "why": "",
    "source": "",
-   "as_of": "2026-11-20",
+   "as_of": "2026-11-23",
    "stale": false,
    "info": true
   },
@@ -951,7 +951,7 @@
    {
     "key": "oil_price",
     "label": "Petróleo por encima de 100 $",
-    "value": 83.98,
+    "value": 83.17,
     "threshold": 100,
     "op": ">=",
     "unit": " $",
@@ -960,7 +960,7 @@
    {
     "key": "oil_rise",
     "label": "Petróleo +90% desde mínimos",
-    "value": 51.95,
+    "value": 50.48,
     "threshold": 90,
     "op": ">=",
     "unit": "%",
@@ -9728,7 +9728,7 @@
    ],
    [
     "2026-11-01",
-    49.26
+    48.7
    ]
   ],
   "profits": [
@@ -16352,7 +16352,7 @@
    ],
    [
     "2026-05-01",
-    17.24
+    17.27
    ],
    [
     "2026-06-01",
@@ -16368,7 +16368,7 @@
    ],
    [
     "2026-09-01",
-    15.78
+    15.8
    ],
    [
     "2026-10-01",
@@ -22594,7 +22594,7 @@
    ],
    [
     "2026-11-01",
-    -2.5
+    -3.13
    ]
   ],
   "cu_au6": [
@@ -23316,7 +23316,7 @@
    ],
    [
     "2026-11-01",
-    14.43
+    14.25
    ]
   ],
   "oil_yoy_g": [
@@ -24038,7 +24038,7 @@
    ],
    [
     "2026-11-01",
-    49.26
+    48.7
    ]
   ],
   "dxy": [
@@ -24760,7 +24760,7 @@
    ],
    [
     "2026-11-01",
-    102.73
+    102.79
    ]
   ],
   "sox_bubble": [
@@ -25906,6 +25906,22 @@
     "ma_gap": -38.2
    },
    {
+    "key": "nvda_ma200w",
+    "label": "Nvidia frente a su media de 200 semanas",
+    "value": 125.53,
+    "as_of": "2026-11-20",
+    "unit": " $",
+    "decimals": 2,
+    "threshold": 123.87,
+    "above": true,
+    "ok": true,
+    "note": "Cárpatos: su último gran soporte; la rozó el 20-nov-2026 tras perder un 14% en el día",
+    "source": "Yahoo NVDA",
+    "group": "tech",
+    "ma200": null,
+    "ma_gap": null
+   },
+   {
     "key": "qqq_ma200",
     "label": "Nasdaq 100 (QQQ) sobre su media de 200 sesiones",
     "value": -10.794,
@@ -26043,7 +26059,7 @@
     "threshold": null,
     "above": null,
     "ok": null,
-    "note": "Cárpatos y McElligott: el seguro contra impago del mayor de los neoclouds, en cotas de alarma (dato manual, sin fuente pública gratuita)",
+    "note": "Cárpatos y McElligott: el seguro contra impago del mayor de los neoclouds, en cotas de alarma (dato manual, sin fuente pública gratuita). 21-nov: sus bonos ya pagan más de un 16% (Cárpatos); sin CDS nuevo",
     "source": "manual.json",
     "group": "credit",
     "ma200": null,
@@ -26084,8 +26100,8 @@
    {
     "key": "es_cta_mid",
     "label": "Futuro del S&P 500 frente a 7.606",
-    "value": 6935.0,
-    "as_of": "2026-11-20",
+    "value": 7095.5,
+    "as_of": "2026-11-23",
     "unit": "",
     "decimals": 0,
     "threshold": 7606,
@@ -26094,14 +26110,14 @@
     "note": "Cárpatos: por debajo entran ventas medias de los CTA",
     "source": "Yahoo ES=F",
     "group": "flows",
-    "ma200": 7377.65,
-    "ma_gap": -6.0
+    "ma200": 7378.36,
+    "ma_gap": -3.8
    },
    {
     "key": "es_cta_long",
     "label": "Futuro del S&P 500 frente a 7.450",
-    "value": 6935.0,
-    "as_of": "2026-11-20",
+    "value": 7095.5,
+    "as_of": "2026-11-23",
     "unit": "",
     "decimals": 0,
     "threshold": 7450,
@@ -26116,8 +26132,8 @@
    {
     "key": "nq_res",
     "label": "Futuro del Nasdaq 100 frente a 28.580",
-    "value": 25126.5,
-    "as_of": "2026-11-20",
+    "value": 25898.5,
+    "as_of": "2026-11-23",
     "unit": "",
     "decimals": 0,
     "threshold": 28580,
@@ -26126,14 +26142,14 @@
     "note": "Cárpatos: resistencia infranqueable a corto plazo (la sitúa en la MM200)",
     "source": "Yahoo NQ=F",
     "group": "flows",
-    "ma200": 28200.87,
-    "ma_gap": -10.9
+    "ma200": 28204.55,
+    "ma_gap": -8.2
    },
    {
     "key": "nq_fibo",
     "label": "Futuro del Nasdaq 100 frente a 29.640",
-    "value": 25126.5,
-    "as_of": "2026-11-20",
+    "value": 25898.5,
+    "as_of": "2026-11-23",
     "unit": "",
     "decimals": 0,
     "threshold": 29640,
@@ -26244,40 +26260,40 @@
    {
     "key": "dxy",
     "label": "Dólar (DXY)",
-    "value": 103.81,
-    "as_of": "2026-11-20",
+    "value": 103.673,
+    "as_of": "2026-11-23",
     "unit": "",
     "decimals": 2,
-    "threshold": 100.01,
+    "threshold": 100.04,
     "above": true,
     "ok": false,
-    "note": "Hartnett: tan fuerte que es una «bola de demolición» para el riesgo; su tercera condición es que baje (umbral = su MM200) · +2,2% en un mes",
+    "note": "Hartnett: tan fuerte que es una «bola de demolición» para el riesgo; su tercera condición es que baje (umbral = su MM200) · +1,8% en un mes",
     "source": "Yahoo DX-Y.NYB",
     "group": "macro",
-    "ma200": 100.01,
-    "ma_gap": 3.8
+    "ma200": 100.04,
+    "ma_gap": 3.6
    },
    {
     "key": "gold",
     "label": "Oro: soporte",
-    "value": 3515.4,
-    "as_of": "2026-11-20",
+    "value": 3602.4,
+    "as_of": "2026-11-23",
     "unit": " $",
     "decimals": 0,
     "threshold": 3880,
     "above": false,
     "ok": false,
-    "note": "Soporte de 3.880-4.000 $ (media de 100 semanas: 3.924 $). Hartnett: acumular oro antes del pulso por el techo de deuda",
+    "note": "Soporte de 3.880-4.000 $ (media de 100 semanas: 3.933 $). Hartnett: acumular oro antes del pulso por el techo de deuda",
     "source": "Yahoo GC=F",
     "group": "macro",
-    "ma200": 4444.68,
-    "ma_gap": -20.9
+    "ma200": 4437.79,
+    "ma_gap": -18.8
    },
    {
     "key": "gold_res",
     "label": "Oro: cierre semanal frente a 4.155 $",
-    "value": 3515.4,
-    "as_of": "2026-11-20",
+    "value": 3602.4,
+    "as_of": "2026-11-23",
     "unit": " $",
     "decimals": 0,
     "threshold": 4155,
@@ -26292,8 +26308,8 @@
    {
     "key": "brent",
     "label": "Petróleo Brent",
-    "value": 92.57,
-    "as_of": "2026-11-20",
+    "value": 89.59,
+    "as_of": "2026-11-23",
     "unit": " $",
     "decimals": 1,
     "threshold": 70,
@@ -26324,14 +26340,30 @@
    {
     "key": "bull_bear",
     "label": "Bull & Bear de BofA",
-    "value": 7.4,
-    "as_of": "2026-11-13",
+    "value": 7.1,
+    "as_of": "2026-11-20",
     "unit": "",
     "decimals": 1,
     "threshold": 8,
     "above": false,
     "ok": true,
     "note": "Venta en 8 o más, compra en 2 o menos (dato manual)",
+    "source": "BofA, manual.json",
+    "group": "macro",
+    "ma200": null,
+    "ma_gap": null
+   },
+   {
+    "key": "fms_cash",
+    "label": "Liquidez de los gestores (encuesta de BofA)",
+    "value": 3.6,
+    "as_of": "2026-11-17",
+    "unit": "%",
+    "decimals": 1,
+    "threshold": 4.0,
+    "above": false,
+    "ok": false,
+    "note": "Regla de la liquidez de BofA: venta contraria con un 4,0% o menos, compra con un 5,0% o más (dato manual de la encuesta mensual)",
     "source": "BofA, manual.json",
     "group": "macro",
     "ma200": null,
@@ -26424,27 +26456,27 @@
     {
      "key": "oil",
      "label": "Petróleo por debajo de 70 $",
-     "value": 92.57,
-     "as_of": "2026-11-20",
+     "value": 89.59,
+     "as_of": "2026-11-23",
      "unit": " $",
      "decimals": 1,
      "threshold": 70,
      "op": "<",
      "met": false,
-     "note": "Brent; el WTI está en 84,0 $. Con él da por superado el shock de inflación (13-nov: baja el listón de 80 a 70 $)",
+     "note": "Brent; el WTI está en 83,2 $. Con él da por superado el shock de inflación (13-nov: baja el listón de 80 a 70 $)",
      "source": "FRED + Yahoo BZ=F"
     },
     {
      "key": "dollar",
      "label": "Dólar a la baja (DXY bajo su MM200)",
-     "value": 3.801,
-     "as_of": "2026-11-20",
+     "value": 3.633,
+     "as_of": "2026-11-23",
      "unit": "%",
      "decimals": 1,
      "threshold": 0,
      "op": "<",
      "met": false,
-     "note": "DXY 103,81, MM200 100,01; +2,2% en un mes. Hoy es una «bola de demolición» para el riesgo",
+     "note": "DXY 103,67, MM200 100,04; +1,8% en un mes. Hoy es una «bola de demolición» para el riesgo",
      "source": "Yahoo DX-Y.NYB"
     }
    ],
@@ -26478,8 +26510,8 @@
     {
      "key": "bb_buy",
      "label": "Bull & Bear de BofA en 2 o menos",
-     "value": 7.4,
-     "as_of": "2026-11-13",
+     "value": 7.1,
+     "as_of": "2026-11-20",
      "unit": "",
      "decimals": 1,
      "threshold": 2,
@@ -26723,7 +26755,7 @@
     "from": 3.75,
     "to": 4.0,
     "level": 4.0,
-    "as_of": "2026-11-20"
+    "as_of": "2026-11-22"
    },
    "debt": {
     "date": "2026-11-19",
@@ -26734,8 +26766,8 @@
     "projected": "2027-02-07",
     "deadline": "2027-02-01",
     "congress": "2027-01-03",
-    "gold": 3515.0,
-    "gold_3m": -25.2
+    "gold": 3602.0,
+    "gold_3m": -23.3
    },
    "spx_to_7323": 6.0,
    "scenarios": {
@@ -26762,8 +26794,8 @@
       {
        "label": "La cumbre EE. UU.-China-Rusia confirma el pico del petróleo",
        "met": null,
-       "value": "−21,3%",
-       "note": "Pendiente: la cumbre EE. UU.-China-Rusia todavía no ha confirmado el pico del petróleo. Brent 92,6 $ frente a su máximo de 6 meses, 117,6 $ el 30 oct 2026",
+       "value": "−23,8%",
+       "note": "Pendiente: la cumbre EE. UU.-China-Rusia todavía no ha confirmado el pico del petróleo. Brent 89,6 $ frente a su máximo de 6 meses, 117,6 $ el 30 oct 2026",
        "as_of": "2026-11-13"
       }
      ],
@@ -26777,15 +26809,15 @@
        "label": "La liquidez global sigue retirándose",
        "met": true,
        "value": "sí",
-       "note": "Flow Show del 13-nov: escasea la liquidez excedente del G10 (dato de Hartnett, sin serie pública)",
-       "as_of": "2026-11-13"
+       "note": "Flow Show del 13-nov: escasea la liquidez excedente del G10 (dato de Hartnett, sin serie pública). Semana del 20-nov: la OPV de Anthropic absorbe hasta 119.500 M$ (OPV, opción de los bancos y colocación privada) y salen 7.400 M$ de bonos y 1.100 M$ de cripto",
+       "as_of": "2026-11-20"
       },
       {
        "label": "El dólar sigue subiendo",
        "met": true,
-       "value": "+2,2%",
-       "note": "DXY en un mes; hoy 103,81, un +3,8% frente a su MM200",
-       "as_of": "2026-11-20"
+       "value": "+1,8%",
+       "note": "DXY en un mes; hoy 103,67, un +3,6% frente a su MM200",
+       "as_of": "2026-11-23"
       },
       {
        "label": "Error de política: suben tipos en plena desaceleración",
@@ -26816,10 +26848,10 @@
      ],
      "since": "2026-11-13",
      "note": "pulso por el techo de deuda del 1-feb",
-     "last": "2026-11-20",
-     "r_since": -1.0,
-     "r_1m": -3.7,
-     "r_3m": -15.7
+     "last": "2026-11-23",
+     "r_since": 1.3,
+     "r_1m": -0.4,
+     "r_3m": -13.8
     },
     {
      "label": "Bonos de grado de inversión antes que acciones tecnológicas",
@@ -26911,6 +26943,36 @@
      "r_since": 0.6,
      "r_1m": 8.2,
      "r_3m": 2.1
+    },
+    {
+     "label": "Oro frente a petróleo",
+     "long": [
+      "GC=F"
+     ],
+     "short": [
+      "BZ=F"
+     ],
+     "since": "2026-11-06",
+     "note": "corto en crudo para el 1S desde el Flow Show del 6-nov; el 20-nov, oro frente a petróleo como cobertura del techo de deuda",
+     "last": "2026-11-23",
+     "r_since": -2.7,
+     "r_1m": 13.1,
+     "r_3m": -24.4
+    },
+    {
+     "label": "Bonos del Tesoro frente a las grandes tecnológicas",
+     "long": [
+      "IEF"
+     ],
+     "short": [
+      "MAGS"
+     ],
+     "since": "2026-11-20",
+     "note": "aproximación: Tesoro a 7-10 años; los bonos van mejor con aterrizaje suave que con recesión",
+     "last": "2026-11-20",
+     "r_since": 0.0,
+     "r_1m": 13.3,
+     "r_3m": 7.8
     }
    ]
   },
@@ -30043,10 +30105,6 @@
    ],
    "gold": [
     [
-     "2025-11-10",
-     4122.0
-    ],
-    [
      "2025-11-11",
      4116.0
     ],
@@ -31081,6 +31139,10 @@
     [
      "2026-11-20",
      3515.0
+    ],
+    [
+     "2026-11-23",
+     3602.0
     ]
    ],
    "rsp_spy": [
@@ -33169,10 +33231,6 @@
    ],
    "es": [
     [
-     "2025-11-10",
-     6857.0
-    ],
-    [
      "2025-11-11",
      6872.0
     ],
@@ -34207,6 +34265,10 @@
     [
      "2026-11-20",
      6935.0
+    ],
+    [
+     "2026-11-23",
+     7096.0
     ]
    ],
    "breadth": [
